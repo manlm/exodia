@@ -28,7 +28,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
      * @return
      */
     public AdminAccount findByUsername(String username) {
-        LOG.info("[findByUsername] Start: username = " + username);
+        LOG.info(new StringBuilder("[findByUsername] Start: username = ").append(username));
 
         Session session = sessionFactory.openSession();
         try {
@@ -40,9 +40,9 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
                 return list.get(0);
             }
         } catch (QueryException e) {
-            LOG.error("[findByUsername] QueryException:" + e.getMessage());
+            LOG.error(new StringBuilder("[findByUsername] QueryException: ").append(e.getMessage()));
         } catch (HibernateException e) {
-            LOG.error("[findByUsername] HibernateException:" + e.getMessage());
+            LOG.error(new StringBuilder("[findByUsername] HibernateException: ").append(e.getMessage()));
         } finally {
             session.close();
         }
@@ -57,7 +57,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
      * @return
      */
     public AdminAccount findByEmail(String email) {
-        LOG.info("[findByEmail] Start: email = " + email);
+        LOG.info(new StringBuilder("[findByEmail] Start: email = ").append(email));
 
         Session session = sessionFactory.openSession();
         try {
@@ -69,9 +69,9 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
                 return list.get(0);
             }
         } catch (QueryException e) {
-            LOG.error("[findByEmail] QueryException:" + e.getMessage());
+            LOG.error(new StringBuilder("[findByEmail] QueryException: ").append(e.getMessage()));
         } catch (HibernateException e) {
-            LOG.error("[findByEmail] HibernateException:" + e.getMessage());
+            LOG.error(new StringBuilder("[findByEmail] HibernateException: ").append(e.getMessage()));
         } finally {
             session.close();
         }
@@ -85,10 +85,14 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
      * @param email
      * @return
      */
-    public boolean resetPassword(String email) {
+    public void resetPassword(String email) {
+        LOG.info(new StringBuilder("[resetPassword] Start: email = ").append(email));
+
         AdminAccount adminAccount = findByEmail(email);
         adminAccount.setPassword(String.valueOf(PasswordUtil.generatePswd()));
+        adminAccount.setLastUpdate(System.currentTimeMillis());
         update(adminAccount);
-        return false;
+
+        LOG.info("[resetPassword] End");
     }
 }

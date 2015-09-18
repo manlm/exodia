@@ -45,7 +45,7 @@ public class MD5Util {
     }
 
     public static void main(String[] args) throws Exception {
-        String password = "123123123";
+        String password = "Superbuu1803#";
 
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
