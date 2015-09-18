@@ -1,5 +1,6 @@
 package com.exodia.database.dao;
 
+import com.exodia.common.util.PasswordUtil;
 import com.exodia.database.dao.common.GenericHibernateDAO;
 import com.exodia.database.entity.AdminAccount;
 import org.apache.log4j.Logger;
@@ -84,10 +85,10 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
      * @param email
      * @return
      */
-   /* public boolean resetPassword(String email) {
+    public boolean resetPassword(String email) {
         AdminAccount adminAccount = findByEmail(email);
         adminAccount.setPassword(String.valueOf(PasswordUtil.generatePswd()));
         update(adminAccount);
         return false;
-    }*/
+    }
 }
