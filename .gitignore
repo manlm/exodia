@@ -1,0 +1,6 @@
+Exodia/.idea/
+Exodia/classes/
+*.iml
+Exodia/common/target/
+Exodia/database-service/target/
+Exodia/bom/target/
