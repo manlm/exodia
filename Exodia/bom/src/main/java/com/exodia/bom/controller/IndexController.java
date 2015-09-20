@@ -1,17 +1,13 @@
 package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
-import com.exodia.bom.config.Mailer;
 import com.exodia.bom.service.MailService;
 import com.exodia.common.constant.Constant;
-import com.exodia.bom.model.Mail;
 import com.exodia.common.util.MemcachedClient;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -39,11 +35,16 @@ public class IndexController {
     private MailService mailService;
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
-    public ModelAndView login(@RequestParam(name = "error", required = false) String error) {
+    public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
+                              @RequestParam(name = "error", required = false) String error) {
         LOG.info("[login] Start");
         ModelAndView model = new ModelAndView("login");
+        
         if (error != null) {
             model.addObject("error", "error");
+        }
+        if (loggedUsername != null) {
+            model.addObject("loggedUsername", loggedUsername);
         }
 
         LOG.info("[login] End");

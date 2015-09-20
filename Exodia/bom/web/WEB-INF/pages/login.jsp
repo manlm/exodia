@@ -42,10 +42,21 @@
 
                     <div id="div-username" style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input id="login-username" type="text" class="form-control username" name="username"
-                               placeholder="<spring:message code="placeholder_username"/>" minlength="1" maxlength="256"
-                               required onblur="validUsername('<spring:message code="error_enter_username"/>')"
-                               onkeyup="validUsername('<spring:message code="error_enter_username"/>')">
+                        <c:if test="${not empty loggedUsername}">
+                            <input id="login-username" type="text" class="form-control username" name="username"
+                                   placeholder="<spring:message code="placeholder_username"/>" minlength="1"
+                                   maxlength="256" value="${loggedUsername}"
+                                   required onblur="validUsername('<spring:message code="error_enter_username"/>')"
+                                   onkeyup="validUsername('<spring:message code="error_enter_username"/>')">
+                        </c:if>
+                        <c:if test="${empty loggedUsername}">
+                            <input id="login-username" type="text" class="form-control username" name="username"
+                                   placeholder="<spring:message code="placeholder_username"/>" minlength="1"
+                                   maxlength="256"
+                                   required onblur="validUsername('<spring:message code="error_enter_username"/>')"
+                                   onkeyup="validUsername('<spring:message code="error_enter_username"/>')">
+                        </c:if>
+
                     </div>
 
                     <div style="display: block;margin-bottom: 25px; color: red" id="username-error"></div>
