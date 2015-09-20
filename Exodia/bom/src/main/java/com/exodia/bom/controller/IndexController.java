@@ -1,12 +1,17 @@
 package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
+import com.exodia.bom.config.Mailer;
+import com.exodia.bom.service.MailService;
 import com.exodia.common.constant.Constant;
+import com.exodia.bom.model.Mail;
 import com.exodia.common.util.MemcachedClient;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -15,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
 
 @Controller
 public class IndexController {
@@ -31,6 +34,9 @@ public class IndexController {
 
     @Autowired
     private Properties properties;
+
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "error", required = false) String error) {
@@ -118,6 +124,14 @@ public class IndexController {
         ModelAndView model = new ModelAndView("hello");
         model.addObject("message", "Hello world!");
         System.out.println(memcachedClient.get("testcache"));
+        return model;
+    }
+
+
+    @RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+    public ModelAndView sendMail() {
+        ModelAndView model = new ModelAndView("hello");
+        mailService.sendMail("manlmse61239@fpt.edu.vn", "admin-activate.vm", "Reset Password", "manlm", "new password");
         return model;
     }
 }

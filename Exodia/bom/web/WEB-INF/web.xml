@@ -23,7 +23,7 @@
                 /WEB-INF/spring-tiles-config.xml
                 /WEB-INF/mvc-dispatcher-servlet.xml
                 /WEB-INF/hibernate-config.xml
-
+                /WEB-INF/spring-mail.xml
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
