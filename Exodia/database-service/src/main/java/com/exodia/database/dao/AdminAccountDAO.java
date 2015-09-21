@@ -21,6 +21,26 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
     @Autowired
     SessionFactory sessionFactory;
 
+    public List<AdminAccount> getAll() {
+        LOG.info("[getAll] Start");
+        Session session = sessionFactory.openSession();
+        try {
+            Query query = session.createQuery("from AdminAccount");
+            List<AdminAccount> list = query.list();
+            if (list.size() > 0) {
+                return list;
+            }
+        } catch (QueryException e) {
+            LOG.error(new StringBuilder("[getAll] QueryException: ").append(e.getMessage()));
+        } catch (HibernateException e) {
+            LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
+        } finally {
+            session.close();
+        }
+        LOG.info("[getAll] End");
+        return null;
+    }
+
     /**
      * Find Admin Account by username
      *

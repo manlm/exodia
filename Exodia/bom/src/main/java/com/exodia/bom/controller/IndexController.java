@@ -39,7 +39,7 @@ public class IndexController {
                               @RequestParam(name = "error", required = false) String error) {
         LOG.info("[login] Start");
         ModelAndView model = new ModelAndView("login");
-        
+
         if (error != null) {
             model.addObject("error", "error");
         }
@@ -63,7 +63,7 @@ public class IndexController {
     public String main(ModelMap model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (String.valueOf(user.getAuthorities().iterator().next()).equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {
-            return "redirect:hello";
+            return "redirect:viewAdminAccount";
         }
         return "redirect:login";
     }
@@ -77,10 +77,19 @@ public class IndexController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(ModelMap model) {
         model.addAttribute("message", "Hello world!");
-        AdminAccount adminAccount = new AdminAccount();
-        adminAccount.setUsername("test");
-        adminAccount.setPassword("test");
-        adminAccountDAO.save(adminAccount);
+
+        for (int i = 101; i <= 200; i++) {
+            System.out.println(i);
+            AdminAccount adminAccount = new AdminAccount();
+            adminAccount.setUsername("test" + i);
+            adminAccount.setPassword("c4f4652fb4cfcc7756e3b2b97019955a");
+            adminAccount.setRole(1);
+            adminAccount.setCreationTime(0);
+            adminAccount.setLastUpdate(0);
+            adminAccount.setStatus(1);
+            adminAccountDAO.save(adminAccount);
+        }
+
         return "hello";
     }
 
