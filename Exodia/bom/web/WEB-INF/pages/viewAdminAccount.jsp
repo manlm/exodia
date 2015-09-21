@@ -33,17 +33,21 @@
         <thead>
         <tr>
             <th id="search-id" style="background: white"></th>
-            <th id="search-username" style="background: white"></th>
-            <th id="search-email" style="background: white"></th>
+            <th id="search-username" style="background: white">
+                <input class="form-control" type="text" placeholder="<spring:message code="search_by_username"/>"/>
+            </th>
+            <th id="search-email" style="background: white">
+                <input class="form-control" type="text" placeholder="<spring:message code="search_by_emai"/>"/>
+            </th>
             <th id="search-role" style="background: white; text-align: center"></th>
             <th id="search-status" style="background: white; text-align: center"></th>
         </tr>
         <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th style="text-align: center">Role</th>
-            <th style="text-align: center">Status</th>
+            <th><spring:message code="table_column_id"/></th>
+            <th><spring:message code="table_column_username"/></th>
+            <th><spring:message code="table_column_email"/></th>
+            <th style="text-align: center"><spring:message code="table_column_role"/></th>
+            <th style="text-align: center"><spring:message code="table_column_status"/></th>
         </tr>
         </thead>
         <tfoot>
@@ -58,19 +62,19 @@
                 <td>${account.username}</td>
                 <td>${account.email}</td>
                 <c:if test="${account.role == 1}">
-                    <td style="text-align: center">Account Manager</td>
+                    <td style="text-align: center"><spring:message code="role_account_manager"/></td>
                 </c:if>
                 <c:if test="${account.role == 2}">
-                    <td style="text-align: center">Data Manager</td>
+                    <td style="text-align: center"><spring:message code="role_data_manager"/></td>
                 </c:if>
                 <c:if test="${account.status == 1}">
-                    <td style="text-align: center">Active</td>
+                    <td style="text-align: center"><spring:message code="status_active"/></td>
                 </c:if>
                 <c:if test="${account.status == 2}">
-                    <td style="text-align: center">Inactive</td>
+                    <td style="text-align: center"><spring:message code="status_inactive"/></td>
                 </c:if>
                 <c:if test="${account.status == 7}">
-                    <td style="text-align: center">Deleted</td>
+                    <td style="text-align: center"><spring:message code="status_deleted"/></td>
                 </c:if>
             </tr>
         </c:forEach>

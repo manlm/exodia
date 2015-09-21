@@ -13,7 +13,8 @@ $(document).ready(function () {
 
             // search role
             var columnRole = api.column(3);
-            var selectRole = $('<select class="form-control" name="search-role"><option value="" default selected>Select Role</option></select>')
+            var selectRole = $('<select class="form-control" name="search-role">' +
+                '<option value="" default selected>Select Role</option></select>')
                 .appendTo("#search-role")
                 .on('change', function () {
                     var val = $.fn.dataTable.util.escapeRegex(
@@ -31,7 +32,8 @@ $(document).ready(function () {
 
             // search status
             var columnStatus = api.column(4);
-            var selectStatus = $('<select class="form-control" name="search-role"><option value="" default selected>Select Status</option></select>')
+            var selectStatus = $('<select class="form-control" name="search-role">' +
+                '<option value="" default selected>Select Status</option></select>')
                 .appendTo("#search-status")
                 .on('change', function () {
                     var val = $.fn.dataTable.util.escapeRegex(
@@ -50,7 +52,6 @@ $(document).ready(function () {
     });
 
     // search username
-    $('#search-username').html('<input class="form-control" type="text" placeholder="Search by usernname"/>');
     $('input', '#search-username').on('keyup change', function () {
         table
             .column(1)
@@ -59,7 +60,6 @@ $(document).ready(function () {
     });
 
     // search email
-    $('#search-email').html('<input class="form-control" type="text" placeholder="Search by email"/>');
     $('input', '#search-email').on('keyup change', function () {
         table
             .column(2)

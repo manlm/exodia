@@ -4,14 +4,6 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="index" extends="DefaultTemplate">
-        <put-attribute name="body" value="/WEB-INF/pages/index.jsp"/>
-    </definition>
-
-    <definition name="personList" extends="DefaultTemplate">
-        <put-attribute name="body" value="/WEB-INF/pages/personList.jsp"/>
-    </definition>
-
     <definition name="hello" extends="DefaultTemplate">
         <put-attribute name="body" value="/WEB-INF/pages/hello.jsp"/>
     </definition>
