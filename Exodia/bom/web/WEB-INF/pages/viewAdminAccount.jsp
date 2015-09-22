@@ -40,52 +40,65 @@
     </form>
 </div>
 
-<div>
-    <table id="myTable" class="table table-striped">
-        <thead>
-        <tr>
+<div style="width: 100%">
+    <table id="myTable" class="table table-striped" style="width: 100%">
+        <thead style="width: 100%">
+        <tr style="width: 100%">
             <th id="th-search-id" style="background: white"></th>
-            <th id="th-search-username" style="background: white">
-                <input id="search-username" class="form-control" type="text"
+            <th id="th-search-username" style="background: white;width: 25%">
+                <input id="search-username" class="form-control" type="text" style="width:100%;"
                        placeholder="<spring:message code="search_by_username"/>"/>
             </th>
-            <th id="th-search-email" style="background: white">
-                <input id="search_email" class="form-control" type="text"
+            <th id="th-search-email" style="background: white; width: 35%">
+                <input id="search_email" class="form-control" type="text" style="width:100%;"
                        placeholder="<spring:message code="search_by_emai"/>"/>
             </th>
-            <th id="th-search-role" style="background: white; text-align: center"></th>
-            <th id="th-search-status" style="background: white; text-align: center"></th>
+            <th id="th-search-role" style="background: white; text-align: center; width: 15%"></th>
+            <th id="th-search-status" style="background: white; text-align: center; width: 9%"></th>
         </tr>
-        <tr>
-            <th><spring:message code="table_column_no"/></th>
-            <th><spring:message code="table_column_username"/></th>
-            <th><spring:message code="table_column_email"/></th>
-            <th style="text-align: center"><spring:message code="table_column_role"/></th>
-            <th style="text-align: center"><spring:message code="table_column_status"/></th>
+        <tr style="width: 100%">
+            <th style="width: 1%"><spring:message code="table_column_no"/></th>
+            <th style="width: 25%"><spring:message code="table_column_username"/></th>
+            <th style="width: 35%"><spring:message code="table_column_email"/></th>
+            <th style="text-align: center; width: 15%"><spring:message code="table_column_role"/></th>
+            <th style="text-align: center; width: 9%"><spring:message code="table_column_status"/></th>
+            <th style="text-align: center; width: 5%"><spring:message code="table_column_resend_email"/></th>
+            <th style="text-align: center; width: 5%"><spring:message code="table_column_edit"/></th>
+            <th style="text-align: center; width: 5%"><spring:message code="table_column_delete"/></th>
         </tr>
         </thead>
 
-        <tbody>
+        <tbody style="width: 100%">
         <c:forEach items="${accountList}" var="account" varStatus="counter">
-            <tr>
-                <td>${counter.count}</td>
-                <td>${account.username}</td>
-                <td>${account.email}</td>
-                <c:if test="${account.role == 1}">
-                    <td style="text-align: center"><spring:message code="role_account_manager"/></td>
-                </c:if>
-                <c:if test="${account.role == 2}">
-                    <td style="text-align: center"><spring:message code="role_data_manager"/></td>
-                </c:if>
-                <c:if test="${account.status == 1}">
-                    <td style="text-align: center"><spring:message code="status_active"/></td>
-                </c:if>
-                <c:if test="${account.status == 2}">
-                    <td style="text-align: center"><spring:message code="status_inactive"/></td>
-                </c:if>
-                <c:if test="${account.status == 7}">
-                    <td style="text-align: center"><spring:message code="status_deleted"/></td>
-                </c:if>
+            <tr style="width: 100%">
+                <td style="width: 1%">${counter.count}</td>
+                <td style="width: 25%">${account.username}</td>
+                <td style="width: 35%">${account.email}</td>
+                <td style="text-align: center; width: 15%">
+                    <c:if test="${account.role == 1}">
+                        <spring:message code="role_account_manager"/>
+                    </c:if>
+                    <c:if test="${account.role == 2}">
+                        <spring:message code="role_data_manager"/>
+                    </c:if>
+                </td>
+                <td style="text-align: center; width: 9%">
+                    <c:if test="${account.status == 1}">
+                        <spring:message code="status_active"/>
+                    </c:if>
+                    <c:if test="${account.status == 2}">
+                        <spring:message code="status_inactive"/>
+                    </c:if>
+                    <c:if test="${account.status == 7}">
+                        <spring:message code="status_deleted"/>
+                    </c:if>
+                </td>
+                <td style="text-align: center; width: 5%"><a href="" style="color: black"><span
+                        class="glyphicon glyphicon-envelope"></span></a></td>
+                <td style="text-align: center; width: 5%"><a href="" style="color: green"><span
+                        class="glyphicon glyphicon-edit"></span></a></td>
+                <td style="text-align: center; width: 5%"><a href="" style="color: red"><span
+                        class="glyphicon glyphicon-trash"></span></a></td>
             </tr>
         </c:forEach>
         </tbody>

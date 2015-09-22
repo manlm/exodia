@@ -42,7 +42,7 @@ public class CSVService {
             } catch (IOException e) {
                 LOG.error(new StringBuilder("[exportCSV] IOException: ").append(e.getMessage()));
             }
-            LOG.info("exportCSV] End");
+            LOG.info("[exportCSV] End");
         }
     }
 }

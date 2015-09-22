@@ -13,7 +13,7 @@ $(document).ready(function () {
 
             // search role
             var columnRole = api.column(3);
-            var selectRole = $('<select id="search-role" class="form-control" name="search-role">' +
+            var selectRole = $('<select id="search-role" class="form-control" name="search-role" style="width: 100%">' +
                 '<option value="" default selected>Select Role</option></select>')
                 .appendTo("#th-search-role")
                 .on('change', function () {
@@ -32,7 +32,7 @@ $(document).ready(function () {
 
             // search status
             var columnStatus = api.column(4);
-            var selectStatus = $('<select id="search-status" class="form-control" name="search-role">' +
+            var selectStatus = $('<select id="search-status" class="form-control" name="search-role" style="width: 100%">' +
                 '<option value="" default selected>Select Status</option></select>')
                 .appendTo("#th-search-status")
                 .on('change', function () {
