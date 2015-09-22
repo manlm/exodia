@@ -13,9 +13,9 @@ $(document).ready(function () {
 
             // search role
             var columnRole = api.column(3);
-            var selectRole = $('<select class="form-control" name="search-role">' +
+            var selectRole = $('<select id="search-role" class="form-control" name="search-role">' +
                 '<option value="" default selected>Select Role</option></select>')
-                .appendTo("#search-role")
+                .appendTo("#th-search-role")
                 .on('change', function () {
                     var val = $.fn.dataTable.util.escapeRegex(
                         $(this).val()
@@ -32,9 +32,9 @@ $(document).ready(function () {
 
             // search status
             var columnStatus = api.column(4);
-            var selectStatus = $('<select class="form-control" name="search-role">' +
+            var selectStatus = $('<select id="search-status" class="form-control" name="search-role">' +
                 '<option value="" default selected>Select Status</option></select>')
-                .appendTo("#search-status")
+                .appendTo("#th-search-status")
                 .on('change', function () {
                     var val = $.fn.dataTable.util.escapeRegex(
                         $(this).val()
@@ -52,7 +52,7 @@ $(document).ready(function () {
     });
 
     // search username
-    $('input', '#search-username').on('keyup change', function () {
+    $('input', '#th-search-username').on('keyup change', function () {
         table
             .column(1)
             .search(this.value)
@@ -60,10 +60,18 @@ $(document).ready(function () {
     });
 
     // search email
-    $('input', '#search-email').on('keyup change', function () {
+    $('input', '#th-search-email').on('keyup change', function () {
         table
             .column(2)
             .search(this.value)
             .draw();
     });
 });
+
+function getSearchValue() {
+    $("#txtSearchUsername").val($("#search-username").val());
+    $("#txtSearchEmail").val($("#search-email").val());
+    $("#txtSearchRole").val($("#search-role").val());
+    $("#txtSearchStatus").val($("#search-status").val());
+    $("#export-form").submit();
+}

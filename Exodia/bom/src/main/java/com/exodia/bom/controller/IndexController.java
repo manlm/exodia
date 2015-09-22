@@ -119,7 +119,7 @@ public class IndexController {
     public ModelAndView find() {
         ModelAndView model = new ModelAndView("hello");
         model.addObject("message", "Hello world!");
-        AdminAccount adminAccount = adminAccountDAO.findByUsername("test");
+        AdminAccount adminAccount = adminAccountDAO.getByUsername("test");
         model.addObject("username", adminAccount.getUsername());
         return model;
     }

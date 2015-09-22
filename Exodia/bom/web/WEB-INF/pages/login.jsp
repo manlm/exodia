@@ -38,7 +38,12 @@
                     </div>
                 </c:if>
                 <form id="loginform" name="loginform" class="form-horizontal" role="form"
-                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
+                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST"
+                      onsubmit=" return validOnSubmit('<spring:message code="error_enter_username"/>'
+                              ,'<spring:message code="error_enter_password"/>'
+                              ,'<spring:message code="error_password_length"/>'
+                              ,'<spring:message code="error_password_pattern"/>'
+                              ,<spring:message code="regex_password"/>)">
 
                     <div id="div-username" style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -82,7 +87,7 @@
 
                         <div class="col-sm-12 controls">
                             <input type="submit" id="btn-login" class="btn btn-success"
-                                   value="<spring:message code="btn_login"/>" disabled>
+                                   value="<spring:message code="btn_login"/>">
                         </div>
                     </div>
 

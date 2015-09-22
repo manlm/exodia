@@ -36,7 +36,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
         LOG.info(new StringBuilder("[loadUserByUsername] Start: username = ").append(username));
-        AdminAccount adminAccount = adminAccountDAO.findByUsername(username);
+        AdminAccount adminAccount = adminAccountDAO.getByUsername(username);
         List<GrantedAuthority> authorities = buildUserAuthority(adminAccount.getRole());
 
         LOG.info("[loadUserByUsername] End");

@@ -29,36 +29,46 @@
 <br>
 
 <div>
+    <form id="export-form" action="${pageContext.request.contextPath}/exportAdmin" method="POST">
+        <input type="button" id="btn-export" class="btn btn-success"
+               value="<spring:message code="btn_export"/>" onclick="getSearchValue()">
+        <input type="hidden" id="txtSearchUsername" name="txtSearchUsername" value=""/>
+        <input type="hidden" id="txtSearchEmail" name="txtSearchEmail" value=""/>
+        <input type="hidden" id="txtSearchRole" name="txtSearchRole" value=""/>
+        <input type="hidden" id="txtSearchStatus" name="txtSearchStatus" value=""/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+</div>
+
+<div>
     <table id="myTable" class="table table-striped">
         <thead>
         <tr>
-            <th id="search-id" style="background: white"></th>
-            <th id="search-username" style="background: white">
-                <input class="form-control" type="text" placeholder="<spring:message code="search_by_username"/>"/>
+            <th id="th-search-id" style="background: white"></th>
+            <th id="th-search-username" style="background: white">
+                <input id="search-username" class="form-control" type="text"
+                       placeholder="<spring:message code="search_by_username"/>"/>
             </th>
-            <th id="search-email" style="background: white">
-                <input class="form-control" type="text" placeholder="<spring:message code="search_by_emai"/>"/>
+            <th id="th-search-email" style="background: white">
+                <input id="search_email" class="form-control" type="text"
+                       placeholder="<spring:message code="search_by_emai"/>"/>
             </th>
-            <th id="search-role" style="background: white; text-align: center"></th>
-            <th id="search-status" style="background: white; text-align: center"></th>
+            <th id="th-search-role" style="background: white; text-align: center"></th>
+            <th id="th-search-status" style="background: white; text-align: center"></th>
         </tr>
         <tr>
-            <th><spring:message code="table_column_id"/></th>
+            <th><spring:message code="table_column_no"/></th>
             <th><spring:message code="table_column_username"/></th>
             <th><spring:message code="table_column_email"/></th>
             <th style="text-align: center"><spring:message code="table_column_role"/></th>
             <th style="text-align: center"><spring:message code="table_column_status"/></th>
         </tr>
         </thead>
-        <tfoot>
-        <tr>
 
-        </tr>
-        </tfoot>
         <tbody>
-        <c:forEach items="${accountList}" var="account">
+        <c:forEach items="${accountList}" var="account" varStatus="counter">
             <tr>
-                <td>${account.id}</td>
+                <td>${counter.count}</td>
                 <td>${account.username}</td>
                 <td>${account.email}</td>
                 <c:if test="${account.role == 1}">
