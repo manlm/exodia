@@ -1,12 +1,24 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<ul style="list-style:none;line-height:28px;">
-
-	<li><spring:url value="/index" var="homeUrl" htmlEscape="true" />
-		<a href="${homeUrl}">Home</a>
-	</li>
-
-	<li><spring:url value="/viewPeson" var="personListUrl" htmlEscape="true" />
-		<a href="${personListUrl}">Person List</a>
-	</li>
-
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul class="sidebar-menu">
+    <li class="header">MAIN NAVIGATION</li>
+    <li>
+        <a href="#">
+            <i class="fa fa-th"></i> <span>Account</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <i class="fa fa-th"></i> <span>Area</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <i class="fa fa-th"></i> <span>Store</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <i class="fa fa-th"></i> <span>Food</span>
+        </a>
+    </li>
 </ul>
