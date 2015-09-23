@@ -3,36 +3,38 @@ package com.exodia.database.dao;
 import com.exodia.common.constant.Constant;
 import com.exodia.database.dao.common.GenericHibernateDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.entity.PlayerAccount;
 import org.apache.log4j.Logger;
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Created by manlm1 on 9/11/2015.
+ * Created by manlm1 on 9/23/2015.
  */
-@Service
-public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
+public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccountDAO> {
 
-    private static final Logger LOG = Logger.getLogger(AdminAccountDAO.class);
+    private static final Logger LOG = Logger.getLogger(PlayerAccountDAO.class);
 
     @Autowired
     SessionFactory sessionFactory;
 
     /**
-     * Get all Admin Account
+     * Get all Player Account
      *
      * @return
      */
-    public List<AdminAccount> getAll() {
+    public List<PlayerAccount> getAll() {
         LOG.info("[getAll] Start");
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(AdminAccount.class);
+            Criteria criteria = session.createCriteria(PlayerAccount.class);
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
@@ -47,51 +49,21 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
     }
 
     /**
-     * Find Admin Account by username
-     *
-     * @param username
-     * @return
-     */
-    public AdminAccount getByUsername(String username) {
-        LOG.info(new StringBuilder("[getByUsername] Start: username = ").append(username));
-
-        Session session = null;
-
-        try {
-            session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(AdminAccount.class);
-            criteria.add(Restrictions.like("username", username));
-            if (criteria.list().size() > 0) {
-                return (AdminAccount) criteria.list().get(0);
-            }
-        } catch (HibernateException e) {
-            LOG.error(new StringBuilder("[getByUsername] HibernateException: ").append(e.getMessage()));
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-            LOG.info("[getByUsername] End");
-        }
-        LOG.info("[getByUsername] End");
-        return null;
-    }
-
-    /**
-     * Find Admin Account by email
+     * Find Player Account by email
      *
      * @param email
      * @return
      */
-    public AdminAccount getByEmail(String email) {
+    public PlayerAccount getByEmail(String email) {
         LOG.info(new StringBuilder("[getByEmail] Start: email = ").append(email));
 
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(AdminAccount.class);
+            Criteria criteria = session.createCriteria(PlayerAccount.class);
             criteria.add(Restrictions.like("email", String.valueOf(new StringBuilder("%").append(email).append("%"))));
             if (criteria.list().size() > 0) {
-                return (AdminAccount) criteria.list().get(0);
+                return (PlayerAccount) criteria.list().get(0);
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByEmail] HibernateException: ").append(e.getMessage()));
@@ -106,40 +78,25 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
     }
 
     /**
-     * Get list Admin Account by all fields
+     * Get list Player Account by all fields
      *
-     * @param username
      * @param email
-     * @param role
      * @param status
      * @return
      */
-    public List<AdminAccount> getByConditions(String username, String email, String role, String status) {
+    public List<PlayerAccount> getByConditions(String email, String status) {
 
-        LOG.info(new StringBuilder("[getByConditions] Start: username = ").append(username)
-                .append(", email = ").append(email)
-                .append(", role = ").append(role)
+        LOG.info(new StringBuilder("[getByConditions] Start: email = ").append(email)
                 .append(", status = ").append(status));
 
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(AdminAccount.class);
-
-            if (!username.equals("")) {
-                criteria.add(Restrictions.like("username", String.valueOf(new StringBuilder("%").append(username).append("%"))));
-            }
+            Criteria criteria = session.createCriteria(PlayerAccount.class);
 
             if (!email.equals("")) {
-                criteria.add(Restrictions.like("email", String.valueOf(new StringBuilder("%").append(email).append("%"))));
-            }
-
-            if (!role.equals("")) {
-                if (role.equalsIgnoreCase(Constant.ADMIN_ROLE.ACCOUNT_MANAGER.getValue())) {
-                    criteria.add(Restrictions.eq("role", Constant.ADMIN_ROLE_ID.ACCOUNT_MANAGER.getValue()));
-                } else if (role.equalsIgnoreCase(Constant.ADMIN_ROLE.DATA_MANAGER.getValue())) {
-                    criteria.add(Restrictions.eq("role", Constant.ADMIN_ROLE_ID.DATA_MANAGER.getValue()));
-                }
+                criteria.add(Restrictions.like("email"
+                        , String.valueOf(new StringBuilder("%").append(email).append("%"))));
             }
 
             if (!status.equals("")) {
