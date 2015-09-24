@@ -58,8 +58,11 @@
                         <!-- Button -->
 
                         <div class="col-sm-12 controls">
-                            <input type="submit" id="btn-submit" class="btn btn-success"
-                                   value="<spring:message code="btn_submit"/>" disabled>
+                            <input type="button" id="btn-submit" class="btn btn-success"
+                                   value="<spring:message code="btn_submit"/>"
+                                   onclick="validOnSubmit('<spring:message code="error_enter_email"/>'
+                                           ,'<spring:message code="error_email_pattern"/>'
+                                           ,<spring:message code="regex_email"/>)">
                         </div>
                     </div>
 

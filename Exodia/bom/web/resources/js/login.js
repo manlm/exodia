@@ -13,14 +13,11 @@ function validOnSubmit(mess1, mess2, mess3, mess4, regex) {
     var isValidPassword = validPassword(mess2, mess3, mess4, regex);
     if (!isValidUsername) {
         $("#login-username").focus();
-        return false;
-    }
-    if (!isValidPassword) {
+    }else if (!isValidPassword) {
         $("#login-password").focus();
-        return false;
+    }else{
+        $("#loginform").submit();
     }
-
-    return true;
 }
 
 function validUsername(mess1) {
