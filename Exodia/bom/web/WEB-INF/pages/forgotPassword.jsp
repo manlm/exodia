@@ -38,7 +38,7 @@
                     </div>
                 </c:if>
                 <form id="forgotPasswordForm" name="forgotPasswordForm" class="form-horizontal" role="form"
-                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
+                      action="${pageContext.request.contextPath}/forgotPassword" method="POST">
 
                     <div id="div-email" style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>

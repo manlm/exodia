@@ -1,6 +1,7 @@
 package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
+import com.exodia.bom.service.AccountService;
 import com.exodia.bom.service.MailService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.MemcachedClient;
@@ -34,6 +35,9 @@ public class IndexController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private AccountService accountService;
+
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
                               @RequestParam(name = "error", required = false) String error) {
@@ -51,13 +55,23 @@ public class IndexController {
         return model;
     }
 
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
-    public ModelAndView showForgorPassword() {
-        LOG.info("[showForgorPassword] Start");
+    @RequestMapping(value = "/showForgotPassword", method = RequestMethod.GET)
+    public ModelAndView showForgotPassword() {
+        LOG.info("[showForgotPassword] Start");
         ModelAndView model = new ModelAndView("forgotPassword");
-        LOG.info("[showForgorPassword] End");
+        LOG.info("[showForgotPassword] End");
         return model;
     }
+
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+    public ModelAndView forgotPassword(@RequestParam(name = "email") String email) {
+        LOG.info("[forgotPassword] Start");
+        ModelAndView model = new ModelAndView("forgotPassword");
+        accountService.resetPassword(email);
+        LOG.info("[forgotPassword] End");
+        return model;
+    }
+
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(ModelMap model) {

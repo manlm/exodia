@@ -26,7 +26,7 @@
             <div class="panel-heading">
                 <div class="panel-title"><spring:message code="sign_in"/></div>
                 <div style="float:right; font-size: 80%; position: relative; top:-10px">
-                    <a href="${pageContext.request.contextPath}/forgotPassword"><spring:message
+                    <a href="${pageContext.request.contextPath}/showForgotPassword"><spring:message
                             code="forgot_password_question"/></a>
                 </div>
             </div>
