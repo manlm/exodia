@@ -30,3 +30,4 @@ function commonValidEmail(regex) {
     }
     return 0;
 }
+

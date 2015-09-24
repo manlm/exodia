@@ -3,7 +3,7 @@ package com.exodia.webservice.model;
 /**
  * Created by manlm1 on 9/12/2015.
  */
-public class loginModel {
+public class LoginModel {
 
     private int playerId;
     private String sessionId;
