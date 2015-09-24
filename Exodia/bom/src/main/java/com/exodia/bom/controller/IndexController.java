@@ -1,7 +1,7 @@
 package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
-import com.exodia.bom.service.AccountService;
+import com.exodia.bom.service.IndexService;
 import com.exodia.bom.service.MailService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.MemcachedClient;
@@ -36,7 +36,7 @@ public class IndexController {
     private MailService mailService;
 
     @Autowired
-    private AccountService accountService;
+    private IndexService indexService;
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
@@ -63,11 +63,11 @@ public class IndexController {
         return model;
     }
 
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public ModelAndView forgotPassword(@RequestParam(name = "email") String email) {
         LOG.info("[forgotPassword] Start");
         ModelAndView model = new ModelAndView("forgotPassword");
-        accountService.resetPassword(email);
+        indexService.forgotPassword(email);
         LOG.info("[forgotPassword] End");
         return model;
     }
