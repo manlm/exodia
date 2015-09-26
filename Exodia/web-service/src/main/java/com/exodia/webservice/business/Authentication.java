@@ -8,6 +8,7 @@ import com.exodia.common.util.MemcachedClient;
 import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.webservice.model.LoginModel;
+import com.exodia.webservice.model.ReauthorizeModel;
 import com.exodia.webservice.model.RegisterModel;
 import com.exodia.webservice.response.LoginResponse;
 import com.exodia.webservice.response.ReauthorizeResponse;
@@ -54,7 +55,6 @@ public class Authentication {
 
         model.setEmail(email);
         response.setData(model);
-        response.setMessage("Successful");
         response.setStatusCode("01");
 
         LOG.info("[doRegister] End");
@@ -77,7 +77,6 @@ public class Authentication {
         PlayerAccount account = playerAccountDAO.getByEmail(email);
         if (account == null) {
             LOG.info("[doLogin] account == null");
-            response.setMessage("Invalid email or password");
             response.setStatusCode("00");
             LOG.info("[doLogin] End");
             return response;
@@ -95,14 +94,31 @@ public class Authentication {
         memcachedClient.set(email, sessionId, 2592000);
         model.setSessionId(sessionId);
         response.setData(model);
-        response.setMessage("Successful");
         response.setStatusCode("01");
         LOG.info("[doLogin] End");
         return response;
     }
 
     public ReauthorizeResponse doReauthorize(String email, String sessionId) {
+
+        LOG.info(new StringBuilder("[doReauthorize] Start: email = ").append(email)
+                .append(", sessionId = ").append(sessionId));
+
         ReauthorizeResponse response = new ReauthorizeResponse();
+        ReauthorizeModel model = new ReauthorizeModel();
+
+        if (memcachedClient.get(email).equals(sessionId)) {
+            LOG.info("[doReauthorize] Session exist");
+            model.setEmail(email);
+            response.setData(model);
+            response.setStatusCode("01");
+            LOG.info("[doReauthorize] End");
+            return response;
+        }
+
+        LOG.info("[doReauthorize] Session does not exist");
+        response.setStatusCode("00");
+        LOG.info("[doReauthorize] End");
         return response;
     }
 }
