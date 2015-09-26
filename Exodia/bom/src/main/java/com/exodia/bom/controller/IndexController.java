@@ -49,6 +49,7 @@ public class IndexController {
         if (error != null) {
             model.addObject("error", "error");
         }
+        
         if (loggedUsername != null) {
             model.addObject("loggedUsername", loggedUsername);
         }

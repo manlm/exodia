@@ -1,9 +1,13 @@
 package com.exodia.webservice.controller;
 
 import com.exodia.webservice.business.Authentication;
+import com.exodia.webservice.model.LoginModel;
 import com.exodia.webservice.model.RegisterModel;
 import com.exodia.webservice.response.ForgotPasswordResponse;
+import com.exodia.webservice.response.LoginResponse;
+import com.exodia.webservice.response.ReauthorizeResponse;
 import com.exodia.webservice.response.RegisterResponse;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,28 +21,44 @@ import javax.servlet.http.HttpServletResponse;
  * Created by manlm1 on 9/8/2015.
  */
 @Controller
-@RequestMapping("/auth")
 public class AuthenticationController {
+
+    private static final Logger LOG = Logger.getLogger(AuthenticationController.class);
 
     @Autowired
     private Authentication auth;
 
-    @RequestMapping(value = "/call/login", method = RequestMethod.POST)
-    @ResponseBody
-    public String login(@RequestParam(value = "username", required = true) String username,
-                        @RequestParam(value = "password", required = false) String password) {
-
-        return auth.doLogin(username, password);
-    }
-
-    @RequestMapping(value = "/call/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public RegisterResponse register(@RequestParam(value = "email") String email,
                                      @RequestParam(value = "password") String password,
                                      HttpServletResponse response) {
-
-
+        LOG.info("[register] Start");
         response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[register] End");
         return auth.doRegister(email, password);
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public LoginResponse login(@RequestParam(value = "email") String email,
+                               @RequestParam(value = "password") String password,
+                               HttpServletResponse response) {
+        LOG.info("[login] Start");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[login] End");
+        return auth.doLogin(email, password);
+    }
+
+    @RequestMapping(value = "/reauthorize", method = RequestMethod.POST)
+    @ResponseBody
+    public ReauthorizeResponse reauthorize(@RequestParam(value = "email") String email,
+                                           @RequestParam(value = "sessionId") String sessionId,
+                                           HttpServletResponse response) {
+        LOG.info("[reauthorize] Start");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[reauthorize] End");
+        return auth.doReauthorize(email, sessionId);
+    }
+
 }

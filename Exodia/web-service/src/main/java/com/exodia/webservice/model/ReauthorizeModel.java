@@ -1,11 +1,20 @@
 package com.exodia.webservice.model;
 
 /**
- * Created by manlm1 on 9/12/2015.
+ * Created by manlm1 on 9/26/2015.
  */
-public class LoginModel {
+public class ReauthorizeModel {
 
+    private String email;
     private String sessionId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getSessionId() {
         return sessionId;
