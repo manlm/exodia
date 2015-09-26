@@ -13,10 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class IndexController {
@@ -56,20 +58,23 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/showForgotPassword", method = RequestMethod.GET)
-    public ModelAndView showForgotPassword() {
+    public ModelAndView showForgotPassword(@ModelAttribute(value = "success") String success) {
         LOG.info("[showForgotPassword] Start");
         ModelAndView model = new ModelAndView("forgotPassword");
+        model.addObject(success);
         LOG.info("[showForgotPassword] End");
         return model;
     }
 
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-    public ModelAndView forgotPassword(@RequestParam(name = "email") String email) {
+    public String forgotPassword(@RequestParam(name = "email") String email,
+                                 RedirectAttributes redirectAttributes) {
         LOG.info("[forgotPassword] Start");
-        ModelAndView model = new ModelAndView("forgotPassword");
-        indexService.forgotPassword(email);
+        if (indexService.forgotPassword(email)) {
+            redirectAttributes.addFlashAttribute("success", true);
+        }
         LOG.info("[forgotPassword] End");
-        return model;
+        return "redirect:showForgotPassword";
     }
 
 

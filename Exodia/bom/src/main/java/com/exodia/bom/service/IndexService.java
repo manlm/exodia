@@ -33,10 +33,13 @@ public class IndexService {
 
         LOG.info(new StringBuilder("[forgotPassword] Start: email = ").append(email));
 
-        String password = accountService.resetPassword(email);
         AdminAccount account = adminAccountDAO.getByEmail(email);
-        boolean result = mailService.sendMail(email, RESET_PASSWORD_EMMAIL_TEMPLATE
-                , properties.getProperty("subject_reset_password"), account.getUsername(), password);
+        boolean result = true;
+        if (account != null) {
+            String password = accountService.resetPassword(account);
+            result = mailService.sendMail(email, RESET_PASSWORD_EMMAIL_TEMPLATE
+                    , properties.getProperty("subject_reset_password"), account.getUsername(), password);
+        }
 
         LOG.info("[forgotPassword End");
         return result;

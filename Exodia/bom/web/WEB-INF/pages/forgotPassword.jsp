@@ -72,3 +72,29 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" role="dialog" style="">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="forgot_password_success"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message
+                        code="btn_ok"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var show = ${success};
+        if (show == true) {
+            $('#successModal').modal('show');
+        }
+    });
+</script>

@@ -35,16 +35,17 @@ public class AccountService {
     /**
      * Reset password of an account
      *
-     * @param email
+     * @param adminAccount
      * @return
      */
-    public String resetPassword(String email) {
-        LOG.info(new StringBuilder("[resetPassword] Start: email = ").append(email));
+    public String resetPassword(AdminAccount adminAccount) {
+        LOG.info(new StringBuilder("[resetPassword] Start: adminAccount username = ").append(adminAccount.getUsername()));
         String password = String.valueOf(PasswordUtil.generatePswd());
-        AdminAccount adminAccount = adminAccountDAO.getByEmail(email);
+
         adminAccount.setPassword(MD5Util.stringToMD5(password));
         adminAccount.setLastUpdate(System.currentTimeMillis());
         adminAccountDAO.update(adminAccount);
+
         LOG.info("[resetPassword] End");
         return password;
     }
