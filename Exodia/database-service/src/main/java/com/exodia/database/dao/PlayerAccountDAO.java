@@ -11,13 +11,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by manlm1 on 9/23/2015.
  */
-public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccountDAO> {
+@Service
+public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
 
     private static final Logger LOG = Logger.getLogger(PlayerAccountDAO.class);
 

@@ -35,15 +35,10 @@ public class AuthenticationController {
     @ResponseBody
     public RegisterResponse register(@RequestParam(value = "email") String email,
                                      @RequestParam(value = "password") String password,
-                                     HttpServletResponse servletResponse) {
+                                     HttpServletResponse response) {
 
-        RegisterModel model = new RegisterModel();
-        servletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        model.setEmail(email);
-        RegisterResponse response = new RegisterResponse();
-        response.setData(model);
-        response.setMessage("Successful");
-        response.setStatusCode("01");
-        return response;
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return auth.doRegister(email, password);
     }
 }

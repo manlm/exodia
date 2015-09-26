@@ -8,6 +8,10 @@ import java.util.Calendar;
  */
 public class DateTimeUtil {
 
+    public static long getCurUTCInMilliseconds() {
+        return System.currentTimeMillis();
+    }
+
     public static String getDate(long milliSeconds, String dateFormat) {
 
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
