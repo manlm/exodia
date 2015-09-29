@@ -11,6 +11,6 @@ public interface GenericDAO<E> {
 
     E update(E instance);
 
-    void remove(E entity);
+    boolean remove(E entity);
 
 }

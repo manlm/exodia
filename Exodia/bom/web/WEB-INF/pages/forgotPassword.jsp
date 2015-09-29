@@ -38,7 +38,7 @@
                     </div>
                 </c:if>
                 <form id="forgotPasswordForm" name="forgotPasswordForm" class="form-horizontal" role="form"
-                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
+                      action="${pageContext.request.contextPath}/forgotPassword" method="POST">
 
                     <div id="div-email" style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -58,8 +58,11 @@
                         <!-- Button -->
 
                         <div class="col-sm-12 controls">
-                            <input type="submit" id="btn-submit" class="btn btn-success"
-                                   value="<spring:message code="btn_submit"/>" disabled>
+                            <input type="button" id="btn-submit" class="btn btn-success"
+                                   value="<spring:message code="btn_submit"/>"
+                                   onclick="validOnSubmit('<spring:message code="error_enter_email"/>'
+                                           ,'<spring:message code="error_email_pattern"/>'
+                                           ,<spring:message code="regex_email"/>)">
                         </div>
                     </div>
 
@@ -69,3 +72,29 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" role="dialog" style="">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="forgot_password_success"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message
+                        code="btn_ok"/></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var show = ${success};
+        if (show == true) {
+            $('#successModal').modal('show');
+        }
+    });
+</script>

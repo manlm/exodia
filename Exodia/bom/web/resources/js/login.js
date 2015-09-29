@@ -1,26 +1,16 @@
 /**
  * Created by manlm1 on 9/14/2015.
  */
-
-function validEmail() {
-    var email = document.getElementById();
-    var pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    return pattern.test(emailAddress);
-}
-
 function validOnSubmit(mess1, mess2, mess3, mess4, regex) {
     var isValidUsername = validUsername(mess1);
     var isValidPassword = validPassword(mess2, mess3, mess4, regex);
     if (!isValidUsername) {
         $("#login-username").focus();
-        return false;
-    }
-    if (!isValidPassword) {
+    }else if (!isValidPassword) {
         $("#login-password").focus();
-        return false;
+    }else{
+        $("#loginform").submit();
     }
-
-    return true;
 }
 
 function validUsername(mess1) {

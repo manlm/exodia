@@ -2,6 +2,7 @@ package com.exodia.bom.service;
 
 import com.exodia.bom.config.Mailer;
 import com.exodia.bom.model.Mail;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,16 @@ import java.util.Map;
 @Service
 public class MailService {
 
+    private static final Logger LOG = Logger.getLogger(MailService.class);
+
     @Autowired
     private Mailer mailer;
 
     public boolean sendMail(String email, String template, String subject, String account, String password) {
+
+        LOG.info(new StringBuilder("[sendMail] Start: email = ").append(email).append(", template = ").append(template)
+                .append(", subject = ").append(subject).append(", account = ").append(account));
+
         Mail mail = new Mail();
         mail.setMailTo(email);
         mail.setTemplateName(template);
@@ -27,6 +34,8 @@ public class MailService {
         mailAttribute.put("account", account);
         mailAttribute.put("password", password);
         mailer.sendMail(mail, mailAttribute);
-        return false;
+
+        LOG.info("[sendMail] End");
+        return true;
     }
 }

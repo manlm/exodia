@@ -8,16 +8,25 @@ function validEmail(mess1, mess2, regex) {
         document.getElementById("div-email").style.marginBottom = "0px";
         document.getElementById("email-error").style.display = "block";
         document.getElementById("email-error").innerHTML = mess1;
-        document.getElementById("btn-submit").disabled = true;
+        return false;
     } else if (result == 2) {
         document.getElementById("div-email").style.marginBottom = "0px";
         document.getElementById("email-error").style.display = "block";
         document.getElementById("email-error").innerHTML = mess2;
-        document.getElementById("btn-submit").disabled = true;
+        return false;
     } else {
         document.getElementById("div-email").style.marginBottom = "25px";
         document.getElementById("email-error").style.display = "none";
         document.getElementById("email-error").innerHTML = "";
-        document.getElementById("btn-submit").disabled = false;
+        return true;
+    }
+}
+
+function validOnSubmit(mess1, mess2, regex) {
+    var result = validEmail(mess1, mess2, regex);
+    if (result == false) {
+        $("#email").focus();
+    } else {
+        $("#forgotPasswordForm").submit();
     }
 }

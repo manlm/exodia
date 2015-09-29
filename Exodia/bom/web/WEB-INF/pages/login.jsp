@@ -26,7 +26,7 @@
             <div class="panel-heading">
                 <div class="panel-title"><spring:message code="sign_in"/></div>
                 <div style="float:right; font-size: 80%; position: relative; top:-10px">
-                    <a href="${pageContext.request.contextPath}/forgotPassword"><spring:message
+                    <a href="${pageContext.request.contextPath}/showForgotPassword"><spring:message
                             code="forgot_password_question"/></a>
                 </div>
             </div>
@@ -38,12 +38,7 @@
                     </div>
                 </c:if>
                 <form id="loginform" name="loginform" class="form-horizontal" role="form"
-                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST"
-                      onsubmit=" return validOnSubmit('<spring:message code="error_enter_username"/>'
-                              ,'<spring:message code="error_enter_password"/>'
-                              ,'<spring:message code="error_password_length"/>'
-                              ,'<spring:message code="error_password_pattern"/>'
-                              ,<spring:message code="regex_password"/>)">
+                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
 
                     <div id="div-username" style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -86,9 +81,16 @@
                         <!-- Button -->
 
                         <div class="col-sm-12 controls">
-                           <div style="float: right ">
-                            <input type="submit" id="btn-login" class="btn btn-success"
-                                   value="<spring:message code="btn_login"/>">
+
+                            <div style="float: right ">
+
+                                <input type="button" id="btn-login" class="btn btn-success"
+                                       value="<spring:message code="btn_login"/>"
+                                       onclick="validOnSubmit('<spring:message code="error_enter_username"/>'
+                                               ,'<spring:message code="error_enter_password"/>'
+                                               ,'<spring:message code="error_password_length"/>'
+                                               ,'<spring:message code="error_password_pattern"/>'
+                                               ,<spring:message code="regex_password"/>)">
                             </div>
                         </div>
                     </div>

@@ -22,7 +22,7 @@
 
     <div>
         <form id="export-form" action="${pageContext.request.contextPath}/exportAdmin" method="POST">
-            <input type="button" id="btn-export" class="btn btn-success"
+            <input type="button" id="btn-export" class="btn btn-success" style="border-radius: 0px"
                    value="<spring:message code="btn_export"/>" onclick="getSearchValue()">
             <input type="hidden" id="txtSearchUsername" name="txtSearchUsername" value=""/>
             <input type="hidden" id="txtSearchEmail" name="txtSearchEmail" value=""/>
@@ -33,20 +33,20 @@
     </div>
 
     <div style="width: 100%">
-        <table id="myTable" class="table table-striped" style="width: 100%">
+        <table id="myTable" class="table table-condensed" style="width: 100%">
             <thead style="width: 100%">
             <tr style="width: 100%">
-                <th id="th-search-id" style="background: white"></th>
-                <th id="th-search-username" style="background: white;width: 25%">
+                <th id="th-search-id"></th>
+                <th id="th-search-username" style="width: 25%">
                     <input id="search-username" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_username"/>"/>
                 </th>
-                <th id="th-search-email" style="background: white; width: 35%">
+                <th id="th-search-email" style=" width: 35%">
                     <input id="search_email" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_emai"/>"/>
                 </th>
-                <th id="th-search-role" style="background: white; text-align: center; width: 15%"></th>
-                <th id="th-search-status" style="background: white; text-align: center; width: 9%"></th>
+                <th id="th-search-role" style="text-align: center; width: 15%"></th>
+                <th id="th-search-status" style="text-align: center; width: 9%"></th>
             </tr>
             <tr style="width: 100%">
                 <th style="width: 1%"><spring:message code="table_column_no"/></th>

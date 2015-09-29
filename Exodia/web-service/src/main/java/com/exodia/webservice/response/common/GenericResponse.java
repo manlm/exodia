@@ -1,4 +1,4 @@
-package com.exodia.webservice.model.common;
+package com.exodia.webservice.response.common;
 
 /**
  * Created by manlm1 on 9/12/2015.

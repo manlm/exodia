@@ -1,6 +1,7 @@
 package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
+import com.exodia.bom.service.IndexService;
 import com.exodia.bom.service.MailService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.MemcachedClient;
@@ -12,10 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class IndexController {
@@ -34,6 +37,9 @@ public class IndexController {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private IndexService indexService;
+
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
                               @RequestParam(name = "error", required = false) String error) {
@@ -43,6 +49,7 @@ public class IndexController {
         if (error != null) {
             model.addObject("error", "error");
         }
+        
         if (loggedUsername != null) {
             model.addObject("loggedUsername", loggedUsername);
         }
@@ -51,13 +58,26 @@ public class IndexController {
         return model;
     }
 
-    @RequestMapping(value = "/forgotPassword", method = RequestMethod.GET)
-    public ModelAndView showForgorPassword() {
-        LOG.info("[showForgorPassword] Start");
+    @RequestMapping(value = "/showForgotPassword", method = RequestMethod.GET)
+    public ModelAndView showForgotPassword(@ModelAttribute(value = "success") String success) {
+        LOG.info("[showForgotPassword] Start");
         ModelAndView model = new ModelAndView("forgotPassword");
-        LOG.info("[showForgorPassword] End");
+        model.addObject(success);
+        LOG.info("[showForgotPassword] End");
         return model;
     }
+
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+    public String forgotPassword(@RequestParam(name = "email") String email,
+                                 RedirectAttributes redirectAttributes) {
+        LOG.info("[forgotPassword] Start");
+        if (indexService.forgotPassword(email)) {
+            redirectAttributes.addFlashAttribute("success", true);
+        }
+        LOG.info("[forgotPassword] End");
+        return "redirect:showForgotPassword";
+    }
+
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(ModelMap model) {

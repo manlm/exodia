@@ -3,6 +3,7 @@ package com.exodia.bom.service;
 import com.exodia.bom.config.Properties;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
+import com.exodia.common.util.MD5Util;
 import com.exodia.common.util.PasswordUtil;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
@@ -34,18 +35,19 @@ public class AccountService {
     /**
      * Reset password of an account
      *
-     * @param email
+     * @param adminAccount
      * @return
      */
-    public void resetPassword(String email) {
-        LOG.info(new StringBuilder("[resetPassword] Start: email = ").append(email));
+    public String resetPassword(AdminAccount adminAccount) {
+        LOG.info(new StringBuilder("[resetPassword] Start: adminAccount username = ").append(adminAccount.getUsername()));
+        String password = String.valueOf(PasswordUtil.generatePswd());
 
-        AdminAccount adminAccount = adminAccountDAO.getByEmail(email);
-        adminAccount.setPassword(String.valueOf(PasswordUtil.generatePswd()));
+        adminAccount.setPassword(MD5Util.stringToMD5(password));
         adminAccount.setLastUpdate(System.currentTimeMillis());
         adminAccountDAO.update(adminAccount);
 
         LOG.info("[resetPassword] End");
+        return password;
     }
 
     /**

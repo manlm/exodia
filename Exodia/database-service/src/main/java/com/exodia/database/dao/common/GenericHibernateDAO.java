@@ -72,7 +72,7 @@ public abstract class GenericHibernateDAO<E> implements GenericDAO<E> {
      * @param entity
      */
     @Override
-    public void remove(final E entity) {
+    public boolean remove(final E entity) {
         LOG.info(new StringBuilder("[remove] Start: entity = ").append(entity));
 
         if (entity != null) {
@@ -82,11 +82,17 @@ public abstract class GenericHibernateDAO<E> implements GenericDAO<E> {
                 session.delete(entity);
                 session.getTransaction().commit();
                 session.close();
+                LOG.info("[remove] End");
+                return true;
+
             } catch (HibernateException e) {
                 LOG.error(new StringBuilder("[remove] Error: ").append(e.getMessage()));
                 session.getTransaction().rollback();
+                LOG.info("[remove] End");
+                return false;
             }
         }
         LOG.info("[remove] End");
+        return false;
     }
 }
