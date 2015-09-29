@@ -8,9 +8,9 @@
 <!-- Logo -->
 <a href="${pageContext.request.contextPath}/home" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>FD</b></span>
+    <span class="logo-mini"><b>AP</b></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Food Delivery</b></span>
+    <span class="logo-lg">Panel</span>
 </a>
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">

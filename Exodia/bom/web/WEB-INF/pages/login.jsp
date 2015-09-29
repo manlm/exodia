@@ -86,8 +86,10 @@
                         <!-- Button -->
 
                         <div class="col-sm-12 controls">
+                           <div style="float: right ">
                             <input type="submit" id="btn-login" class="btn btn-success"
                                    value="<spring:message code="btn_login"/>">
+                            </div>
                         </div>
                     </div>
 
