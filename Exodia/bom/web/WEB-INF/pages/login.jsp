@@ -81,13 +81,17 @@
                         <!-- Button -->
 
                         <div class="col-sm-12 controls">
-                            <input type="button" id="btn-login" class="btn btn-success"
-                                   value="<spring:message code="btn_login"/>"
-                                   onclick="validOnSubmit('<spring:message code="error_enter_username"/>'
-                                           ,'<spring:message code="error_enter_password"/>'
-                                           ,'<spring:message code="error_password_length"/>'
-                                           ,'<spring:message code="error_password_pattern"/>'
-                                           ,<spring:message code="regex_password"/>)">
+
+                            <div style="float: right ">
+
+                                <input type="button" id="btn-login" class="btn btn-success"
+                                       value="<spring:message code="btn_login"/>"
+                                       onclick="validOnSubmit('<spring:message code="error_enter_username"/>'
+                                               ,'<spring:message code="error_enter_password"/>'
+                                               ,'<spring:message code="error_password_length"/>'
+                                               ,'<spring:message code="error_password_pattern"/>'
+                                               ,<spring:message code="regex_password"/>)">
+                            </div>
                         </div>
                     </div>
 

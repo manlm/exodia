@@ -8,6 +8,8 @@
 
 body {
     font: 13px/20px 'Lucida Grande', Tahoma, Verdana, sans-serif;
-    background-color: hsla(120, 100%, 50%, 0.1);
+    background-image: url("../images/Dark-Top-Wallpaper%20(1).jpg");
+    background-size: cover;
+    /*background-color: hsla(120, 100%, 50%, 0.1);*/
 }
 
