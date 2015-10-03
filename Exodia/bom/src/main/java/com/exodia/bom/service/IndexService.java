@@ -3,6 +3,7 @@ package com.exodia.bom.service;
 import com.exodia.bom.config.Properties;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.mail.service.MailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

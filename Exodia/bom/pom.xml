@@ -28,6 +28,12 @@
 
         <dependency>
             <groupId>exodia</groupId>
+            <artifactId>mail-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>exodia</groupId>
             <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

@@ -1,5 +1,6 @@
 package com.exodia.webservice.controller;
 
+import com.exodia.mail.service.MailService;
 import com.exodia.webservice.business.Authentication;
 import com.exodia.webservice.model.LoginModel;
 import com.exodia.webservice.model.RegisterModel;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationController {
 
     private static final Logger LOG = Logger.getLogger(AuthenticationController.class);
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private Authentication auth;
@@ -61,5 +66,10 @@ public class AuthenticationController {
         return auth.doReauthorize(email, sessionId);
     }
 
-
+    @RequestMapping(value = "/sendMail", method = RequestMethod.GET)
+    @ResponseBody
+    public String sendMail() {
+        mailService.sendMail("manlmse61239@fpt.edu.vn", "admin-activate.vm", "Reset Password", "manlm", "new password");
+        return "Sent email";
+    }
 }

@@ -1,0 +1,7 @@
+Dear ${account},
+
+Your account: ${account}.
+Your password: ${password}.
+
+Please do not reply.
+Thanks.

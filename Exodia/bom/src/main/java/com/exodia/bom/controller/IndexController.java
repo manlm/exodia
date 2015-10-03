@@ -2,11 +2,11 @@ package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
 import com.exodia.bom.service.IndexService;
-import com.exodia.bom.service.MailService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.MemcachedClient;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.mail.service.MailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,7 +49,7 @@ public class IndexController {
         if (error != null) {
             model.addObject("error", "error");
         }
-        
+
         if (loggedUsername != null) {
             model.addObject("loggedUsername", loggedUsername);
         }

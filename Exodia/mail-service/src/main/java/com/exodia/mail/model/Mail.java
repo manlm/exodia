@@ -1,4 +1,4 @@
-package com.exodia.bom.model;
+package com.exodia.mail.model;
 
 import java.util.Date;
 

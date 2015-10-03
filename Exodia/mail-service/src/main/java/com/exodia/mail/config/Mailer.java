@@ -1,19 +1,19 @@
-package com.exodia.bom.config;
+package com.exodia.mail.config;
 
 /**
  * Created by manlm1 on 9/19/2015.
  */
 
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.Set;
-
-import com.exodia.bom.model.Mail;
+import com.exodia.mail.model.Mail;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.Set;
 
 public class Mailer {
     private MailSender mailSender;

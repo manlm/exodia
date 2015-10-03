@@ -16,6 +16,7 @@
             <param-value>
                 /WEB-INF/dispatcher-mvc-servlet.xml
                 /WEB-INF/hibernate-config.xml
+                /WEB-INF/spring-mail.xml
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
