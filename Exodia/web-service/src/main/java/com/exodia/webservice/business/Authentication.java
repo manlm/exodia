@@ -1,12 +1,11 @@
 package com.exodia.webservice.business;
 
 import com.exodia.common.constant.Constant;
-import com.exodia.common.util.DateTimeUtil;
-import com.exodia.common.util.IdUtil;
-import com.exodia.common.util.MD5Util;
-import com.exodia.common.util.MemcachedClient;
+import com.exodia.common.util.*;
 import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.entity.PlayerAccount;
+import com.exodia.webservice.config.Properties;
+import com.exodia.webservice.model.ForgotPasswordModel;
 import com.exodia.webservice.model.LoginModel;
 import com.exodia.webservice.model.ReauthorizeModel;
 import com.exodia.webservice.model.RegisterModel;
@@ -24,6 +23,9 @@ import org.springframework.stereotype.Service;
 public class Authentication {
 
     private static final Logger LOG = Logger.getLogger(Authentication.class);
+
+    @Autowired
+    private Properties properties;
 
     @Autowired
     private PlayerAccountDAO playerAccountDAO;
@@ -55,7 +57,7 @@ public class Authentication {
 
         model.setEmail(email);
         response.setData(model);
-        response.setStatusCode("01");
+        response.setStatusCode(properties.getProperty("status_code_success"));
 
         LOG.info("[doRegister] End");
         return response;
@@ -77,7 +79,7 @@ public class Authentication {
         PlayerAccount account = playerAccountDAO.getByEmail(email);
         if (account == null) {
             LOG.info("[doLogin] account == null");
-            response.setStatusCode("00");
+            response.setStatusCode(properties.getProperty("status_code_failed"));
             LOG.info("[doLogin] End");
             return response;
         }
@@ -85,20 +87,27 @@ public class Authentication {
         if (!MD5Util.stringToMD5(password).equals(account.getPassword())) {
             LOG.info("[doLogin] password does not match");
             response.setMessage("Invalid email or password");
-            response.setStatusCode("00");
+            response.setStatusCode(properties.getProperty("status_code_failed"));
             LOG.info("[doLogin] End");
             return response;
         }
 
         String sessionId = IdUtil.generateId();
-        memcachedClient.set(email, sessionId, 2592000);
+        memcachedClient.set(email, sessionId, Integer.valueOf(properties.getProperty("cache_alive_time")));
         model.setSessionId(sessionId);
         response.setData(model);
-        response.setStatusCode("01");
+        response.setStatusCode(properties.getProperty("status_code_success"));
         LOG.info("[doLogin] End");
         return response;
     }
 
+    /**
+     * Reauthorize
+     *
+     * @param email
+     * @param sessionId
+     * @return
+     */
     public ReauthorizeResponse doReauthorize(String email, String sessionId) {
 
         LOG.info(new StringBuilder("[doReauthorize] Start: email = ").append(email)
@@ -111,14 +120,21 @@ public class Authentication {
             LOG.info("[doReauthorize] Session exist");
             model.setEmail(email);
             response.setData(model);
-            response.setStatusCode("01");
+            response.setStatusCode(properties.getProperty("status_code_success"));
             LOG.info("[doReauthorize] End");
             return response;
         }
 
         LOG.info("[doReauthorize] Session does not exist");
-        response.setStatusCode("00");
+        response.setStatusCode(properties.getProperty("status_code_failed"));
         LOG.info("[doReauthorize] End");
         return response;
     }
+
+//    public ForgotPasswordModel doForgotPassword(String email) {
+//        PlayerAccount account = playerAccountDAO.getByEmail(email);
+//        String password = MD5Util.stringToMD5(String.valueOf(PasswordUtil.generatePswd()));
+//        account.setPassword(password);
+//
+//    }
 }

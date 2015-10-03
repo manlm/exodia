@@ -39,6 +39,7 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.close();
@@ -68,6 +69,7 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByEmail] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.close();
@@ -114,6 +116,7 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
 
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByConditions] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.cancelQuery();

@@ -36,10 +36,9 @@ public class UserRolesDAO extends GenericHibernateDAO<UserRoles> {
             if (criteria.list().size() > 0) {
                 return ((UserRoles) criteria.list().get(0)).getRole();
             }
-        } catch (QueryException e) {
-            LOG.error(new StringBuilder("[findById] QueryException: ").append(e.getMessage()));
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[findById] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.close();

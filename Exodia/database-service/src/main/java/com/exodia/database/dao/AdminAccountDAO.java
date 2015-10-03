@@ -162,7 +162,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             session.getTransaction().rollback();
         } finally {
             if (session != null) {
-                session.cancelQuery();
+                session.close();
             }
             LOG.info("[getByConditions] End");
         }
