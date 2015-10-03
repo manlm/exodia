@@ -97,7 +97,7 @@
         </section>
     </aside>
     <!-- Body Page -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="background: gainsboro">
         <section class="content">
             <tiles:insertAttribute name="body"/>
         </section>

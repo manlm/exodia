@@ -17,9 +17,13 @@
     }
 </style>
 
-<div class="box-body">
-    <br>
+<title><spring:message code="title_admin_account"/></title>
 
+<div>
+    <h2 style="margin-top: 0px; font-size: x-large; font-weight: bold"><spring:message code="title_admin_account"/></h2>
+</div>
+
+<div class="box-body">
     <div>
         <form id="export-form" action="${pageContext.request.contextPath}/exportAdmin" method="POST">
             <input type="button" id="btn-export" class="btn btn-success" style="border-radius: 0px"
@@ -33,36 +37,52 @@
     </div>
 
     <div style="width: 100%">
-        <table id="myTable" class="table table-condensed" style="width: 100%">
+        <table id="myTable" class="table table-striped" style="width: 100%">
             <thead style="width: 100%">
             <tr style="width: 100%">
                 <th id="th-search-id"></th>
-                <th id="th-search-username" style="width: 25%">
+                <th id="th-search-username" style="width: 23%">
                     <input id="search-username" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_username"/>"/>
                 </th>
-                <th id="th-search-email" style=" width: 35%">
+                <th id="th-search-email" style=" width: 31%">
                     <input id="search_email" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_emai"/>"/>
                 </th>
                 <th id="th-search-role" style="text-align: center; width: 15%"></th>
-                <th id="th-search-status" style="text-align: center; width: 9%"></th>
+                <th id="th-search-status" style="text-align: center; width: 15%"></th>
             </tr>
-            <tr style="width: 100%">
-                <th style="width: 1%"><spring:message code="table_column_no"/></th>
-                <th style="width: 25%"><spring:message code="table_column_username"/></th>
-                <th style="width: 35%"><spring:message code="table_column_email"/></th>
-                <th style="text-align: center; width: 15%"><spring:message code="table_column_role"/></th>
-                <th style="text-align: center; width: 9%"><spring:message code="table_column_status"/></th>
-                <th style="text-align: center; width: 5%"><spring:message code="table_column_resend_email"/></th>
-                <th style="text-align: center; width: 5%"><spring:message code="table_column_edit"/></th>
-                <th style="text-align: center; width: 5%"><spring:message code="table_column_delete"/></th>
+            <tr style="width: 100%" class="danger">
+                <th style="width: 1%; vertical-align: middle">
+                    <spring:message code="table_column_no"/>
+                </th>
+                <th style="width: 25%; vertical-align: middle">
+                    <spring:message code="table_column_username"/>
+                </th>
+                <th style="width: 35%; vertical-align: middle">
+                    <spring:message code="table_column_email"/>
+                </th>
+                <th style="text-align: center; width: 15%; vertical-align: middle">
+                    <spring:message code="table_column_role"/>
+                </th>
+                <th style="text-align: center; width: 9%; vertical-align: middle">
+                    <spring:message code="table_column_status"/>
+                </th>
+                <th style="text-align: center; width: 5%; vertical-align: middle">
+                    <spring:message code="table_column_resend_email"/>
+                </th>
+                <th style="text-align: center; width: 5%;vertical-align: middle">
+                    <spring:message code="table_column_edit"/>
+                </th>
+                <th style="text-align: center; width: 5%;vertical-align: middle">
+                    <spring:message code="table_column_delete"/>
+                </th>
             </tr>
             </thead>
 
             <tbody style="width: 100%">
             <c:forEach items="${accountList}" var="account" varStatus="counter">
-                <tr style="width: 100%">
+                <tr style="width: 100%" class="info">
                     <td style="width: 1%">${counter.count}</td>
                     <td style="width: 25%">${account.username}</td>
                     <td style="width: 35%">${account.email}</td>
@@ -85,12 +105,21 @@
                             <spring:message code="status_deleted"/>
                         </c:if>
                     </td>
-                    <td style="text-align: center; width: 5%"><a href="" style="color: black"><span
-                            class="glyphicon glyphicon-envelope"></span></a></td>
-                    <td style="text-align: center; width: 5%"><a href="" style="color: green"><span
-                            class="glyphicon glyphicon-edit"></span></a></td>
-                    <td style="text-align: center; width: 5%"><a href="" style="color: red"><span
-                            class="glyphicon glyphicon-trash"></span></a></td>
+                    <td style="text-align: center; width: 5%">
+                        <a href="" style="color: black">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </a>
+                    </td>
+                    <td style="text-align: center; width: 5%">
+                        <a href="" style="color: green">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td style="text-align: center; width: 5%">
+                        <a href="" style="color: red">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

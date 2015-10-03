@@ -5,6 +5,8 @@
   Time: 7:41 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!-- Logo -->
 <a href="${pageContext.request.contextPath}/home" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -24,7 +26,11 @@
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="hidden-xs">Alexander Pierce</span>
+                    <span class="hidden-xs">
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication property="principal.username" />
+                        </sec:authorize>
+                    </span>
                 </a>
                 <ul class="dropdown-menu" style="width:auto">
                     <li>

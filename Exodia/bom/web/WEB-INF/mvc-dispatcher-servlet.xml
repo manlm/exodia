@@ -39,4 +39,5 @@
             <value>bundle.bundle</value>
         </property>
     </bean>
+
 </beans>
