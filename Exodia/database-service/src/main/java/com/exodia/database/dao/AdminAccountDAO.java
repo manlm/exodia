@@ -36,6 +36,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.close();
@@ -66,6 +67,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByUsername] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.close();
@@ -95,6 +97,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByEmail] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.close();
@@ -156,6 +159,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
 
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByConditions] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
         } finally {
             if (session != null) {
                 session.cancelQuery();
