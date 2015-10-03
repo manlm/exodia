@@ -4,11 +4,13 @@ import com.exodia.common.constant.Constant;
 import com.exodia.common.util.*;
 import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.entity.PlayerAccount;
+import com.exodia.mail.service.MailService;
 import com.exodia.webservice.config.Properties;
 import com.exodia.webservice.model.ForgotPasswordModel;
 import com.exodia.webservice.model.LoginModel;
 import com.exodia.webservice.model.ReauthorizeModel;
 import com.exodia.webservice.model.RegisterModel;
+import com.exodia.webservice.response.ForgotPasswordResponse;
 import com.exodia.webservice.response.LoginResponse;
 import com.exodia.webservice.response.ReauthorizeResponse;
 import com.exodia.webservice.response.RegisterResponse;
@@ -32,6 +34,9 @@ public class Authentication {
 
     @Autowired
     private MemcachedClient memcachedClient;
+
+    @Autowired
+    private MailService mailService;
 
     /**
      * Register
@@ -131,10 +136,27 @@ public class Authentication {
         return response;
     }
 
-//    public ForgotPasswordModel doForgotPassword(String email) {
-//        PlayerAccount account = playerAccountDAO.getByEmail(email);
-//        String password = MD5Util.stringToMD5(String.valueOf(PasswordUtil.generatePswd()));
-//        account.setPassword(password);
-//
-//    }
+    public ForgotPasswordResponse doForgotPassword(String email) {
+
+        LOG.info(new StringBuilder("[doForgotPassword] Start: email = ").append(email));
+
+        ForgotPasswordResponse response = new ForgotPasswordResponse();
+        ForgotPasswordModel model = new ForgotPasswordModel();
+        model.setEmail(email);
+        response.setData(model);
+        response.setStatusCode(properties.getProperty("status_code_success"));
+
+        PlayerAccount account = playerAccountDAO.getByEmail(email);
+        if (account != null) {
+            LOG.info("[doForgotPassword] Email exist");
+            String password = MD5Util.stringToMD5(String.valueOf(PasswordUtil.generatePswd()));
+            account.setPassword(password);
+            playerAccountDAO.update(account);
+            mailService.sendMail(email, properties.getProperty("mail_reset_password")
+                    , properties.getProperty("mail_subject_reset_password"), account.getEmail(), password);
+        }
+
+        LOG.info("[doForgotPassword] End");
+        return response;
+    }
 }

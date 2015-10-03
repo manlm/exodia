@@ -66,6 +66,16 @@ public class AuthenticationController {
         return auth.doReauthorize(email, sessionId);
     }
 
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+    @ResponseBody
+    public ForgotPasswordResponse forgotPassword(@RequestParam(value = "email") String email,
+                                                 HttpServletResponse response) {
+        LOG.info("[forgotPassword] Start");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[forgotPassword] End");
+        return auth.doForgotPassword(email);
+    }
+
     @RequestMapping(value = "/sendMail", method = RequestMethod.GET)
     @ResponseBody
     public String sendMail() {
