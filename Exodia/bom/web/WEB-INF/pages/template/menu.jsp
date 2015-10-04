@@ -2,7 +2,7 @@
 
 <!-- sidebar menu: : style can be found in sidebar.less -->
 <ul class="sidebar-menu">
-    <li class="header">MAIN NAVIGATION</li>
+    <li class="header"><spring:message code="main_menu"/></li>
     <li>
         <a href="#">
             <i class="fa fa-fw fa-user"></i> <span>Admin Account</span>

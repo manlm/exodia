@@ -40,7 +40,7 @@
         <table id="myTable" class="table table-striped" style="width: 100%">
             <thead style="width: 100%">
             <tr style="width: 100%">
-                <th id="th-search-id"></th>
+                <th></th>
                 <th id="th-search-username" style="width: 23%">
                     <input id="search-username" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_username"/>"/>
@@ -56,17 +56,20 @@
                 <th style="width: 1%; vertical-align: middle">
                     <spring:message code="table_column_no"/>
                 </th>
-                <th style="width: 25%; vertical-align: middle">
+                <th style="width: 22%; vertical-align: middle">
                     <spring:message code="table_column_username"/>
                 </th>
-                <th style="width: 35%; vertical-align: middle">
+                <th style="width: 34%; vertical-align: middle">
                     <spring:message code="table_column_email"/>
                 </th>
-                <th style="text-align: center; width: 15%; vertical-align: middle">
+                <th style="text-align: center; width: 14%; vertical-align: middle">
                     <spring:message code="table_column_role"/>
                 </th>
                 <th style="text-align: center; width: 9%; vertical-align: middle">
                     <spring:message code="table_column_status"/>
+                </th>
+                <th style="text-align: center; width: 5%; vertical-align: middle">
+                    <spring:message code="table_column_access_log"/>
                 </th>
                 <th style="text-align: center; width: 5%; vertical-align: middle">
                     <spring:message code="table_column_resend_email"/>
@@ -106,12 +109,17 @@
                         </c:if>
                     </td>
                     <td style="text-align: center; width: 5%">
+                        <a href="" style="color: green">
+                            <span class="glyphicon glyphicon-download-alt"></span>
+                        </a>
+                    </td>
+                    <td style="text-align: center; width: 5%">
                         <a href="" style="color: black">
                             <span class="glyphicon glyphicon-envelope"></span>
                         </a>
                     </td>
                     <td style="text-align: center; width: 5%">
-                        <a href="" style="color: green">
+                        <a href="" style="color: lightseagreen">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     </td>
