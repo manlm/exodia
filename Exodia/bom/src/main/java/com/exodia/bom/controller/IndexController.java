@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+
 @Controller
 public class IndexController {
 
@@ -42,9 +44,15 @@ public class IndexController {
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
-                              @RequestParam(name = "error", required = false) String error) {
+                              @RequestParam(name = "error", required = false) String error,
+                              Principal principal) {
         LOG.info("[login] Start");
         ModelAndView model = new ModelAndView("login");
+
+        if (principal != null) {
+            model = new ModelAndView("redirect:main");
+            return model;
+        }
 
         if (error != null) {
             model.addObject("error", "error");

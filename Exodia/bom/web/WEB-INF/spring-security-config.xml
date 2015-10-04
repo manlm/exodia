@@ -6,12 +6,15 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
+    <beans:bean class="com.exodia.bom.config.DefaultRolesPrefixPostProcessor"/>
+
     <!-- enable use-expressions -->
     <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/forgotPassword" access="permitAll"/>
         <intercept-url pattern="/main" access="isAuthenticated()"/>
+        <intercept-url pattern="/viewAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
 
         <!-- access denied page -->
         <access-denied-handler error-page="/403"/>
@@ -34,6 +37,7 @@
             <password-encoder hash="md5"/>
         </authentication-provider>
     </authentication-manager>
+
 
     <beans:bean id="loginSuccessHandler" class="com.exodia.bom.handler.LoginSuccessHandler"></beans:bean>
     <beans:bean id="loginFailedHandler" class="com.exodia.bom.handler.LoginFailedHandler"></beans:bean>
