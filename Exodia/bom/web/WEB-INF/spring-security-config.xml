@@ -15,6 +15,7 @@
         <intercept-url pattern="/forgotPassword" access="permitAll"/>
         <intercept-url pattern="/main" access="isAuthenticated()"/>
         <intercept-url pattern="/viewAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/addAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
 
         <!-- access denied page -->
         <access-denied-handler error-page="/403"/>

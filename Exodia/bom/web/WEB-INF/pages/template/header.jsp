@@ -9,7 +9,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <!-- Logo -->
-<a href="${pageContext.request.contextPath}/home" class="logo">
+<a href="" class="logo" style="pointer-events: none; cursor: default">
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b><spring:message code="logo_mini"/></b></span>
     <!-- logo for regular state and mobile devices -->

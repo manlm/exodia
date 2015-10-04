@@ -20,7 +20,9 @@
 <title><spring:message code="title_admin_account"/></title>
 
 <div>
-    <h2 style="margin-top: 0px; font-size: x-large; font-weight: bold"><spring:message code="title_admin_account"/></h2>
+    <h2 class="page-title">
+        <spring:message code="title_admin_account"/>
+    </h2>
 </div>
 
 <div class="box-body">

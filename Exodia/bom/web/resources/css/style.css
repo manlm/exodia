@@ -13,3 +13,9 @@ body {
     /*background-color: hsla(120, 100%, 50%, 0.1);*/
 }
 
+.page-title {
+    margin-top: 0px;
+    font-size: x-large;
+    font-weight: bold
+}
+

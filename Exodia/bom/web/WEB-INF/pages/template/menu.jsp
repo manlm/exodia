@@ -16,7 +16,7 @@
         </a>
         <ul class="treeview-menu">
             <li <c:if test="${curPage== '/addAdminAccount'}">class="active"</c:if>>
-                <a href="">
+                <a href="${pageContext.request.contextPath}/addAdminAccount">
                     <i class="fa fa-plus-square"></i> <spring:message code="menu_add_admin_account"/>
                 </a>
             </li>

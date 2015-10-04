@@ -54,4 +54,12 @@ public class AccountController {
         LOG.info("[exportAdmin] End");
         return model;
     }
+
+    @RequestMapping(value = "/addAdminAccount", method = RequestMethod.GET)
+    public ModelAndView addAdminAccount() {
+        LOG.info("[addAdminAccount] Start");
+        ModelAndView model = new ModelAndView("addAdminAccount");
+        LOG.info("[addAdminAccount] End");
+        return model;
+    }
 }
