@@ -50,7 +50,7 @@
                            placeholder="<spring:message code="search_by_emai"/>"/>
                 </th>
                 <th id="th-search-role" style="text-align: center; width: 15%"></th>
-                <th id="th-search-status" style="text-align: center; width: 15%"></th>
+                <th id="th-search-status" style="text-align: center; width: 16%"></th>
             </tr>
             <tr style="width: 100%" class="danger">
                 <th style="width: 1%; vertical-align: middle">
