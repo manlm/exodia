@@ -5,7 +5,11 @@ import com.exodia.bom.service.IndexService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.MemcachedClient;
 import com.exodia.database.dao.AdminAccountDAO;
+import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.entity.PlayerAccount;
+import com.exodia.database.entity.UserRoles;
+import com.exodia.database.entity.UserStatus;
 import com.exodia.mail.service.MailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,9 @@ public class IndexController {
 
     @Autowired
     private AdminAccountDAO adminAccountDAO;
+
+    @Autowired
+    private PlayerAccountDAO playerAccountDAO;
 
     @Autowired
     private MemcachedClient memcachedClient;
@@ -106,16 +113,44 @@ public class IndexController {
     public String add(ModelMap model) {
         model.addAttribute("message", "Hello world!");
 
+        UserRoles roles = new UserRoles();
+        roles.setId(1);
+
+        UserStatus status = new UserStatus();
+        status.setId(1);
+
         for (int i = 101; i <= 200; i++) {
             System.out.println(i);
             AdminAccount adminAccount = new AdminAccount();
             adminAccount.setUsername("test" + i);
             adminAccount.setPassword("c4f4652fb4cfcc7756e3b2b97019955a");
-            adminAccount.setRole(1);
+            adminAccount.setRole(roles);
             adminAccount.setCreationTime(0);
             adminAccount.setLastUpdate(0);
-            adminAccount.setStatus(1);
+            adminAccount.setStatus(status);
             adminAccountDAO.save(adminAccount);
+        }
+
+        return "hello";
+    }
+
+    @RequestMapping(value = "/addPlayer", method = RequestMethod.GET)
+    public String addPlayer(ModelMap model) {
+        model.addAttribute("message", "Hello world!");
+
+
+        UserStatus status = new UserStatus();
+        status.setId(1);
+
+        for (int i = 101; i <= 200; i++) {
+            System.out.println(i);
+            PlayerAccount account = new PlayerAccount();
+
+            account.setPassword("c4f4652fb4cfcc7756e3b2b97019955a");
+            account.setCreationTime(0);
+            account.setLastUpdate(0);
+            account.setStatus(status);
+            playerAccountDAO.save(account);
         }
 
         return "hello";

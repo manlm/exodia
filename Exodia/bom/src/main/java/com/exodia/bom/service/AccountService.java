@@ -6,7 +6,9 @@ import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MD5Util;
 import com.exodia.common.util.PasswordUtil;
 import com.exodia.database.dao.AdminAccountDAO;
+import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.entity.UserRoles;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class AccountService {
 
     @Autowired
     private CSVService csvService;
+
+    @Autowired
+    private UserRolesDAO userRolesDAO;
 
     /**
      * Reset password of an account
@@ -86,7 +91,7 @@ public class AccountService {
 
             content.append(adminAccount.getEmail()).append(",");
 
-            int accountRole = adminAccount.getRole();
+            int accountRole = adminAccount.getRole().getId();
             if (accountRole == Constant.ADMIN_ROLE_ID.ACCOUNT_MANAGER.getValue()) {
                 content.append(Constant.ADMIN_ROLE.ACCOUNT_MANAGER.getValue()).append(",");
             } else if (accountRole == Constant.ADMIN_ROLE_ID.DATA_MANAGER.getValue()) {
@@ -95,7 +100,7 @@ public class AccountService {
                 content.append("").append(",");
             }
 
-            int accountStatus = adminAccount.getStatus();
+            int accountStatus = adminAccount.getStatus().getId();
             if (accountStatus == Constant.STATUS_ID.ACTIVE.getValue()) {
                 content.append(Constant.STATUS.ACTIVE.getValue()).append(",");
             } else if (accountStatus == Constant.STATUS_ID.INACTIVE.getValue()) {
@@ -117,5 +122,17 @@ public class AccountService {
 
         csvService.exportCSV("admin_account", header, content, response);
         LOG.info("[exportAdmin] End");
+    }
+
+    public boolean add(String username, String email, String password, String confirmPassword, String role) {
+        AdminAccount account = new AdminAccount();
+        UserRoles roles = new UserRoles();
+        roles.setId(Integer.valueOf(role));
+        account.setUsername(username);
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
+        account.setRole(roles);
+        return false;
     }
 }

@@ -8,6 +8,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by manlm1 on 9/11/2015.
  */
@@ -18,6 +20,31 @@ public class UserRolesDAO extends GenericHibernateDAO<UserRoles> {
 
     @Autowired
     SessionFactory sessionFactory;
+
+    /**
+     * Get all user roles
+     *
+     * @return
+     */
+    public List<UserRoles> getAll() {
+        LOG.info("[getAll] Start");
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(UserRoles.class);
+            return criteria.list();
+        } catch (HibernateException e) {
+            LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+            LOG.info("[getAll] End");
+        }
+        LOG.info("[getAll] End");
+        return null;
+    }
 
     /**
      * Get role by Id

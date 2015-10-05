@@ -38,7 +38,7 @@
                     </div>
                 </c:if>
                 <form id="loginform" name="loginform" class="form-horizontal" role="form"
-                      action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
+                      action="j_spring_security_check" method="POST">
 
                     <div id="div-username" style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

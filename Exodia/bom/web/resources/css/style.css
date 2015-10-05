@@ -19,3 +19,28 @@ body {
     font-weight: bold
 }
 
+.form-input {
+    width: 60%;
+}
+
+.div-input {
+    display: inline-flex;
+    width: 50%;
+}
+
+.div-error {
+;
+    width: 50%;
+    align-content: center;
+    padding-left: 10px
+}
+
+.div-wrapper {
+    display: inline-flex;
+    width: 100%
+}
+
+.input-error {
+    border: none;
+    background: none
+}

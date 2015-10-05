@@ -51,8 +51,8 @@
                     <input id="search_email" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_emai"/>"/>
                 </th>
-                <th id="th-search-role" style="text-align: center; width: 15%"></th>
-                <th id="th-search-status" style="text-align: center; width: 16%"></th>
+                <th id="th-search-role" style="text-align: center; width: 16%"></th>
+                <th id="th-search-status" style="text-align: center; width: 18%"></th>
             </tr>
             <tr style="width: 100%" class="danger">
                 <th style="width: 1%; vertical-align: middle">
@@ -92,21 +92,21 @@
                     <td style="width: 25%">${account.username}</td>
                     <td style="width: 35%">${account.email}</td>
                     <td style="text-align: center; width: 15%">
-                        <c:if test="${account.role == 1}">
+                        <c:if test="${account.role.id == 1}">
                             <spring:message code="role_account_manager"/>
                         </c:if>
-                        <c:if test="${account.role == 2}">
+                        <c:if test="${account.role.id == 2}">
                             <spring:message code="role_data_manager"/>
                         </c:if>
                     </td>
                     <td style="text-align: center; width: 9%">
-                        <c:if test="${account.status == 1}">
+                        <c:if test="${account.status.id == 1}">
                             <spring:message code="status_active"/>
                         </c:if>
-                        <c:if test="${account.status == 2}">
+                        <c:if test="${account.status.id == 2}">
                             <spring:message code="status_inactive"/>
                         </c:if>
-                        <c:if test="${account.status == 7}">
+                        <c:if test="${account.status.id == 7}">
                             <spring:message code="status_deleted"/>
                         </c:if>
                     </td>

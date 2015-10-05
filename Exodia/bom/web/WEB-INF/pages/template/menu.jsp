@@ -8,19 +8,19 @@
 <!-- sidebar menu: : style can be found in sidebar.less -->
 <ul class="sidebar-menu">
     <li class="header"><spring:message code="menu_main_menu"/></li>
-    <li class="treeview <c:if test="${curPage== '/addAdminAccount' || curPage== '/viewAdminAccount'}">active</c:if>">
+    <li class="treeview <c:if test="${curPage== '/viewAddAdminAccount' || curPage== '/viewAdminAccount'}">active</c:if>">
         <a href="">
             <i class="fa fa-fw fa-user"></i>
             <span><spring:message code="menu_admin_account"/></span>
             <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li <c:if test="${curPage== '/addAdminAccount'}">class="active"</c:if>>
-                <a href="${pageContext.request.contextPath}/addAdminAccount">
+            <li <c:if test="${curPage == '/viewAddAdminAccount'}">class="active"</c:if>>
+                <a href="${pageContext.request.contextPath}/viewAddAdminAccount">
                     <i class="fa fa-plus-square"></i> <spring:message code="menu_add_admin_account"/>
                 </a>
             </li>
-            <li <c:if test="${curPage== '/viewAdminAccount'}">class="active"</c:if>>
+            <li <c:if test="${curPage == '/viewAdminAccount'}">class="active"</c:if>>
                 <a href="${pageContext.request.contextPath}/viewAdminAccount">
                     <i class="fa fa-list-alt"></i> <spring:message code="menu_view_admin"/>
                 </a>

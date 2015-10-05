@@ -1,13 +1,21 @@
 package com.exodia.database.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by manlm1 on 9/11/2015.
  */
 @Entity
 @Table(name = "adminaccount")
-public class AdminAccount {
+public class AdminAccount implements Serializable {
 
     @Id
     @GeneratedValue
@@ -23,17 +31,24 @@ public class AdminAccount {
     @Column(name = "admin_email")
     private String email;
 
-    @Column(name = "role")
-    private int role;
+    @ManyToOne()
+    @JoinColumn(name = "role_id")
+    private UserRoles role;
 
-    @Column(name = "admin_status")
-    private int status;
+    @ManyToOne()
+    @JoinColumn(name = "status_id")
+    private UserStatus status;
 
     @Column(name = "admin_creationTime")
     private long creationTime;
 
     @Column(name = "admin_lastUpdate")
     private long lastUpdate;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "adminAccountAccessLog")
+    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<AdminAccessLog> adminAccessLogList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -67,19 +82,19 @@ public class AdminAccount {
         this.email = email;
     }
 
-    public int getRole() {
+    public UserRoles getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(UserRoles role) {
         this.role = role;
     }
 
-    public int getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
@@ -97,5 +112,13 @@ public class AdminAccount {
 
     public void setLastUpdate(long lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public List<AdminAccessLog> getAdminAccessLogList() {
+        return adminAccessLogList;
+    }
+
+    public void setAdminAccessLogList(List<AdminAccessLog> adminAccessLogList) {
+        this.adminAccessLogList = adminAccessLogList;
     }
 }

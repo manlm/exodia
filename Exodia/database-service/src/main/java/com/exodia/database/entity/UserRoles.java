@@ -1,16 +1,21 @@
 package com.exodia.database.entity;
 
-import javax.persistence.Column;
+import org.hibernate.annotations.*;
+
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by manlm1 on 9/11/2015.
  */
 @Entity
 @Table(name = "userroles")
-public class UserRoles {
+public class UserRoles implements Serializable {
 
     @Id
     @Column(name = "role_id")
@@ -18,6 +23,11 @@ public class UserRoles {
 
     @Column(name = "role")
     private String role;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<AdminAccount> adminAccountList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -33,5 +43,13 @@ public class UserRoles {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<AdminAccount> getAdminAccountList() {
+        return adminAccountList;
+    }
+
+    public void setAdminAccountList(List<AdminAccount> adminAccountList) {
+        this.adminAccountList = adminAccountList;
     }
 }

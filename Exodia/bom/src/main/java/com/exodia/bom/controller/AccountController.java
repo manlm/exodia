@@ -3,7 +3,9 @@ package com.exodia.bom.controller;
 import com.exodia.bom.service.AccountService;
 import com.exodia.bom.service.CSVService;
 import com.exodia.database.dao.AdminAccountDAO;
+import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.entity.UserRoles;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,9 @@ public class AccountController {
     @Autowired
     private CSVService csvService;
 
+    @Autowired
+    private UserRolesDAO userRolesDAO;
+
     @RequestMapping(value = "/viewAdminAccount", method = RequestMethod.GET)
     public ModelAndView viewAdminAccount() {
         LOG.info("[viewAdminAccount] Start");
@@ -43,11 +48,11 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/exportAdmin", method = RequestMethod.POST)
-    public ModelAndView exportAdmin(@RequestParam(name = "txtSearchUsername") String username
-            , @RequestParam(name = "txtSearchEmail") String email
-            , @RequestParam(name = "txtSearchRole") String role
-            , @RequestParam(name = "txtSearchStatus") String status
-            , HttpServletResponse response) {
+    public ModelAndView exportAdmin(@RequestParam(name = "txtSearchUsername") String username,
+                                    @RequestParam(name = "txtSearchEmail") String email,
+                                    @RequestParam(name = "txtSearchRole") String role,
+                                    @RequestParam(name = "txtSearchStatus") String status,
+                                    HttpServletResponse response) {
         LOG.info("[exportAdmin] Start");
         ModelAndView model = new ModelAndView("viewAdminAccount");
         accountService.exportAdmin(username, email, role, status, response);
@@ -55,10 +60,25 @@ public class AccountController {
         return model;
     }
 
-    @RequestMapping(value = "/addAdminAccount", method = RequestMethod.GET)
-    public ModelAndView addAdminAccount() {
+    @RequestMapping(value = "/viewAddAdminAccount", method = RequestMethod.GET)
+    public ModelAndView viewAddAdminAccount() {
+        LOG.info("[viewAddAdminAccount] Start");
+        ModelAndView model = new ModelAndView("addAdminAccount");
+        List<UserRoles> list = userRolesDAO.getAll();
+        model.addObject("roleList", list);
+        LOG.info("[viewAddAdminAccount] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/addAdminAccount", method = RequestMethod.POST)
+    public ModelAndView addAdminAccount(@RequestParam(name = "username") String username,
+                                        @RequestParam(name = "email") String email,
+                                        @RequestParam(name = "password") String password,
+                                        @RequestParam(name = "confirmPassword") String confirmPassword,
+                                        @RequestParam(name = "role") String role) {
         LOG.info("[addAdminAccount] Start");
         ModelAndView model = new ModelAndView("addAdminAccount");
+
         LOG.info("[addAdminAccount] End");
         return model;
     }

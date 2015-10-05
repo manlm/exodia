@@ -1,21 +1,23 @@
 package com.exodia.database.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by manlm1 on 10/2/2015.
  */
 @Entity
 @Table(name = "adminlog")
-public class AdminAccessLog {
+public class AdminAccessLog implements Serializable {
 
     @Id
     @GeneratedValue
     @Column(name = "admin_log_id")
     private int id;
 
-    @Column(name = "admin_id")
-    private int adminId;
+    @ManyToOne()
+    @JoinColumn(name = "admin_id")
+    private AdminAccount adminAccountAccessLog;
 
     @Column(name = "time")
     private long time;
@@ -31,12 +33,12 @@ public class AdminAccessLog {
         this.id = id;
     }
 
-    public int getAdminId() {
-        return adminId;
+    public AdminAccount getAdminAccountAccessLog() {
+        return adminAccountAccessLog;
     }
 
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
+    public void setAdminAccountAccessLog(AdminAccount adminAccountAccessLog) {
+        this.adminAccountAccessLog = adminAccountAccessLog;
     }
 
     public long getTime() {

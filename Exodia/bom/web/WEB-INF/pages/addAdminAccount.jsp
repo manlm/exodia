@@ -19,4 +19,91 @@
 
 <div class="box-body">
 
+    <form class="form-input" action="addAdminAccount" method="POST">
+
+        <%--Username--%>
+        <div>
+            <label><spring:message code="username"/></label><br>
+
+            <div class="div-wrapper">
+                <div class="div-input">
+                    <input name="username" autocomplete="off" class="form-control username"
+                           placeholder="<spring:message code="placeholder_username"/>">
+                </div>
+                <div class="div-error">
+                    <input id="username-error" class="input-error"/>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <%--Email--%>
+        <div>
+            <label><spring:message code="email"/></label><br>
+
+            <div class="div-wrapper">
+                <div class="div-input">
+                    <input name="email" autocomplete="off" class="form-control email"
+                           placeholder="<spring:message code="placeholder_email"/>">
+                </div>
+                <div class="div-error">
+                    <input id="email-error" class="input-error"/>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <%--Password--%>
+        <div>
+            <label><spring:message code="password"/></label><br>
+
+            <div class="div-wrapper">
+                <div class="div-input">
+                    <input name="password" autocomplete="off" class="form-control password"
+                           placeholder="<spring:message code="placeholder_password"/>">
+                </div>
+                <div class="div-error">
+                    <input id="password-error" class="input-error"/>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <%--Confirm Password--%>
+        <div>
+            <label><spring:message code="confirm_password"/></label><br>
+
+            <div class="div-wrapper">
+                <div class="div-input">
+                    <input name="confirmPassword" autocomplete="off" class="form-control confirm-password"
+                           placeholder="<spring:message code="placeholder_confirm_password"/>">
+                </div>
+                <div class="div-error">
+                    <input id="confirm-password-error" class="input-error"/>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <%--Role--%>
+        <div>
+            <label><spring:message code="role"/></label><br>
+
+            <div class="div-input">
+                <select name="role" class="form-control">
+                    <c:forEach items="${roleList}" var="role">
+                        <option value="${role.id}">${role.role}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <br>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+        <div>
+            <input type="submit" id="btn-add" class="btn btn-success" style="border-radius: 0px"
+                   value="<spring:message code="btn_add"/>" onclick="">
+        </div>
+    </form>
+
 </div>

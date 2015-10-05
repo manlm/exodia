@@ -5,18 +5,20 @@ package com.exodia.database.entity;
  */
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "playerscore")
-public class PlayerScore {
+public class PlayerScore implements Serializable {
 
     @Id
     @GeneratedValue
     @Column(name = "score_id")
     private int id;
 
-    @Column(name = "player_id")
-    private int player_id;
+    @ManyToOne()
+    @JoinColumn(name = "player_id")
+    private PlayerAccount playerAccount;
 
     @Column(name = "score")
     private int score;
@@ -32,12 +34,12 @@ public class PlayerScore {
         this.id = id;
     }
 
-    public int getPlayer_id() {
-        return player_id;
+    public PlayerAccount getPlayerAccount() {
+        return playerAccount;
     }
 
-    public void setPlayer_id(int player_id) {
-        this.player_id = player_id;
+    public void setPlayerAccount(PlayerAccount playerAccount) {
+        this.playerAccount = playerAccount;
     }
 
     public int getScore() {
