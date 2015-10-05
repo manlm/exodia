@@ -1,14 +1,15 @@
 /**
  * Created by manlm1 on 9/14/2015.
  */
+
 function validOnSubmit(mess1, mess2, mess3, mess4, regex) {
     var isValidUsername = validUsername(mess1);
     var isValidPassword = validPassword(mess2, mess3, mess4, regex);
     if (!isValidUsername) {
         $("#login-username").focus();
-    }else if (!isValidPassword) {
+    } else if (!isValidPassword) {
         $("#login-password").focus();
-    }else{
+    } else {
         $("#loginform").submit();
     }
 }

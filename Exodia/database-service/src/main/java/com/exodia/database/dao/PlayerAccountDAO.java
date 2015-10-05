@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
         try {
             session = sessionFactory.openSession();
             Criteria criteria = session.createCriteria(PlayerAccount.class);
+            criteria.addOrder(Order.desc("creationTime"));
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));

@@ -39,47 +39,51 @@
     </div>
 
     <div style="width: 100%">
-        <table id="myTable" class="table table-striped" style="width: 100%">
+        <table id="myTable" class="table table-striped fixed" style="width: 100%">
             <thead style="width: 100%">
             <tr style="width: 100%">
-                <th></th>
-                <th id="th-search-username" style="width: 23%">
+                <th style="width: 5%"></th>
+                <th id="th-search-username" style="width: 18%">
                     <input id="search-username" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_username"/>"/>
                 </th>
-                <th id="th-search-email" style=" width: 31%">
+                <th id="th-search-email" style=" width: 32%">
                     <input id="search_email" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_emai"/>"/>
                 </th>
-                <th id="th-search-role" style="text-align: center; width: 16%"></th>
-                <th id="th-search-status" style="text-align: center; width: 18%"></th>
+                <th id="th-search-role" style="text-align: center; width: 13%"></th>
+                <th id="th-search-status" style="text-align: center; width: 12%"></th>
+                <th style="width: 5%"></th>
+                <th style=" width: 5%"></th>
+                <th style=" width: 5%"></th>
+                <th style=" width: 5%"></th>
             </tr>
             <tr style="width: 100%" class="danger">
-                <th style="width: 1%; vertical-align: middle">
+                <th style="vertical-align: middle">
                     <spring:message code="table_column_no"/>
                 </th>
-                <th style="width: 22%; vertical-align: middle">
+                <th style="vertical-align: middle">
                     <spring:message code="table_column_username"/>
                 </th>
-                <th style="width: 34%; vertical-align: middle">
+                <th style="vertical-align: middle">
                     <spring:message code="table_column_email"/>
                 </th>
-                <th style="text-align: center; width: 14%; vertical-align: middle">
+                <th style="text-align: center; vertical-align: middle">
                     <spring:message code="table_column_role"/>
                 </th>
-                <th style="text-align: center; width: 9%; vertical-align: middle">
+                <th style="text-align: center; vertical-align: middle">
                     <spring:message code="table_column_status"/>
                 </th>
-                <th style="text-align: center; width: 5%; vertical-align: middle">
+                <th style="text-align: center; vertical-align: middle">
                     <spring:message code="table_column_access_log"/>
                 </th>
-                <th style="text-align: center; width: 5%; vertical-align: middle">
+                <th style="text-align: center; vertical-align: middle">
                     <spring:message code="table_column_resend_email"/>
                 </th>
-                <th style="text-align: center; width: 5%;vertical-align: middle">
+                <th style="text-align: center; ;vertical-align: middle">
                     <spring:message code="table_column_edit"/>
                 </th>
-                <th style="text-align: center; width: 5%;vertical-align: middle">
+                <th style="text-align: center; ;vertical-align: middle">
                     <spring:message code="table_column_delete"/>
                 </th>
             </tr>
@@ -88,10 +92,10 @@
             <tbody style="width: 100%">
             <c:forEach items="${accountList}" var="account" varStatus="counter">
                 <tr style="width: 100%" class="info">
-                    <td style="width: 1%">${counter.count}</td>
-                    <td style="width: 25%">${account.username}</td>
-                    <td style="width: 35%">${account.email}</td>
-                    <td style="text-align: center; width: 15%">
+                    <td>${counter.count}</td>
+                    <td>${account.username}</td>
+                    <td>${account.email}</td>
+                    <td style="text-align: center">
                         <c:if test="${account.role.id == 1}">
                             <spring:message code="role_account_manager"/>
                         </c:if>
@@ -99,7 +103,7 @@
                             <spring:message code="role_data_manager"/>
                         </c:if>
                     </td>
-                    <td style="text-align: center; width: 9%">
+                    <td style="text-align: center">
                         <c:if test="${account.status.id == 1}">
                             <spring:message code="status_active"/>
                         </c:if>
@@ -110,22 +114,22 @@
                             <spring:message code="status_deleted"/>
                         </c:if>
                     </td>
-                    <td style="text-align: center; width: 5%">
+                    <td style="text-align: center">
                         <a href="" style="color: green">
                             <span class="glyphicon glyphicon-download-alt"></span>
                         </a>
                     </td>
-                    <td style="text-align: center; width: 5%">
+                    <td style="text-align: center">
                         <a href="" style="color: black">
                             <span class="glyphicon glyphicon-envelope"></span>
                         </a>
                     </td>
-                    <td style="text-align: center; width: 5%">
+                    <td style="text-align: center">
                         <a href="" style="color: lightseagreen">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     </td>
-                    <td style="text-align: center; width: 5%">
+                    <td style="text-align: center">
                         <a href="" style="color: red">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>

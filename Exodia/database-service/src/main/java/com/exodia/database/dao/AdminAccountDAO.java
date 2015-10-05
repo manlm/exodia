@@ -5,6 +5,7 @@ import com.exodia.database.dao.common.GenericHibernateDAO;
 import com.exodia.database.entity.AdminAccount;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
         try {
             session = sessionFactory.openSession();
             Criteria criteria = session.createCriteria(AdminAccount.class);
+            criteria.addOrder(Order.desc("creationTime"));
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));

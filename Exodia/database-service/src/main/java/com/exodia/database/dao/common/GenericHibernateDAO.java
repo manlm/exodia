@@ -38,6 +38,7 @@ public abstract class GenericHibernateDAO<E> implements GenericDAO<E>, Serializa
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[save] Error: ").append(e.getMessage()));
             session.getTransaction().rollback();
+            return null;
         }
         LOG.info("[save] End");
         return entity;
@@ -62,6 +63,7 @@ public abstract class GenericHibernateDAO<E> implements GenericDAO<E>, Serializa
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[update] Error: ").append(e.getMessage()));
             session.getTransaction().rollback();
+            return null;
         }
         LOG.info("[update] End");
         return entity;

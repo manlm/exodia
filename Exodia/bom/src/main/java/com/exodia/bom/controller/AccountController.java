@@ -26,22 +26,13 @@ public class AccountController {
     private static final Logger LOG = Logger.getLogger(AccountController.class);
 
     @Autowired
-    private AdminAccountDAO adminAccountDAO;
-
-    @Autowired
     private AccountService accountService;
-
-    @Autowired
-    private CSVService csvService;
-
-    @Autowired
-    private UserRolesDAO userRolesDAO;
 
     @RequestMapping(value = "/viewAdminAccount", method = RequestMethod.GET)
     public ModelAndView viewAdminAccount() {
         LOG.info("[viewAdminAccount] Start");
         ModelAndView model = new ModelAndView("viewAdminAccount");
-        List<AdminAccount> list = adminAccountDAO.getAll();
+        List<AdminAccount> list = accountService.getAllAdminAccount();
         model.addObject("accountList", list);
         LOG.info("[viewAdminAccount] End");
         return model;
@@ -64,7 +55,7 @@ public class AccountController {
     public ModelAndView viewAddAdminAccount() {
         LOG.info("[viewAddAdminAccount] Start");
         ModelAndView model = new ModelAndView("addAdminAccount");
-        List<UserRoles> list = userRolesDAO.getAll();
+        List<UserRoles> list = accountService.getAllRole();
         model.addObject("roleList", list);
         LOG.info("[viewAddAdminAccount] End");
         return model;
@@ -78,7 +69,7 @@ public class AccountController {
                                         @RequestParam(name = "role") String role) {
         LOG.info("[addAdminAccount] Start");
         ModelAndView model = new ModelAndView("addAdminAccount");
-
+        accountService.addAdminAccount(username, email, password, confirmPassword, role);
         LOG.info("[addAdminAccount] End");
         return model;
     }

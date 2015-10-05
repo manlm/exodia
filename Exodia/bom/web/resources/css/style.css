@@ -13,6 +13,14 @@ body {
     /*background-color: hsla(120, 100%, 50%, 0.1);*/
 }
 
+table.fixed {
+    table-layout: fixed;
+}
+
+table.fixed td {
+    overflow: auto;
+}
+
 .page-title {
     margin-top: 0px;
     font-size: x-large;
@@ -20,17 +28,17 @@ body {
 }
 
 .form-input {
-    width: 60%;
+    width: 100%;
 }
 
 .div-input {
     display: inline-flex;
-    width: 50%;
+    width: 30%;
 }
 
 .div-error {
-;
-    width: 50%;
+    display: inline-flex;
+    width: 70%;
     align-content: center;
     padding-left: 10px
 }
@@ -42,5 +50,8 @@ body {
 
 .input-error {
     border: none;
-    background: none
+    background: none;
+    color: red;
+    font-size: small;
+    width: 100%;
 }

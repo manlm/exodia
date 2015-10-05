@@ -9,6 +9,7 @@ import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserRoles;
+import com.exodia.database.entity.UserStatus;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,24 @@ public class AccountService {
 
     @Autowired
     private UserRolesDAO userRolesDAO;
+
+    /**
+     * Get all Admin Account
+     *
+     * @return
+     */
+    public List<AdminAccount> getAllAdminAccount() {
+        return adminAccountDAO.getAll();
+    }
+
+    /**
+     * Get all User Role
+     *
+     * @return
+     */
+    public List<UserRoles> getAllRole() {
+        return userRolesDAO.getAll();
+    }
 
     /**
      * Reset password of an account
@@ -124,15 +143,37 @@ public class AccountService {
         LOG.info("[exportAdmin] End");
     }
 
-    public boolean add(String username, String email, String password, String confirmPassword, String role) {
+    /**
+     * Add a new Admin Account
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @param confirmPassword
+     * @param role
+     * @return
+     */
+    public boolean addAdminAccount(String username, String email, String password, String confirmPassword, String role) {
+        LOG.info(new StringBuilder("[addAdminAccount] Start: username = ").append(username)
+                .append(", email = ").append(email).append(", role = ").append(role));
+
         AdminAccount account = new AdminAccount();
         UserRoles roles = new UserRoles();
         roles.setId(Integer.valueOf(role));
+        UserStatus status = new UserStatus();
+        status.setId(Constant.STATUS_ID.INACTIVE.getValue());
+
         account.setUsername(username);
         account.setEmail(email);
         account.setPassword(password);
         account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
         account.setRole(roles);
+        account.setStatus(status);
+        if (adminAccountDAO.save(account) != null) {
+            LOG.info("[addAdminAccount] End");
+            return true;
+        }
+        LOG.info("[addAdminAccount] End");
         return false;
     }
 }

@@ -14,7 +14,7 @@ $(document).ready(function () {
             // search role
             var columnRole = api.column(3);
             var selectRole = $('<select id="search-role" class="form-control" name="search-role" style="width: 100%">' +
-                '<option value="" default selected>Select Role</option></select>')
+                '<option value="" default selected>Role</option></select>')
                 .appendTo("#th-search-role")
                 .on('change', function () {
                     var val = $.fn.dataTable.util.escapeRegex(
@@ -33,7 +33,7 @@ $(document).ready(function () {
             // search status
             var columnStatus = api.column(4);
             var selectStatus = $('<select id="search-status" class="form-control" name="search-role" style="width: 100%">' +
-                '<option value="" default selected>Select Status</option></select>')
+                '<option value="" default selected>Status</option></select>')
                 .appendTo("#th-search-status")
                 .on('change', function () {
                     var val = $.fn.dataTable.util.escapeRegex(

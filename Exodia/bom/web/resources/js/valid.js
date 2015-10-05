@@ -9,6 +9,17 @@ function commonValidUsername() {
     return 0;
 }
 
+function commonValidEmail(regex) {
+    var email = $(".email").val();
+    if (email.length < 1) {
+        return 1;
+    } else if (!email.match(regex)) {
+        return 2;
+    }
+    return 0;
+}
+
+
 function commonValidPassword(regex) {
     var password = $(".password").val();
     if (password.length < 1) {
@@ -20,13 +31,11 @@ function commonValidPassword(regex) {
     }
     return 0;
 }
-
-function commonValidEmail(regex) {
-    var email = $(".email").val();
-    if (email.length < 1) {
+function commonValidConfirmPassword() {
+    var password = $(".password").val();
+    var confirmPassword = $(".confirm-password").val();
+    if (password != confirmPassword) {
         return 1;
-    } else if (!email.match(regex)) {
-        return 2;
     }
     return 0;
 }
