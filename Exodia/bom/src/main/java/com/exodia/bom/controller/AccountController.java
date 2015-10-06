@@ -9,10 +9,12 @@ import com.exodia.database.entity.UserRoles;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -52,11 +54,12 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/viewAddAdminAccount", method = RequestMethod.GET)
-    public ModelAndView viewAddAdminAccount() {
+    public ModelAndView viewAddAdminAccount(@ModelAttribute(value = "success") String success) {
         LOG.info("[viewAddAdminAccount] Start");
         ModelAndView model = new ModelAndView("addAdminAccount");
         List<UserRoles> list = accountService.getAllRole();
         model.addObject("roleList", list);
+        model.addObject(success);
         LOG.info("[viewAddAdminAccount] End");
         return model;
     }
@@ -66,10 +69,13 @@ public class AccountController {
                                         @RequestParam(name = "email") String email,
                                         @RequestParam(name = "password") String password,
                                         @RequestParam(name = "confirmPassword") String confirmPassword,
-                                        @RequestParam(name = "role") String role) {
+                                        @RequestParam(name = "role") String role,
+                                        RedirectAttributes redirectAttributes) {
         LOG.info("[addAdminAccount] Start");
-        ModelAndView model = new ModelAndView("addAdminAccount");
-        accountService.addAdminAccount(username, email, password, confirmPassword, role);
+        ModelAndView model = new ModelAndView("redirect:viewAddAdminAccount");
+        if (accountService.addAdminAccount(username, email, password, confirmPassword, role)) {
+            redirectAttributes.addFlashAttribute("success", true);
+        }
         LOG.info("[addAdminAccount] End");
         return model;
     }

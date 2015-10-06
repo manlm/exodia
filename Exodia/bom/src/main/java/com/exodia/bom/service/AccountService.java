@@ -165,7 +165,7 @@ public class AccountService {
 
         account.setUsername(username);
         account.setEmail(email);
-        account.setPassword(password);
+        account.setPassword(MD5Util.stringToMD5(password));
         account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
         account.setRole(roles);
         account.setStatus(status);

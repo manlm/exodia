@@ -132,7 +132,8 @@
                    onclick="validOnSubmit('<spring:message code="error_enter_username"/>'
                            ,'<spring:message code="error_enter_email"/>'
                            ,'<spring:message code="error_email_pattern"/>'
-                           ,<spring:message code="regex_email"/>
+                           ,
+                   <spring:message code="regex_email"/>
                            ,'<spring:message code="error_enter_password"/>'
                            ,'<spring:message code="error_password_length"/>'
                            ,'<spring:message code="error_password_pattern"/>'
@@ -142,3 +143,36 @@
     </form>
 
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" role="dialog" style="">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="add_admin_success"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px"
+                        onclick="redirectPage()">
+                    <spring:message code="btn_ok"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function redirectPage() {
+        window.location = "${pageContext.request.contextPath}/viewAdminAccount";
+    }
+
+    $(document).ready(function () {
+        var show = ${success};
+        if (show == true) {
+            $('#successModal').modal('show');
+        }
+    });
+</script>
