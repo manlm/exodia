@@ -42,6 +42,9 @@ public class AccountService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private ValidService validService;
+
     /**
      * Get all Admin Account
      *
@@ -157,11 +160,16 @@ public class AccountService {
      * @param username
      * @param email
      * @param role
-     * @return
+     * @return 2 Email existed, 1 add success, 0 add failed
      */
-    public boolean addAdminAccount(String username, String email, String role) {
+    public int addAdminAccount(String username, String email, String role) {
         LOG.info(new StringBuilder("[addAdminAccount] Start: username = ").append(username)
                 .append(", email = ").append(email).append(", role = ").append(role));
+
+        if (validService.isEmailExisted(email.toLowerCase())) {
+            LOG.info("[addAdminAccount] End");
+            return 2;
+        }
 
         AdminAccount account = new AdminAccount();
         UserRoles roles = new UserRoles();
@@ -170,7 +178,7 @@ public class AccountService {
         status.setId(Constant.STATUS_ID.INACTIVE.getValue());
 
         account.setUsername(username);
-        account.setEmail(email);
+        account.setEmail(email.toLowerCase());
         account.setPassword(MD5Util.stringToMD5(String.valueOf(PasswordUtil.generatePswd())));
         account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
         account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
@@ -179,11 +187,11 @@ public class AccountService {
         if (adminAccountDAO.save(account) != null) {
             if (resendEmail(account.getUsername())) {
                 LOG.info("[addAdminAccount] End");
-                return true;
+                return 1;
             }
         }
         LOG.info("[addAdminAccount] End");
-        return false;
+        return 0;
     }
 
     /**

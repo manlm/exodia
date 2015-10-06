@@ -4,6 +4,7 @@
 
 function validUsername(mess1) {
     var result = commonValidUsername();
+
     if (result == 1) {
         $('#username-error').val(mess1);
         return false;
@@ -33,6 +34,20 @@ function validPassword(mess1, mess2, mess3, regex) {
         $('#password-error').val(mess1);
         return false;
     } else if (result == 2) {
+        $('#password-error').val(mess2);
+        return false;
+    } else if (result == 3) {
+        $('#password-error').val(mess3);
+        return false;
+    } else {
+        $('#password-error').val('');
+        return true;
+    }
+}
+
+function validNewPassword(mess1, mess2, mess3, regex) {
+    var result = commonValidNewPassword(regex);
+    if (result == 2) {
         $('#password-error').val(mess2);
         return false;
     } else if (result == 3) {

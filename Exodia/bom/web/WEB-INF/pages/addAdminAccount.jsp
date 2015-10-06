@@ -32,6 +32,7 @@
             <div class="div-wrapper">
                 <div class="div-input">
                     <input id="username" name="username" autocomplete="off" class="form-control username"
+                           value="<c:if test="${not empty enteredUsername}">${enteredUsername}</c:if>"
                            maxlength="256"
                            placeholder="<spring:message code="placeholder_username"/>"
                            onblur="validUsername('<spring:message code="error_enter_username"/>')"
@@ -52,6 +53,7 @@
                 <div class="div-input">
                     <input id="email" name="email" autocomplete="off" class="form-control email" maxlength="254"
                            placeholder="<spring:message code="placeholder_email"/>"
+                           value="<c:if test="${not empty emailExisted}">${emailExisted}</c:if>"
                            onblur="validEmail('<spring:message code="error_enter_email"/>'
                                    ,'<spring:message code="error_email_pattern"/>'
                                    ,<spring:message code="regex_email"/>)"
@@ -60,7 +62,8 @@
                                    ,<spring:message code="regex_email"/>)">
                 </div>
                 <div class="div-error">
-                    <input id="email-error" class="input-error" readonly/>
+                    <input type="text" id="email-error" class="input-error" readonly
+                           value="<c:if test="${not empty emailExisted}"><spring:message code="error_email_existed"/></c:if>"/>
                 </div>
             </div>
         </div>
@@ -87,13 +90,7 @@
                    onclick="validOnSubmit('<spring:message code="error_enter_username"/>'
                            ,'<spring:message code="error_enter_email"/>'
                            ,'<spring:message code="error_email_pattern"/>'
-                           ,
-                   <spring:message code="regex_email"/>
-                           ,'<spring:message code="error_enter_password"/>'
-                           ,'<spring:message code="error_password_length"/>'
-                           ,'<spring:message code="error_password_pattern"/>'
-                           ,<spring:message code="regex_password"/>)
-                           ,'<spring:message code="error_confirm_password"/>'">
+                           ,<spring:message code="regex_email"/>)">
         </div>
     </form>
 

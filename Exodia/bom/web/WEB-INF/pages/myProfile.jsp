@@ -9,8 +9,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/myProfile.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/validAdminAccount.js"></script>
 
 <title><spring:message code="title_my_profile"/></title>
@@ -69,11 +69,11 @@
 
         <%--Old Password--%>
         <div>
-            <label><spring:message code="old_password"/></label><br>
+            <label><spring:message code="password"/></label><br>
 
             <div class="div-wrapper">
                 <div class="div-input">
-                    <input type="password" id="old-password" name="old-password" autocomplete="off"
+                    <input type="password" id="old-password" name="oldPassword" autocomplete="off"
                            class="form-control old-password" maxlength="32"
                            placeholder="<spring:message code="placeholder_password"/>"
                            onblur="validOldPassword('<spring:message code="error_enter_password"/>'
@@ -94,19 +94,19 @@
 
         <%--Password--%>
         <div>
-            <label><spring:message code="password"/></label><br>
+            <label><spring:message code="new_password"/></label><br>
 
             <div class="div-wrapper">
                 <div class="div-input">
-                    <input type="password" id="password" name="password" autocomplete="off"
-                           class="form-control password" maxlength="32"
+                    <input type="password" id="new-password" name="newPassword" autocomplete="off"
+                           class="form-control new-password" maxlength="32"
                            placeholder="<spring:message code="placeholder_password"/>"
-                           onblur="validPassword('<spring:message code="error_enter_password"/>'
+                           onblur="validNewPassword('<spring:message code="error_enter_password"/>'
                                    ,'<spring:message code="error_password_length"/>'
                                    ,'<spring:message code="error_password_pattern"/>'
                                    ,<spring:message code="regex_password"/>);
                                    validConfirmPassword('<spring:message code="error_confirm_password"/>')"
-                           onkeyup="validPassword('<spring:message code="error_enter_password"/>'
+                           onkeyup="validNewPassword('<spring:message code="error_enter_password"/>'
                                    ,'<spring:message code="error_password_length"/>'
                                    ,'<spring:message code="error_password_pattern"/>'
                                    ,<spring:message code="regex_password"/>);
@@ -125,7 +125,7 @@
 
             <div class="div-wrapper">
                 <div class="div-input">
-                    <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="off"
+                    <input type="password" id="confirm-password" name="confirmPassword" autocomplete="off"
                            class="form-control confirm-password" maxlength="32"
                            placeholder="<spring:message code="placeholder_confirm_password"/>"
                            onblur="validConfirmPassword('<spring:message code="error_confirm_password"/>')"
@@ -136,7 +136,24 @@
                 </div>
             </div>
         </div>
-        <br>
+        <br><br>
+
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" name="username" value="${account.username}"/>
+
+
+        <div>
+            <input type="button" id="btn-add" class="btn btn-success" style="border-radius: 0px"
+                   value="<spring:message code="btn_update"/>"
+                   onclick="validOnSubmit('<spring:message code="error_enter_email"/>'
+                           ,'<spring:message code="error_email_pattern"/>'
+                           ,<spring:message code="regex_email"/>
+                           ,'<spring:message code="error_enter_password"/>'
+                           ,'<spring:message code="error_password_length"/>'
+                           ,'<spring:message code="error_password_pattern"/>'
+                           ,<spring:message code="regex_password"/>
+                           ,'<spring:message code="error_confirm_password"/>')">
+        </div>
 
     </form>
 
@@ -148,5 +165,6 @@
         $('#span-creation-time').html(creationTime.customFormat("#YYYY#/#MM#/#DD# #hh#:#mm#:#ss#"));
         var lastUpdate = new Date(${account.lastUpdate});
         $('#span-last-update').html(lastUpdate.customFormat("#YYYY#/#MM#/#DD# #hh#:#mm#:#ss#"));
+
     });
 </script>

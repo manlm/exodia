@@ -70,14 +70,26 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/viewAddAdminAccount", method = RequestMethod.GET)
-    public ModelAndView viewAddAdminAccount(@ModelAttribute(value = "success") String success) {
+    public ModelAndView viewAddAdminAccount(@ModelAttribute(value = "success") String success,
+                                            @ModelAttribute(value = "emailExisted") String emailExisted,
+                                            @ModelAttribute(value = "enteredUsername") String enteredUsername) {
         LOG.info("[viewAddAdminAccount] Start");
         ModelAndView model = new ModelAndView("addAdminAccount");
         List<UserRoles> list = accountService.getAllRole();
         model.addObject("roleList", list);
-        if (success != null) {
+
+        if (!success.equals("")) {
             model.addObject(success);
         }
+
+        if (!emailExisted.equals("")) {
+            model.addObject(emailExisted);
+        }
+
+        if (!enteredUsername.equals("")) {
+            model.addObject(enteredUsername);
+        }
+
         LOG.info("[viewAddAdminAccount] End");
         return model;
     }
@@ -89,7 +101,11 @@ public class AccountController {
                                         RedirectAttributes redirectAttributes) {
         LOG.info("[addAdminAccount] Start");
         ModelAndView model = new ModelAndView("redirect:viewAddAdminAccount");
-        if (accountService.addAdminAccount(username, email, role)) {
+        int result = accountService.addAdminAccount(username, email, role);
+        if (result == 2) {
+            redirectAttributes.addFlashAttribute("emailExisted", email);
+            redirectAttributes.addFlashAttribute("enteredUsername", username);
+        } else if (result == 1) {
             redirectAttributes.addFlashAttribute("success", true);
         }
         LOG.info("[addAdminAccount] End");

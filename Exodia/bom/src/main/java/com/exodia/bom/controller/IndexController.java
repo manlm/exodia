@@ -133,9 +133,9 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-    public ModelAndView updateProfile() {
+    public ModelAndView updateProfile(@RequestParam(name = "username") String username) {
         LOG.info("[updateProfile] Start");
-        ModelAndView model = new ModelAndView("redirect:viewMyProfile");
+        ModelAndView model = new ModelAndView("redirect:viewMyProfile?username=" + username);
         LOG.info("[updateProfile] End");
         return model;
     }

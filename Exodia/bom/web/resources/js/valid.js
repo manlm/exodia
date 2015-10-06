@@ -43,11 +43,26 @@ function commonValidPassword(regex) {
     return 0;
 }
 
-function commonValidConfirmPassword() {
-    var password = $(".password").val();
-    var confirmPassword = $(".confirm-password").val();
-    if (password != confirmPassword) {
+function commonValidNewPassword(regex) {
+    var password = $(".new-password").val();
+    if (password.length < 1) {
         return 1;
+    } else if (password.length < 8) {
+        return 2;
+    } else if (!password.match(regex)) {
+        return 3;
+    }
+    return 0;
+}
+
+function commonValidConfirmPassword() {
+    var password = $(".new-password").val();
+    var confirmPassword = $(".confirm-password").val();
+
+    if (password.length > 0) {
+        if (password != confirmPassword) {
+            return 1;
+        }
     }
     return 0;
 }
