@@ -2,11 +2,13 @@ package com.exodia.bom.controller;
 
 import com.exodia.bom.service.AccountService;
 import com.exodia.bom.service.CSVService;
+import com.exodia.bom.service.CommonService;
 import com.exodia.common.util.PasswordUtil;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserRoles;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,15 +33,25 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private CommonService commonService;
+
     @RequestMapping(value = "/viewAdminAccount", method = RequestMethod.GET)
-    public ModelAndView viewAdminAccount(@ModelAttribute(value = "sendEmailSuccess") String sendEmailSuccess) {
+    public ModelAndView viewAdminAccount(@ModelAttribute(value = "sendEmailSuccess") String sendEmailSuccess,
+                                         @ModelAttribute(value = "deleteSuccess") String deleteSuccess) {
         LOG.info("[viewAdminAccount] Start");
         ModelAndView model = new ModelAndView("viewAdminAccount");
         List<AdminAccount> list = accountService.getAllAdminAccount();
         model.addObject("accountList", list);
-        if (sendEmailSuccess != null) {
-            model.addObject(sendEmailSuccess);
+
+        if (!sendEmailSuccess.equals("")) {
+            model.addObject("popup", "sendEmailSuccess");
         }
+
+        if (!deleteSuccess.equals("")) {
+            model.addObject("popup", "deleteSuccess");
+        }
+
         LOG.info("[viewAdminAccount] End");
         return model;
     }
@@ -86,13 +98,35 @@ public class AccountController {
         return model;
     }
 
-    @RequestMapping(value = "/resendEmail", method = RequestMethod.GET)
+    @RequestMapping(value = "/resendEmail", method = RequestMethod.POST)
     public ModelAndView resendEmail(@RequestParam(name = "username") String username,
                                     RedirectAttributes redirectAttributes) {
         ModelAndView model = new ModelAndView("redirect:viewAdminAccount");
         if (accountService.resendEmail(username)) {
             redirectAttributes.addFlashAttribute("sendEmailSuccess", true);
         }
+        return model;
+    }
+
+    @RequestMapping(value = "/viewEditAdminAccount", method = RequestMethod.GET)
+    public ModelAndView viewEditAdminAccount(@RequestParam(name = "username") String username) {
+        LOG.info("[viewEditAdminAccount] Start");
+        ModelAndView model = new ModelAndView("viewEditAdminAccount");
+        AdminAccount account = commonService.getAdminAccountByUsername(username);
+        model.addObject("account", account);
+        LOG.info("[viewEditAdminAccount] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/deleteAdminAccount", method = RequestMethod.POST)
+    public ModelAndView deleteAdminAccount(@RequestParam(name = "username") String username,
+                                           RedirectAttributes redirectAttributes) {
+        LOG.info("[deleteAdminAccount] Start");
+        ModelAndView model = new ModelAndView("redirect:viewAdminAccount");
+        if (accountService.deleteAdminAccount(username)) {
+            redirectAttributes.addFlashAttribute("deleteSuccess", true);
+        }
+        LOG.info("[deleteAdminAccount] End");
         return model;
     }
 }

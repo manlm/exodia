@@ -24,6 +24,8 @@ public class DataService {
     private PlayerAccountDAO playerAccountDAO;
 
     public List<PlayerAccount> getAllPlayerAccount() {
+        LOG.info("[getAllPlayerAccount] Start");
+        LOG.info("[getAllPlayerAccount] End");
         return playerAccountDAO.getAll();
     }
 }

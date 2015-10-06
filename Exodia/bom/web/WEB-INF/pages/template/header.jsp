@@ -8,6 +8,10 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication var="principal" property="principal"/>
+</sec:authorize>
+
 <!-- Logo -->
 <a href="" class="logo" style="pointer-events: none; cursor: default">
     <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -26,14 +30,13 @@
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="hidden-xs">
-                        <sec:authorize access="isAuthenticated()">
-                            <sec:authentication property="principal.username"/>
-                        </sec:authorize>
+                        ${principal.username}
                     </span>
                 </a>
                 <ul class="dropdown-menu" style="width:auto;">
                     <li>
-                        <a href="#" class="text-center">
+                        <a href="${pageContext.request.contextPath}/viewMyProfile?username=${principal.username}"
+                           class="text-center">
                             <spring:message code="profile"/>
                         </a>
                     </li>

@@ -29,8 +29,11 @@
 <div class="box-body">
     <div>
         <form id="export-form" action="${pageContext.request.contextPath}/exportAdmin" method="POST">
-            <input type="button" id="btn-export" class="btn btn-success" style="border-radius: 0px"
-                   value="<spring:message code="btn_export"/>" onclick="getSearchValue()">
+            <button type="button" class="btn btn-success" aria-label="Left Align" style="border-radius: 0px"
+                    onclick="getSearchValue()">
+                <span class="glyphicon glyphicon-export" aria-hidden="true"></span>
+                <spring:message code="btn_export"/>
+            </button>
             <input type="hidden" id="txtSearchUsername" name="txtSearchUsername" value=""/>
             <input type="hidden" id="txtSearchEmail" name="txtSearchEmail" value=""/>
             <input type="hidden" id="txtSearchRole" name="txtSearchRole" value=""/>
@@ -40,7 +43,7 @@
     </div>
 
     <div style="width: 100%">
-        <table id="myTable" class="table table-striped fixed" style="width: 100%">
+        <table id="myTable" class="table table-striped fixed table-hover" style="width: 100%">
             <thead style="width: 100%">
             <tr style="width: 100%">
                 <th style="width: 5%"></th>
@@ -121,18 +124,20 @@
                         </a>
                     </td>
                     <td style="text-align: center">
-                        <a href="${pageContext.request.contextPath}/resendEmail?${_csrf.parameterName}=${_csrf.token}&username=${account.username}"
+                        <a href="#" onclick="resendEmail('${account.username}')"
                            style="color: black">
                             <span class="glyphicon glyphicon-envelope"></span>
                         </a>
                     </td>
                     <td style="text-align: center">
-                        <a href="" style="color: lightseagreen">
+                        <a href="${pageContext.request.contextPath}/viewEditAdminAccount?username=${account.username}"
+                           style="color: lightseagreen">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     </td>
                     <td style="text-align: center">
-                        <a href="" style="color: red">
+                        <a href="#" onclick="deleteAccount('${account.username}')"
+                           style="color: red">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>
@@ -143,9 +148,18 @@
     </div>
 </div>
 
+<form id="resendEmailForm" action="resendEmail" method="POST">
+    <input id="resend-username" name="username" type="hidden">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<form id="deleteForm" action="deleteAdminAccount" method="POST">
+    <input id="delete-username" name="username" type="hidden">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+
+<!-- Inform Modal -->
+<div class="modal fade" id="myModal" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" style="width: 300px; margin: 0 auto">
 
         <!-- Modal content-->
@@ -162,12 +176,57 @@
     </div>
 </div>
 
+<!-- Confirm Resend Email Modal -->
+<div class="modal fade" id="resendModal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-radius: 0px">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="resend_email"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" style="border-radius: 0px" onclick="submitResendEmail()">
+                    <spring:message code="btn_ok"/>
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">
+                    <spring:message code="btn_cancel"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="deleteModal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-radius: 0px">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="delete_account"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" style="border-radius: 0px" onclick="submitResendEmail()">
+                    <spring:message code="btn_ok"/>
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">
+                    <spring:message code="btn_cancel"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
-        var show = ${sendEmailSuccess};
-        if (show == true) {
+        var show = '${popup}';
+        if (show == 'sendEmailSuccess') {
             $('#myModal').modal('show');
             $("#popup-message").html("<spring:message code="resend_active_success"/>");
+        } else if (show == 'deleteSuccess') {
+            $('#myModal').modal('show');
+            $("#popup-message").html("<spring:message code="delete_success"/>");
         }
     });
 </script>

@@ -8,12 +8,20 @@
         <put-attribute name="body" value="/WEB-INF/pages/hello.jsp"/>
     </definition>
 
+    <definition name="myProfile" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/myProfile.jsp"/>
+    </definition>
+
     <definition name="viewAdminAccount" extends="DefaultTemplate">
         <put-attribute name="body" value="/WEB-INF/pages/viewAdminAccount.jsp"/>
     </definition>
 
     <definition name="addAdminAccount" extends="DefaultTemplate">
         <put-attribute name="body" value="/WEB-INF/pages/addAdminAccount.jsp"/>
+    </definition>
+
+    <definition name="viewEditAdminAccount" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/editAdminAccount.jsp"/>
     </definition>
 
     <definition name="viewPlayerAccount" extends="DefaultTemplate">

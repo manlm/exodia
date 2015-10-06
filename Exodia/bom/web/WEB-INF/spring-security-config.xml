@@ -18,6 +18,8 @@
         <intercept-url pattern="/exportAdmin" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/viewAddAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/addAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/viewEditAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/updatetAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/resendEmail" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/viewPlayerAccount" access="hasRole('DATA_MANAGER')"/>
 
@@ -33,8 +35,7 @@
         <logout invalidate-session="true"
                 logout-url="/j_spring_security_logout"
                 success-handler-ref="logoutHandler"/>
-        <!-- enable csrf protection -->
-        <csrf/>
+
     </http>
 
     <authentication-manager>

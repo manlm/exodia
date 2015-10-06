@@ -74,7 +74,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="successModal" role="dialog" style="">
+<div class="modal fade" id="successModal" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" style="width: 300px; margin: 0 auto">
 
         <!-- Modal content-->

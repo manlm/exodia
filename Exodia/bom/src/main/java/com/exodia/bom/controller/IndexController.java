@@ -1,6 +1,7 @@
 package com.exodia.bom.controller;
 
 import com.exodia.bom.config.Properties;
+import com.exodia.bom.service.CommonService;
 import com.exodia.bom.service.IndexService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.MemcachedClient;
@@ -49,6 +50,9 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
+    @Autowired
+    private CommonService commonService;
+
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
                               @RequestParam(name = "error", required = false) String error,
@@ -96,19 +100,43 @@ public class IndexController {
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main() {
+
+        LOG.info("[main] Start");
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String role = String.valueOf(user.getAuthorities().iterator().next());
         if (role.equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {
+            LOG.info(new StringBuilder("[main] End: role = ").append(role));
             return "redirect:viewAdminAccount";
         } else if (role.equals(String.valueOf(Constant.ADMIN_ROLE.DATA_MANAGER))) {
+            LOG.info(new StringBuilder("[main] End: role = ").append(role));
             return "redirect:viewPlayerAccount";
         }
+        LOG.info(new StringBuilder("[main] End: role = ").append(role));
         return "redirect:login";
     }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public ModelAndView hello() {
         ModelAndView model = new ModelAndView("hello");
+        return model;
+    }
+
+    @RequestMapping(value = "/viewMyProfile", method = RequestMethod.GET)
+    public ModelAndView viewMyProfile(@RequestParam(name = "username") String username) {
+        LOG.info("[viewMyProfile] Start");
+        ModelAndView model = new ModelAndView("myProfile");
+        AdminAccount account = commonService.getAdminAccountByUsername(username);
+        model.addObject("account", account);
+        LOG.info("[viewMyProfile] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+    public ModelAndView updateProfile() {
+        LOG.info("[updateProfile] Start");
+        ModelAndView model = new ModelAndView("redirect:viewMyProfile");
+        LOG.info("[updateProfile] End");
         return model;
     }
 
@@ -140,7 +168,6 @@ public class IndexController {
     @RequestMapping(value = "/addPlayer", method = RequestMethod.GET)
     public String addPlayer(ModelMap model) {
         model.addAttribute("message", "Hello world!");
-
 
         UserStatus status = new UserStatus();
         status.setId(1);

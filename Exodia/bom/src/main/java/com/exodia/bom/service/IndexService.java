@@ -28,6 +28,12 @@ public class IndexService {
     @Autowired
     private AdminAccountDAO adminAccountDAO;
 
+    /**
+     * Send email reset password of Admin Account
+     *
+     * @param email
+     * @return
+     */
     public boolean forgotPassword(String email) {
 
         LOG.info(new StringBuilder("[forgotPassword] Start: email = ").append(email));
@@ -43,5 +49,4 @@ public class IndexService {
         LOG.info("[forgotPassword End");
         return result;
     }
-
 }

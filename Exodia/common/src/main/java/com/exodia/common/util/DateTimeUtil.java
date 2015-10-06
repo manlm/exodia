@@ -12,12 +12,24 @@ public class DateTimeUtil {
 
     private static final Logger LOG = Logger.getLogger(DateTimeUtil.class);
 
+    /**
+     * Get current DateTime in millis
+     *
+     * @return
+     */
     public static long getCurUTCInMilliseconds() {
         LOG.info("[getCurUTCInMilliseconds] Start");
         LOG.info("[getCurUTCInMilliseconds] End");
         return System.currentTimeMillis();
     }
 
+    /**
+     * Convert millis to DateTime
+     *
+     * @param milliSeconds
+     * @param dateFormat
+     * @return
+     */
     public static String getDate(long milliSeconds, String dateFormat) {
 
         LOG.info(new StringBuilder("[getDate] Start: milliSeconds = ").append(milliSeconds)

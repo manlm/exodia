@@ -48,6 +48,8 @@ public class AccountService {
      * @return
      */
     public List<AdminAccount> getAllAdminAccount() {
+        LOG.info("[getAllAdminAccount] Start");
+        LOG.info("[getAllAdminAccount] End");
         return adminAccountDAO.getAll();
     }
 
@@ -57,6 +59,8 @@ public class AccountService {
      * @return
      */
     public List<UserRoles> getAllRole() {
+        LOG.info("[getAllRole] Start");
+        LOG.info("[getAllRole] End");
         return userRolesDAO.getAll();
     }
 
@@ -171,6 +175,7 @@ public class AccountService {
         account.setEmail(email);
         account.setPassword(MD5Util.stringToMD5(password));
         account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
+        account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
         account.setRole(roles);
         account.setStatus(status);
         if (adminAccountDAO.save(account) != null) {
@@ -201,5 +206,28 @@ public class AccountService {
 
         LOG.info("[resendEmail] Ennd");
         return result;
+    }
+
+    /**
+     * Delete an Admin Account
+     *
+     * @param username
+     * @return
+     */
+    public boolean deleteAdminAccount(String username) {
+
+        LOG.info(new StringBuilder("[deleteAdminAccount] Start: username = ").append(username));
+
+        AdminAccount account = adminAccountDAO.getByUsername(username);
+        UserStatus status = new UserStatus();
+        status.setId(Constant.STATUS_ID.DELETED.getValue());
+        account.setStatus(status);
+        account = adminAccountDAO.update(account);
+        if (account != null) {
+            LOG.info("[deleteAdminAccount] End");
+            return true;
+        }
+        LOG.info("[deleteAdminAccount] End");
+        return false;
     }
 }

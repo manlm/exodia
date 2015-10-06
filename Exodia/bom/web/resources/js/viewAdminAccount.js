@@ -75,3 +75,21 @@ function getSearchValue() {
     $("#txtSearchStatus").val($("#search-status").val());
     $("#export-form").submit();
 }
+
+function resendEmail(param) {
+    $("#resend-username").val(param);
+    $('#resendModal').modal('show');
+}
+
+function submitResendEmail() {
+    $("#resendEmailForm").submit();
+}
+
+function deleteAccount(param) {
+    $("#delete-username").val(param);
+    $('#deleteModal').modal('show');
+}
+
+function submitResendEmail() {
+    $("#deleteForm").submit();
+}
