@@ -11,14 +11,9 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/myProfile.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/validAdminAccount.js"></script>
 
 <title><spring:message code="title_my_profile"/></title>
-
-<style>
-    .borderless td, .borderless th .borderless tr {
-        border: none;
-    }
-</style>
 
 <div>
     <h2 class="page-title">
@@ -72,25 +67,23 @@
         </div>
         <br>
 
-        <%--Password--%>
+        <%--Old Password--%>
         <div>
             <label><spring:message code="old_password"/></label><br>
 
             <div class="div-wrapper">
                 <div class="div-input">
                     <input type="password" id="old-password" name="old-password" autocomplete="off"
-                           class="form-control password" maxlength="32"
+                           class="form-control old-password" maxlength="32"
                            placeholder="<spring:message code="placeholder_password"/>"
-                           onblur="validPassword('<spring:message code="error_enter_password"/>'
+                           onblur="validOldPassword('<spring:message code="error_enter_password"/>'
                                    ,'<spring:message code="error_password_length"/>'
                                    ,'<spring:message code="error_password_pattern"/>'
-                                   ,<spring:message code="regex_password"/>);
-                                   validConfirmPassword('<spring:message code="error_confirm_password"/>')"
-                           onkeyup="validPassword('<spring:message code="error_enter_password"/>'
+                                   ,<spring:message code="regex_password"/>)"
+                           onkeyup="validOldPassword('<spring:message code="error_enter_password"/>'
                                    ,'<spring:message code="error_password_length"/>'
                                    ,'<spring:message code="error_password_pattern"/>'
-                                   ,<spring:message code="regex_password"/>);
-                                   validConfirmPassword('<spring:message code="error_confirm_password"/>')">
+                                   ,<spring:message code="regex_password"/>)">
                 </div>
                 <div class="div-error">
                     <input id="old-password-error" class="input-error" readonly/>

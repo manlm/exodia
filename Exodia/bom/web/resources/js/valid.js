@@ -19,6 +19,17 @@ function commonValidEmail(regex) {
     return 0;
 }
 
+function commonValidOldPassword(regex) {
+    var password = $(".old-password").val();
+    if (password.length < 1) {
+        return 1;
+    } else if (password.length < 8) {
+        return 2;
+    } else if (!password.match(regex)) {
+        return 3;
+    }
+    return 0;
+}
 
 function commonValidPassword(regex) {
     var password = $(".password").val();
@@ -31,6 +42,7 @@ function commonValidPassword(regex) {
     }
     return 0;
 }
+
 function commonValidConfirmPassword() {
     var password = $(".password").val();
     var confirmPassword = $(".confirm-password").val();

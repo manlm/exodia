@@ -11,6 +11,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/addAdminAccount.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/validAdminAccount.js"></script>
 
 <title><spring:message code="title_add_admin_account"/></title>
 
@@ -60,52 +61,6 @@
                 </div>
                 <div class="div-error">
                     <input id="email-error" class="input-error" readonly/>
-                </div>
-            </div>
-        </div>
-        <br>
-
-        <%--Password--%>
-        <div>
-            <label><spring:message code="password"/></label><br>
-
-            <div class="div-wrapper">
-                <div class="div-input">
-                    <input type="password" id="password" name="password" autocomplete="off"
-                           class="form-control password" maxlength="32"
-                           placeholder="<spring:message code="placeholder_password"/>"
-                           onblur="validPassword('<spring:message code="error_enter_password"/>'
-                                   ,'<spring:message code="error_password_length"/>'
-                                   ,'<spring:message code="error_password_pattern"/>'
-                                   ,<spring:message code="regex_password"/>);
-                                   validConfirmPassword('<spring:message code="error_confirm_password"/>')"
-                           onkeyup="validPassword('<spring:message code="error_enter_password"/>'
-                                   ,'<spring:message code="error_password_length"/>'
-                                   ,'<spring:message code="error_password_pattern"/>'
-                                   ,<spring:message code="regex_password"/>);
-                                   validConfirmPassword('<spring:message code="error_confirm_password"/>')">
-                </div>
-                <div class="div-error">
-                    <input id="password-error" class="input-error" readonly/>
-                </div>
-            </div>
-        </div>
-        <br>
-
-        <%--Confirm Password--%>
-        <div>
-            <label><spring:message code="confirm_password"/></label><br>
-
-            <div class="div-wrapper">
-                <div class="div-input">
-                    <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="off"
-                           class="form-control confirm-password" maxlength="32"
-                           placeholder="<spring:message code="placeholder_confirm_password"/>"
-                           onblur="validConfirmPassword('<spring:message code="error_confirm_password"/>')"
-                           onkeyup="validConfirmPassword('<spring:message code="error_confirm_password"/>')">
-                </div>
-                <div class="div-error">
-                    <input id="confirm-password-error" class="input-error" readonly/>
                 </div>
             </div>
         </div>

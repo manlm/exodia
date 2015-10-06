@@ -124,10 +124,12 @@
                         </a>
                     </td>
                     <td style="text-align: center">
-                        <a href="#" onclick="resendEmail('${account.username}')"
-                           style="color: black">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                        </a>
+                        <c:if test="${account.status.id == 2}">
+                            <a href="#" onclick="resendEmail('${account.username}')"
+                               style="color: black">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+                        </c:if>
                     </td>
                     <td style="text-align: center">
                         <a href="${pageContext.request.contextPath}/viewEditAdminAccount?username=${account.username}"
@@ -136,10 +138,12 @@
                         </a>
                     </td>
                     <td style="text-align: center">
-                        <a href="#" onclick="deleteAccount('${account.username}')"
-                           style="color: red">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
+                        <c:if test="${account.status.id != 7}">
+                            <a href="#" onclick="deleteAccount('${account.username}')"
+                               style="color: red">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>

@@ -10,7 +10,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/myProfile.js"></script>
 
 <title><spring:message code="title_edit_admin_account"/></title>
 

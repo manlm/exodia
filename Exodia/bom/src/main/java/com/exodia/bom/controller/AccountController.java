@@ -85,13 +85,11 @@ public class AccountController {
     @RequestMapping(value = "/addAdminAccount", method = RequestMethod.POST)
     public ModelAndView addAdminAccount(@RequestParam(name = "username") String username,
                                         @RequestParam(name = "email") String email,
-                                        @RequestParam(name = "password") String password,
-                                        @RequestParam(name = "confirmPassword") String confirmPassword,
                                         @RequestParam(name = "role") String role,
                                         RedirectAttributes redirectAttributes) {
         LOG.info("[addAdminAccount] Start");
         ModelAndView model = new ModelAndView("redirect:viewAddAdminAccount");
-        if (accountService.addAdminAccount(username, email, password, confirmPassword, role)) {
+        if (accountService.addAdminAccount(username, email, role)) {
             redirectAttributes.addFlashAttribute("success", true);
         }
         LOG.info("[addAdminAccount] End");

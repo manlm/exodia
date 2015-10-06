@@ -156,12 +156,10 @@ public class AccountService {
      *
      * @param username
      * @param email
-     * @param password
-     * @param confirmPassword
      * @param role
      * @return
      */
-    public boolean addAdminAccount(String username, String email, String password, String confirmPassword, String role) {
+    public boolean addAdminAccount(String username, String email, String role) {
         LOG.info(new StringBuilder("[addAdminAccount] Start: username = ").append(username)
                 .append(", email = ").append(email).append(", role = ").append(role));
 
@@ -173,14 +171,16 @@ public class AccountService {
 
         account.setUsername(username);
         account.setEmail(email);
-        account.setPassword(MD5Util.stringToMD5(password));
+        account.setPassword(MD5Util.stringToMD5(String.valueOf(PasswordUtil.generatePswd())));
         account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
         account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
         account.setRole(roles);
         account.setStatus(status);
         if (adminAccountDAO.save(account) != null) {
-            LOG.info("[addAdminAccount] End");
-            return true;
+            if (resendEmail(account.getUsername())) {
+                LOG.info("[addAdminAccount] End");
+                return true;
+            }
         }
         LOG.info("[addAdminAccount] End");
         return false;
