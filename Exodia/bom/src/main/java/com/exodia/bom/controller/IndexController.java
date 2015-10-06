@@ -123,19 +123,40 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/viewMyProfile", method = RequestMethod.GET)
-    public ModelAndView viewMyProfile(@RequestParam(name = "username") String username) {
+    public ModelAndView viewMyProfile(@RequestParam(name = "username") String username,
+                                      @ModelAttribute(value = "updateResult") String updateResult) {
         LOG.info("[viewMyProfile] Start");
         ModelAndView model = new ModelAndView("myProfile");
         AdminAccount account = commonService.getAdminAccountByUsername(username);
         model.addObject("account", account);
+        model.addObject(updateResult);
         LOG.info("[viewMyProfile] End");
         return model;
     }
 
     @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-    public ModelAndView updateProfile(@RequestParam(name = "username") String username) {
+    public ModelAndView updateProfile(@RequestParam(name = "username") String username,
+                                      @RequestParam(name = "email") String email,
+                                      @RequestParam(name = "oldPassword") String password,
+                                      @RequestParam(name = "newPassword", required = false) String newPassword,
+                                      @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
+                                      RedirectAttributes redirectAttributes) {
         LOG.info("[updateProfile] Start");
         ModelAndView model = new ModelAndView("redirect:viewMyProfile?username=" + username);
+        int result = indexService.updateProfile(username, email, password, newPassword, confirmPassword);
+
+        if (result == 2) {
+            redirectAttributes.addFlashAttribute("updateResult", "wrongPassword");
+            LOG.info("[updateProfile] End");
+            return model;
+        }
+
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("updateResult", "success");
+            LOG.info("[updateProfile] End");
+            return model;
+        }
+
         LOG.info("[updateProfile] End");
         return model;
     }

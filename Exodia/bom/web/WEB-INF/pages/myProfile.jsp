@@ -86,7 +86,8 @@
                                    ,<spring:message code="regex_password"/>)">
                 </div>
                 <div class="div-error">
-                    <input id="old-password-error" class="input-error" readonly/>
+                    <input id="old-password-error" class="input-error" readonly
+                           value="<c:if test="${updateResult == 'wrongPassword'}"><spring:message code="error_wrong_password"/></c:if>"/>
                 </div>
             </div>
         </div>
@@ -147,17 +148,39 @@
                    value="<spring:message code="btn_update"/>"
                    onclick="validOnSubmit('<spring:message code="error_enter_email"/>'
                            ,'<spring:message code="error_email_pattern"/>'
-                           ,<spring:message code="regex_email"/>
+                           ,
+                   <spring:message code="regex_email"/>
                            ,'<spring:message code="error_enter_password"/>'
                            ,'<spring:message code="error_password_length"/>'
                            ,'<spring:message code="error_password_pattern"/>'
-                           ,<spring:message code="regex_password"/>
+                           ,
+                   <spring:message code="regex_password"/>
                            ,'<spring:message code="error_confirm_password"/>')">
         </div>
 
     </form>
 
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="successModal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="update_success"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">
+                    <spring:message code="btn_ok"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function () {
@@ -166,5 +189,9 @@
         var lastUpdate = new Date(${account.lastUpdate});
         $('#span-last-update').html(lastUpdate.customFormat("#YYYY#/#MM#/#DD# #hh#:#mm#:#ss#"));
 
+        var show = '${updateResult}';
+        if (show == 'success') {
+            $('#successModal').modal('show');
+        }
     });
 </script>

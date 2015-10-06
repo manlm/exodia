@@ -1,6 +1,7 @@
 package com.exodia.bom.service;
 
 import com.exodia.bom.config.Properties;
+import com.exodia.common.util.MD5Util;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.mail.service.MailService;
@@ -48,5 +49,45 @@ public class IndexService {
 
         LOG.info("[forgotPassword End");
         return result;
+    }
+
+    /**
+     * Update Admin Account's profile
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @param newPassword
+     * @param confirmPassword
+     * @return 2 wrong password, 1 update success, 0 update failed
+     */
+    public int updateProfile(String username, String email, String password, String newPassword,
+                             String confirmPassword) {
+
+        LOG.info(new StringBuilder("[updateProfile] Start: username = ").append(username)
+                .append(", email = ").append(email));
+
+        AdminAccount account = adminAccountDAO.getByUsername(username);
+
+        if (!MD5Util.stringToMD5(password).equals(account.getPassword())) {
+            LOG.info("[updateProfile] End");
+            return 2;
+        }
+
+        account.setEmail(email);
+
+        if (!newPassword.equals("")) {
+            account.setPassword(MD5Util.stringToMD5(newPassword));
+        }
+
+        account = adminAccountDAO.update(account);
+
+        if (account != null) {
+            LOG.info("[updateProfile] End");
+            return 1;
+        }
+
+        LOG.info("[updateProfile] End");
+        return 0;
     }
 }

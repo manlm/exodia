@@ -122,8 +122,8 @@
     }
 
     $(document).ready(function () {
-        var show = ${success};
-        if (show == true) {
+        var show = '${success}';
+        if (show == 'true') {
             $('#successModal').modal('show');
         }
     });
