@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class IndexService {
 
-    private static final String RESET_PASSWORD_EMMAIL_TEMPLATE = "reset-password.vm";
-
     private static final Logger LOG = Logger.getLogger(IndexService.class);
 
     @Autowired
@@ -38,7 +36,7 @@ public class IndexService {
         boolean result = true;
         if (account != null) {
             String password = accountService.resetPassword(account);
-            result = mailService.sendMail(email, RESET_PASSWORD_EMMAIL_TEMPLATE
+            result = mailService.sendMail(email, properties.getProperty("template_reset_password")
                     , properties.getProperty("subject_reset_password"), account.getUsername(), password);
         }
 

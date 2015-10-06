@@ -2,6 +2,7 @@ package com.exodia.bom.controller;
 
 import com.exodia.bom.service.AccountService;
 import com.exodia.bom.service.CSVService;
+import com.exodia.common.util.PasswordUtil;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
@@ -31,11 +32,14 @@ public class AccountController {
     private AccountService accountService;
 
     @RequestMapping(value = "/viewAdminAccount", method = RequestMethod.GET)
-    public ModelAndView viewAdminAccount() {
+    public ModelAndView viewAdminAccount(@ModelAttribute(value = "sendEmailSuccess") String sendEmailSuccess) {
         LOG.info("[viewAdminAccount] Start");
         ModelAndView model = new ModelAndView("viewAdminAccount");
         List<AdminAccount> list = accountService.getAllAdminAccount();
         model.addObject("accountList", list);
+        if (sendEmailSuccess != null) {
+            model.addObject(sendEmailSuccess);
+        }
         LOG.info("[viewAdminAccount] End");
         return model;
     }
@@ -59,7 +63,9 @@ public class AccountController {
         ModelAndView model = new ModelAndView("addAdminAccount");
         List<UserRoles> list = accountService.getAllRole();
         model.addObject("roleList", list);
-        model.addObject(success);
+        if (success != null) {
+            model.addObject(success);
+        }
         LOG.info("[viewAddAdminAccount] End");
         return model;
     }
@@ -77,6 +83,16 @@ public class AccountController {
             redirectAttributes.addFlashAttribute("success", true);
         }
         LOG.info("[addAdminAccount] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/resendEmail", method = RequestMethod.GET)
+    public ModelAndView resendEmail(@RequestParam(name = "username") String username,
+                                    RedirectAttributes redirectAttributes) {
+        ModelAndView model = new ModelAndView("redirect:viewAdminAccount");
+        if (accountService.resendEmail(username)) {
+            redirectAttributes.addFlashAttribute("sendEmailSuccess", true);
+        }
         return model;
     }
 }

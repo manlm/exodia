@@ -9,6 +9,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+
 <head>
 
     <meta charset="utf-8">
@@ -47,7 +51,7 @@
     <div style="width: 560px">
         <div>
             <div class="form-box">
-                <div class="form-top">
+                <div class="form-top" style="border-radius: 0px">
                     <div class="form-top-left">
                         <h3>Login to our site</h3>
 
@@ -57,22 +61,30 @@
                         <i class="fa fa-lock"></i>
                     </div>
                 </div>
-                <div class="form-bottom">
-                    <form role="form" action="" method="post" class="login-form">
+                <div class="form-bottom" style="border-radius: 0px">
+                    <form role="form" action="j_spring_security_check" method="POST" class="login-form">
                         <div class="form-group">
-                            <label class="sr-only" for="form-username">Username</label>
-                            <input type="text" name="form-username" placeholder="Username..."
-                                   class="form-username form-control" id="form-username">
+                            <label class="sr-only" for="form-username"><spring:message code="username"/></label>
+                            <input type="text" name="username" style="border-radius: 0px" autocomplete="off"
+                                   placeholder="<spring:message code="placeholder_username"/>"
+                                   class="form-username form-control username" id="form-username"
+                                   value="<c:if test='${not empty loggedUsername}'>${loggedUsername}</c:if>">
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="form-password">Password</label>
-                            <input type="password" name="form-password" placeholder="Password..."
+                            <label class="sr-only" for="form-password"><spring:message code="password"/></label>
+                            <input type="password" name="password" style="border-radius: 0px" autocomplete="off"
+                                   placeholder="<spring:message code="placeholder_password"/>"
                                    class="form-password form-control" id="form-password">
                         </div>
-                        <button type="submit" class="btn">Sign in!</button>
+                        <button type="submit" style="border-radius: 0px" class="btn">
+                            <spring:message code="sign_in"/>
+                        </button>
                         <div class="forgot-pass">
-                            <a href="#">Forgot password?</a>
+                            <a href="${pageContext.request.contextPath}/showForgotPassword"><spring:message
+                                    code="forgot_password_question"/></a>
                         </div>
+
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     </form>
                 </div>
             </div>
@@ -85,7 +97,36 @@
 <script src="${pageContext.request.contextPath}/resources/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.backstretch.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/scripts.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 </body>
 
 </html>
+
+
+<!-- Modal -->
+<div class="modal fade" id="failedModal" role="dialog">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-radius: 0px">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="login_failed"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">
+                    <spring:message code="btn_ok"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var show = ${error};
+        if (show == true) {
+            $('#failedModal').modal('show');
+        }
+    });
+</script>

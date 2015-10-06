@@ -10,6 +10,7 @@ import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserRoles;
 import com.exodia.database.entity.UserStatus;
+import com.exodia.mail.service.MailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class AccountService {
 
     @Autowired
     private UserRolesDAO userRolesDAO;
+
+    @Autowired
+    private MailService mailService;
 
     /**
      * Get all Admin Account
@@ -175,5 +179,27 @@ public class AccountService {
         }
         LOG.info("[addAdminAccount] End");
         return false;
+    }
+
+    /**
+     * Resend active email for a Admin Account
+     *
+     * @param username
+     * @return
+     */
+    public boolean resendEmail(String username) {
+
+        LOG.info(new StringBuilder("[resendEmail] Start: username = ").append(username));
+
+        AdminAccount account = adminAccountDAO.getByUsername(username);
+        boolean result = true;
+        if (account != null) {
+            String password = resetPassword(account);
+            result = mailService.sendMail(account.getEmail(), properties.getProperty("template_resend_active")
+                    , properties.getProperty("subject_admin_active"), account.getUsername(), password);
+        }
+
+        LOG.info("[resendEmail] Ennd");
+        return result;
     }
 }

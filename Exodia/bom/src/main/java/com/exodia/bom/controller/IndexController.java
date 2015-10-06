@@ -62,7 +62,7 @@ public class IndexController {
         }
 
         if (error != null) {
-            model.addObject("error", "error");
+            model.addObject("error", true);
         }
 
         if (loggedUsername != null) {
@@ -95,10 +95,13 @@ public class IndexController {
 
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String main(ModelMap model) {
+    public String main() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (String.valueOf(user.getAuthorities().iterator().next()).equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {
+        String role = String.valueOf(user.getAuthorities().iterator().next());
+        if (role.equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {
             return "redirect:viewAdminAccount";
+        } else if (role.equals(String.valueOf(Constant.ADMIN_ROLE.DATA_MANAGER))) {
+            return "redirect:viewPlayerAccount";
         }
         return "redirect:login";
     }

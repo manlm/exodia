@@ -16,4 +16,8 @@
         <put-attribute name="body" value="/WEB-INF/pages/addAdminAccount.jsp"/>
     </definition>
 
+    <definition name="viewPlayerAccount" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/viewPlayerAccount.jsp"/>
+    </definition>
+
 </tiles-definitions>

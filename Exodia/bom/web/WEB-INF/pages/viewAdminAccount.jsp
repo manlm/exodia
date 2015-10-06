@@ -10,6 +10,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/viewAdminAccount.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 
 <style>
     .dataTables_filter {
@@ -54,9 +55,9 @@
                 <th id="th-search-role" style="text-align: center; width: 13%"></th>
                 <th id="th-search-status" style="text-align: center; width: 12%"></th>
                 <th style="width: 5%"></th>
-                <th style=" width: 5%"></th>
-                <th style=" width: 5%"></th>
-                <th style=" width: 5%"></th>
+                <th style="width: 5%"></th>
+                <th style="width: 5%"></th>
+                <th style="width: 5%"></th>
             </tr>
             <tr style="width: 100%" class="danger">
                 <th style="vertical-align: middle">
@@ -120,7 +121,8 @@
                         </a>
                     </td>
                     <td style="text-align: center">
-                        <a href="" style="color: black">
+                        <a href="${pageContext.request.contextPath}/resendEmail?${_csrf.parameterName}=${_csrf.token}&username=${account.username}"
+                           style="color: black">
                             <span class="glyphicon glyphicon-envelope"></span>
                         </a>
                     </td>
@@ -142,3 +144,30 @@
 </div>
 
 
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-radius: 0px">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4 id="popup-message"></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">
+                    <spring:message code="btn_ok"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var show = ${sendEmailSuccess};
+        if (show == true) {
+            $('#myModal').modal('show');
+            $("#popup-message").html("<spring:message code="resend_active_success"/>");
+        }
+    });
+</script>

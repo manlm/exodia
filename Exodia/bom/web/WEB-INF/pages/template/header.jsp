@@ -31,14 +31,14 @@
                         </sec:authorize>
                     </span>
                 </a>
-                <ul class="dropdown-menu" style="width:auto">
+                <ul class="dropdown-menu" style="width:auto;">
                     <li>
                         <a href="#" class="text-center">
                             <spring:message code="profile"/>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="text-center">
+                        <a href="#" class="text-center" onclick="document.getElementById('logoutForm').submit()">
                             <spring:message code="logout"/>
                         </a>
                     </li>
@@ -48,4 +48,9 @@
     </div>
 </nav>
 
+<form id="logoutForm" name="logoutForm" class="form-horizontal" role="form"
+      action="${pageContext.request.contextPath}/j_spring_security_logout" method="POST">
+    <input type="hidden" name="${_csrf.parameterName}"
+           value="${_csrf.token}"/>
+</form>
 
