@@ -41,11 +41,6 @@ public class PlayerAccount implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "playerAccount")
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<PlayerAccessLog> playerAccessLogList = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playerAccount")
-    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
-    @Fetch(value = FetchMode.SUBSELECT)
     private List<PlayerScore> playerScoreList = new ArrayList<>();
 
     public int getId() {
@@ -94,14 +89,6 @@ public class PlayerAccount implements Serializable {
 
     public void setLastUpdate(long lastUpdate) {
         this.lastUpdate = lastUpdate;
-    }
-
-    public List<PlayerAccessLog> getPlayerAccessLogList() {
-        return playerAccessLogList;
-    }
-
-    public void setPlayerAccessLogList(List<PlayerAccessLog> playerAccessLogList) {
-        this.playerAccessLogList = playerAccessLogList;
     }
 
     public List<PlayerScore> getPlayerScoreList() {

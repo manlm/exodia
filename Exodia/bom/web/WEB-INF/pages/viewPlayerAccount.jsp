@@ -53,7 +53,6 @@
                 <th id="th-search-status" style="text-align: center; width: 12%"></th>
                 <th style="width: 5%"></th>
                 <th style="width: 5%"></th>
-                <th style="width: 5%"></th>
             </tr>
             <tr style="width: 100%" class="danger">
                 <th style="vertical-align: middle">
@@ -66,9 +65,6 @@
 
                 <th style="text-align: center; vertical-align: middle">
                     <spring:message code="table_column_status"/>
-                </th>
-                <th style="text-align: center; vertical-align: middle">
-                    <spring:message code="table_column_access_log"/>
                 </th>
                 <th style="text-align: center; ;vertical-align: middle">
                     <spring:message code="table_column_detail"/>
@@ -93,13 +89,6 @@
                         <c:if test="${account.status.id == 7}">
                             <spring:message code="status_deleted"/>
                         </c:if>
-                    </td>
-
-                    <td style="text-align: center">
-                        <a href="#" onclick="downloadLog('${account.email}')"
-                           style="color: green">
-                            <span class="glyphicon glyphicon-download-alt"></span>
-                        </a>
                     </td>
 
                     <td style="text-align: center">
