@@ -46,7 +46,7 @@
             <thead style="width: 100%">
             <tr style="width: 100%">
                 <th style="width: 5%"></th>
-                <th id="th-search-email" style=" width: 32%">
+                <th id="th-search-email" style=" width: 73%">
                     <input id="search-email" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_email"/>"/>
                 </th>
@@ -92,10 +92,12 @@
                     </td>
 
                     <td style="text-align: center">
-                        <a href="${pageContext.request.contextPath}/viewEditAdminAccount?username=${account.email}"
-                           style="color: lightseagreen">
-                            <span class="glyphicon glyphicon-info-sign"></span>
-                        </a>
+                        <c:if test="${account.status.id != 7}">
+                            <a href="${pageContext.request.contextPath}/viewDetailPlayerAccount?email=${account.email}"
+                               style="color: lightseagreen">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                            </a>
+                        </c:if>
                     </td>
 
                     <td style="text-align: center">
@@ -113,3 +115,40 @@
     </div>
 
 </div>
+
+<form id="deleteForm" action="deletePlayerAccount" method="POST">
+    <input id="delete-email" name="email" type="hidden">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="deleteModal" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width: 300px; margin: 0 auto">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="border-radius: 0px">
+            <div class="modal-body" style="border-bottom: 0px">
+                <h4><spring:message code="delete_account"/></h4>
+            </div>
+            <div class="modal-footer" style="border-top: 0px">
+                <button type="button" class="btn btn-default" style="border-radius: 0px"
+                        onclick="submitDeleteAccount()">
+                    <spring:message code="btn_ok"/>
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">
+                    <spring:message code="btn_cancel"/>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var show = '${popup}';
+        if (show == 'deleteSuccess') {
+            $('#myModal').modal('show');
+            $("#popup-message").html("<spring:message code="delete_success"/>");
+        }
+    });
+</script>

@@ -65,7 +65,7 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
         try {
             session = sessionFactory.openSession();
             Criteria criteria = session.createCriteria(PlayerAccount.class);
-            criteria.add(Restrictions.like("email", String.valueOf(new StringBuilder("%").append(email).append("%"))));
+            criteria.add(Restrictions.eq("email", email));
             if (criteria.list().size() > 0) {
                 return (PlayerAccount) criteria.list().get(0);
             }

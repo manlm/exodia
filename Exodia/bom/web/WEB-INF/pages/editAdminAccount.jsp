@@ -15,12 +15,6 @@
 
 <title><spring:message code="title_edit_admin_account"/></title>
 
-<style>
-    .borderless td, .borderless th .borderless tr {
-        border: none;
-    }
-</style>
-
 <div>
     <h2 class="page-title">
         <spring:message code="title_edit_admin_account"/>
@@ -43,7 +37,7 @@
             <span id="span-creation-time"></span>
         </div>
 
-        <%--Creation Time--%>
+        <%--Last Update--%>
         <div style="width: 100%">
             <label style="width: 100px"><spring:message code="last_update"/>:</label>
             <span id="span-last-update"></span>

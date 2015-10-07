@@ -133,10 +133,12 @@
                         </c:if>
                     </td>
                     <td style="text-align: center">
-                        <a href="${pageContext.request.contextPath}/viewEditAdminAccount?username=${account.username}"
-                           style="color: lightseagreen">
-                            <span class="glyphicon glyphicon-edit"></span>
-                        </a>
+                        <c:if test="${account.status.id != 7}">
+                            <a href="${pageContext.request.contextPath}/viewEditAdminAccount?username=${account.username}"
+                               style="color: lightseagreen">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </c:if>
                     </td>
                     <td style="text-align: center">
                         <c:if test="${account.status.id != 7}">
@@ -217,7 +219,8 @@
                 <h4><spring:message code="delete_account"/></h4>
             </div>
             <div class="modal-footer" style="border-top: 0px">
-                <button type="button" class="btn btn-default" style="border-radius: 0px" onclick="submitResendEmail()">
+                <button type="button" class="btn btn-default" style="border-radius: 0px"
+                        onclick="submitDeleteAccount()">
                     <spring:message code="btn_ok"/>
                 </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius: 0px">

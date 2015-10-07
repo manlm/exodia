@@ -4,7 +4,10 @@ import com.exodia.bom.config.Properties;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.database.dao.PlayerAccountDAO;
+import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.PlayerAccount;
+import com.exodia.database.entity.PlayerScore;
+import com.exodia.database.entity.UserStatus;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,5 +92,41 @@ public class DataService {
 
         csvService.exportCSV(properties.getProperty("file_player_account"), header, content, response);
         LOG.info("[exportPlayer] End");
+    }
+
+    /**
+     * Delete Player Account
+     *
+     * @param email
+     * @return
+     */
+    public boolean deletePlayerAccount(String email) {
+
+        LOG.info(new StringBuilder("[deleteAdminAccount] Start: email = ").append(email));
+
+        PlayerAccount account = playerAccountDAO.getByEmail(email);
+        UserStatus status = new UserStatus();
+        status.setId(Constant.STATUS_ID.DELETED.getValue());
+        account.setStatus(status);
+        account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
+        account = playerAccountDAO.update(account);
+        if (account != null) {
+            LOG.info("[deleteAdminAccount] End");
+            return true;
+        }
+        LOG.info("[deletePlayerAccount] End");
+        return false;
+    }
+
+    /**
+     * Get player account by email
+     *
+     * @param email
+     * @return
+     */
+    public PlayerAccount getByEmail(String email) {
+        LOG.info(new StringBuilder("[getByEmail] Start: email = ").append(email));
+        LOG.info("getByEmail End");
+        return playerAccountDAO.getByEmail(email);
     }
 }

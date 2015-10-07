@@ -47,3 +47,12 @@ function getSearchValue() {
     $("#txtSearchStatus").val($("#search-status").val());
     $("#export-form").submit();
 }
+
+function deleteAccount(param) {
+    $("#delete-email").val(param);
+    $('#deleteModal').modal('show');
+}
+
+function submitDeleteAccount() {
+    $("#deleteForm").submit();
+}

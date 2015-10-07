@@ -32,4 +32,8 @@
         <put-attribute name="body" value="/WEB-INF/pages/viewPlayerAccount.jsp"/>
     </definition>
 
+    <definition name="viewDetailPlayerAccount" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/detailPlayerAccount.jsp"/>
+    </definition>
+
 </tiles-definitions>

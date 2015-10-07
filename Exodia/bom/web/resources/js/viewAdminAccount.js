@@ -90,7 +90,7 @@ function deleteAccount(param) {
     $('#deleteModal').modal('show');
 }
 
-function submitResendEmail() {
+function submitDeleteAccount() {
     $("#deleteForm").submit();
 }
 

@@ -37,10 +37,19 @@
         </c:if>
 
         <c:if test="${principal.authorities == '[DATA_MANAGER]'}">
-            <li>
-                <a href="#">
-                    <i class="fa fa-fw fa-file"></i> <span>Player Data</span>
+            <li class="treeview <c:if test="${curPage== '/viewPlayerAccount'}">active</c:if>">
+                <a href="">
+                    <i class="fa fa-fw fa-user"></i>
+                    <span><spring:message code="menu_play_data"/></span>
+                    <i class="fa fa-angle-left pull-right"></i>
                 </a>
+                <ul class="treeview-menu">
+                    <li <c:if test="${curPage == '/viewPlayerAccount'}">class="active"</c:if>>
+                        <a href="${pageContext.request.contextPath}/viewPlayerAccount">
+                            <i class="fa fa-list-alt"></i> <spring:message code="menu_view_player"/>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </c:if>
     </c:if>

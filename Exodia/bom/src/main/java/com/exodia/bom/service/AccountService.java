@@ -5,7 +5,6 @@ import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MD5Util;
 import com.exodia.common.util.PasswordUtil;
-import com.exodia.database.dao.AdminAccessLogDAO;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccessLog;
@@ -46,9 +45,6 @@ public class AccountService {
 
     @Autowired
     private ValidService validService;
-
-    @Autowired
-    private AdminAccessLogDAO adminAccessLogDAO;
 
     /**
      * Get all Admin Account

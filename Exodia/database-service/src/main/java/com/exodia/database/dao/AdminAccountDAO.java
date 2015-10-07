@@ -66,7 +66,7 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
         try {
             session = sessionFactory.openSession();
             Criteria criteria = session.createCriteria(AdminAccount.class);
-            criteria.add(Restrictions.like("username", username));
+            criteria.add(Restrictions.eq("username", username));
             if (criteria.list().size() > 0) {
                 return (AdminAccount) criteria.list().get(0);
             }
