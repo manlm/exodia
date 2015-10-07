@@ -29,6 +29,9 @@ public class IndexService {
     @Autowired
     private AdminAccountDAO adminAccountDAO;
 
+    @Autowired
+    private ValidService validService;
+
     /**
      * Send email reset password of Admin Account
      *
@@ -69,10 +72,16 @@ public class IndexService {
 
         AdminAccount account = adminAccountDAO.getByUsername(username);
 
+        if (validService.isEmailExisted(email.toLowerCase(), username)) {
+            LOG.info("[updateAdminAccount] End");
+            return 3;
+        }
+
         if (!MD5Util.stringToMD5(password).equals(account.getPassword())) {
             LOG.info("[updateProfile] End");
             return 2;
         }
+
 
         account.setEmail(email);
 

@@ -166,7 +166,7 @@ public class AccountService {
         LOG.info(new StringBuilder("[addAdminAccount] Start: username = ").append(username)
                 .append(", email = ").append(email).append(", role = ").append(role));
 
-        if (validService.isEmailExisted(email.toLowerCase())) {
+        if (validService.isEmailExisted(email.toLowerCase(), username)) {
             LOG.info("[addAdminAccount] End");
             return 2;
         }
@@ -237,5 +237,34 @@ public class AccountService {
         }
         LOG.info("[deleteAdminAccount] End");
         return false;
+    }
+
+    /**
+     * Update admin account
+     *
+     * @param username
+     * @param email
+     * @return
+     */
+    public int updateAdminAccount(String username, String email) {
+
+        LOG.info(new StringBuilder("[updateAdminAccount] Start: username = ").append(username)
+                .append(", email = ").append(email));
+
+        if (validService.isEmailExisted(email.toLowerCase(), username)) {
+            LOG.info("[updateAdminAccount] End");
+            return 2;
+        }
+
+        AdminAccount account = adminAccountDAO.getByUsername(username);
+        account = adminAccountDAO.update(account);
+
+        if (account != null) {
+            LOG.info("[updateAdminAccount] End");
+            return 1;
+        }
+
+        LOG.info("[updateAdminAccount] End");
+        return 0;
     }
 }

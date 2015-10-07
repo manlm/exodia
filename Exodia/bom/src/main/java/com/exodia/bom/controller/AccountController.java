@@ -101,13 +101,20 @@ public class AccountController {
                                         RedirectAttributes redirectAttributes) {
         LOG.info("[addAdminAccount] Start");
         ModelAndView model = new ModelAndView("redirect:viewAddAdminAccount");
+
         int result = accountService.addAdminAccount(username, email, role);
+
         if (result == 2) {
             redirectAttributes.addFlashAttribute("emailExisted", email);
             redirectAttributes.addFlashAttribute("enteredUsername", username);
-        } else if (result == 1) {
-            redirectAttributes.addFlashAttribute("success", true);
+            return model;
         }
+
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("success", true);
+            return model;
+        }
+
         LOG.info("[addAdminAccount] End");
         return model;
     }
@@ -115,20 +122,60 @@ public class AccountController {
     @RequestMapping(value = "/resendEmail", method = RequestMethod.POST)
     public ModelAndView resendEmail(@RequestParam(name = "username") String username,
                                     RedirectAttributes redirectAttributes) {
+
+        LOG.info("[resendEmail] Start");
+
         ModelAndView model = new ModelAndView("redirect:viewAdminAccount");
         if (accountService.resendEmail(username)) {
             redirectAttributes.addFlashAttribute("sendEmailSuccess", true);
         }
+
+        LOG.info("[resendEmail] End");
         return model;
     }
 
     @RequestMapping(value = "/viewEditAdminAccount", method = RequestMethod.GET)
-    public ModelAndView viewEditAdminAccount(@RequestParam(name = "username") String username) {
+    public ModelAndView viewEditAdminAccount(@RequestParam(name = "username") String username,
+                                             @ModelAttribute(value = "emailExisted") String emailExisted,
+                                             @ModelAttribute(value = "success") String success) {
         LOG.info("[viewEditAdminAccount] Start");
         ModelAndView model = new ModelAndView("viewEditAdminAccount");
         AdminAccount account = commonService.getAdminAccountByUsername(username);
+
         model.addObject("account", account);
+
+        if (!emailExisted.equals("")) {
+            model.addObject(emailExisted);
+        }
+
+        if (!success.equals("")) {
+            model.addObject(success);
+        }
+
         LOG.info("[viewEditAdminAccount] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/updateAdminAccount", method = RequestMethod.POST)
+    public ModelAndView updateAdminAccount(@RequestParam(name = "username") String username,
+                                           @RequestParam(name = "email") String email,
+                                           RedirectAttributes redirectAttributes) {
+        LOG.info("[updateAdminAccount] Start");
+        ModelAndView model = new ModelAndView("redirect:viewEditAdminAccount?username=" + username);
+
+        int result = accountService.updateAdminAccount(username, email);
+
+        if (result == 2) {
+            redirectAttributes.addFlashAttribute("emailExisted", email);
+            return model;
+        }
+
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("success", true);
+            return model;
+        }
+
+        LOG.info("[updateAdminAccount] End");
         return model;
     }
 

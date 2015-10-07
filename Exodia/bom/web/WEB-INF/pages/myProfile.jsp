@@ -51,7 +51,7 @@
             <div class="div-wrapper">
                 <div class="div-input">
                     <input id="email" name="email" autocomplete="off" class="form-control email" maxlength="254"
-                           value="${account.email}"
+                           value="<c:if test="${not empty emailExisted}">${emailExisted}</c:if><c:if test="${empty emailExisted}">${account.email}</c:if>"
                            placeholder="<spring:message code="placeholder_email"/>"
                            onblur="validEmail('<spring:message code="error_enter_email"/>'
                                    ,'<spring:message code="error_email_pattern"/>'
@@ -61,7 +61,8 @@
                                    ,<spring:message code="regex_email"/>)">
                 </div>
                 <div class="div-error">
-                    <input id="email-error" class="input-error" readonly/>
+                    <input id="email-error" class="input-error" readonly
+                           value="<c:if test='${not empty emailExisted}'><spring:message code="error_email_existed"/></c:if>"/>
                 </div>
             </div>
         </div>

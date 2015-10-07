@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.MapsId;
 import java.security.Principal;
 
 @Controller
@@ -124,11 +125,19 @@ public class IndexController {
 
     @RequestMapping(value = "/viewMyProfile", method = RequestMethod.GET)
     public ModelAndView viewMyProfile(@RequestParam(name = "username") String username,
+                                      @ModelAttribute(value = "emailExisted") String emailExisted,
                                       @ModelAttribute(value = "updateResult") String updateResult) {
         LOG.info("[viewMyProfile] Start");
         ModelAndView model = new ModelAndView("myProfile");
         AdminAccount account = commonService.getAdminAccountByUsername(username);
         model.addObject("account", account);
+
+        if (!emailExisted.equals("")) {
+            model.addObject(emailExisted);
+            LOG.info("[viewMyProfile] End");
+            return model;
+        }
+
         model.addObject(updateResult);
         LOG.info("[viewMyProfile] End");
         return model;
@@ -144,6 +153,12 @@ public class IndexController {
         LOG.info("[updateProfile] Start");
         ModelAndView model = new ModelAndView("redirect:viewMyProfile?username=" + username);
         int result = indexService.updateProfile(username, email, password, newPassword, confirmPassword);
+
+        if (result == 3) {
+            redirectAttributes.addFlashAttribute("emailExisted", email);
+            LOG.info("[updateProfile] End");
+            return model;
+        }
 
         if (result == 2) {
             redirectAttributes.addFlashAttribute("updateResult", "wrongPassword");

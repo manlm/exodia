@@ -17,12 +17,12 @@ public class ValidService {
     @Autowired
     private AdminAccountDAO adminAccountDAO;
 
-    public boolean isEmailExisted(String email) {
+    public boolean isEmailExisted(String email, String username) {
 
         LOG.info(new StringBuilder("[isEmailExisted] Start: email = ").append(email));
 
         AdminAccount account = adminAccountDAO.getByEmail(email);
-        if (account != null) {
+        if (account != null && !account.getUsername().equals(username)) {
             LOG.info("[isEmailExisted] End");
             return true;
         }
