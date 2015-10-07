@@ -18,6 +18,14 @@ public class CSVService {
 
     private static final Logger LOG = Logger.getLogger(CSVService.class);
 
+    /**
+     * Eport CSV file
+     *
+     * @param fileName
+     * @param header
+     * @param content
+     * @param response
+     */
     public void exportCSV(String fileName, StringBuilder header, StringBuilder content, HttpServletResponse response) {
 
         LOG.info(new StringBuilder("[exportCSV] Start: fileName = ").append(fileName).append(", header = ")

@@ -54,6 +54,14 @@ public class IndexController {
     @Autowired
     private CommonService commonService;
 
+    /**
+     * View login page
+     *
+     * @param loggedUsername
+     * @param error
+     * @param principal
+     * @return
+     */
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(name = "loggedUsername", required = false) String loggedUsername,
                               @RequestParam(name = "error", required = false) String error,
@@ -61,15 +69,19 @@ public class IndexController {
         LOG.info("[login] Start");
         ModelAndView model = new ModelAndView("login");
 
+        // already logged in
         if (principal != null) {
             model = new ModelAndView("redirect:main");
+            LOG.info("[login] End");
             return model;
         }
 
+        // has error when login
         if (error != null) {
             model.addObject("error", true);
         }
 
+        // enter username for display
         if (loggedUsername != null) {
             model.addObject("loggedUsername", loggedUsername);
         }
@@ -78,6 +90,12 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * View forgot password page
+     *
+     * @param success
+     * @return
+     */
     @RequestMapping(value = "/showForgotPassword", method = RequestMethod.GET)
     public ModelAndView showForgotPassword(@ModelAttribute(value = "success") String success) {
         LOG.info("[showForgotPassword] Start");
@@ -87,10 +105,19 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * Reset password
+     *
+     * @param email
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     public String forgotPassword(@RequestParam(name = "email") String email,
                                  RedirectAttributes redirectAttributes) {
         LOG.info("[forgotPassword] Start");
+
+        // success
         if (indexService.forgotPassword(email)) {
             redirectAttributes.addFlashAttribute("success", true);
         }
@@ -98,6 +125,13 @@ public class IndexController {
         return "redirect:showForgotPassword";
     }
 
+    /**
+     * View First Login Page
+     *
+     * @param username
+     * @param updateResult
+     * @return
+     */
     @RequestMapping(value = "/viewFirstLogin", method = RequestMethod.GET)
     public ModelAndView viewFirstLogin(@RequestParam(name = "username") String username,
                                        @ModelAttribute(value = "updateResult") String updateResult) {
@@ -113,6 +147,16 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * Update account when first login
+     *
+     * @param username
+     * @param password
+     * @param newPassword
+     * @param confirmPassword
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "/updateFirstLogin", method = RequestMethod.POST)
     public ModelAndView updateFirstLogin(@RequestParam(name = "username") String username,
                                          @RequestParam(name = "oldPassword") String password,
@@ -126,11 +170,13 @@ public class IndexController {
 
         int result = indexService.updateFirstLogin(username, password, newPassword, confirmPassword);
 
+        // wrong old password
         if (result == 2) {
             redirectAttributes.addFlashAttribute("updateResult", "wrongPassword");
             return model;
         }
 
+        // success
         if (result == 1) {
             redirectAttributes.addFlashAttribute("updateResult", "success");
             return model;
@@ -140,6 +186,11 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * Redirect account to it's homepage
+     *
+     * @return
+     */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main() {
 
@@ -173,6 +224,14 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * View my profile page
+     *
+     * @param username
+     * @param emailExisted
+     * @param updateResult
+     * @return
+     */
     @RequestMapping(value = "/viewMyProfile", method = RequestMethod.GET)
     public ModelAndView viewMyProfile(@RequestParam(name = "username") String username,
                                       @ModelAttribute(value = "emailExisted") String emailExisted,
@@ -182,6 +241,7 @@ public class IndexController {
         AdminAccount account = commonService.getAdminAccountByUsername(username);
         model.addObject("account", account);
 
+        // email existed
         if (!emailExisted.equals("")) {
             model.addObject(emailExisted);
             LOG.info("[viewMyProfile] End");
@@ -193,6 +253,17 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * Update my profile
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @param newPassword
+     * @param confirmPassword
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
     public ModelAndView updateProfile(@RequestParam(name = "username") String username,
                                       @RequestParam(name = "email") String email,
@@ -204,20 +275,24 @@ public class IndexController {
         ModelAndView model = new ModelAndView("redirect:viewMyProfile?username=" + username);
         int result = indexService.updateProfile(username, email, password, newPassword, confirmPassword);
 
+        // Email existed
         if (result == 3) {
             redirectAttributes.addFlashAttribute("emailExisted", email);
             LOG.info("[updateProfile] End");
             return model;
         }
 
+        // Wrong password
         if (result == 2) {
             redirectAttributes.addFlashAttribute("updateResult", "wrongPassword");
             LOG.info("[updateProfile] End");
             return model;
         }
 
+        // Success
         if (result == 1) {
             redirectAttributes.addFlashAttribute("updateResult", "success");
+            commonService.saveAccessLog(properties.getProperty("log_update_profile_success"));
             LOG.info("[updateProfile] End");
             return model;
         }

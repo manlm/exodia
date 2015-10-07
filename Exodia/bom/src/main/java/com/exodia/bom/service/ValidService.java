@@ -17,6 +17,13 @@ public class ValidService {
     @Autowired
     private AdminAccountDAO adminAccountDAO;
 
+    /**
+     * Check if email is existed
+     *
+     * @param email
+     * @param username
+     * @return
+     */
     public boolean isEmailExisted(String email, String username) {
 
         LOG.info(new StringBuilder("[isEmailExisted] Start: email = ").append(email));
