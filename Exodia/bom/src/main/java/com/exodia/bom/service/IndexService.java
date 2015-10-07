@@ -4,7 +4,6 @@ import com.exodia.bom.config.Properties;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MD5Util;
-import com.exodia.database.dao.AdminAccessLogDAO;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserStatus;

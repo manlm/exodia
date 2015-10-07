@@ -1,7 +1,6 @@
 package com.exodia.bom.config;
 
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

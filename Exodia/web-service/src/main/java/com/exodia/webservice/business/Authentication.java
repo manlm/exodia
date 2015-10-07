@@ -4,6 +4,7 @@ import com.exodia.common.constant.Constant;
 import com.exodia.common.util.*;
 import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.entity.PlayerAccount;
+import com.exodia.database.entity.UserStatus;
 import com.exodia.mail.service.MailService;
 import com.exodia.webservice.config.Properties;
 import com.exodia.webservice.model.ForgotPasswordModel;
@@ -55,7 +56,11 @@ public class Authentication {
 
         account.setEmail(email);
         account.setPassword(MD5Util.stringToMD5(password));
-        account.setStatus(Constant.STATUS_ID.ACTIVE.getValue());
+
+        UserStatus status = new UserStatus();
+        status.setId(Constant.STATUS_ID.ACTIVE.getValue());
+        account.setStatus(status);
+
         account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
         account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
         playerAccountDAO.save(account);

@@ -2,8 +2,6 @@ package com.exodia.webservice.controller;
 
 import com.exodia.mail.service.MailService;
 import com.exodia.webservice.business.Authentication;
-import com.exodia.webservice.model.LoginModel;
-import com.exodia.webservice.model.RegisterModel;
 import com.exodia.webservice.response.ForgotPasswordResponse;
 import com.exodia.webservice.response.LoginResponse;
 import com.exodia.webservice.response.ReauthorizeResponse;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 

@@ -3,7 +3,6 @@ package com.exodia.common.util;
 import com.exodia.common.config.Properties;
 import net.spy.memcached.AddrUtil;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

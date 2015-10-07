@@ -1,7 +1,5 @@
 package com.exodia.database.dao.common;
 
-import java.util.List;
-
 /**
  * Created by manlm1 on 9/10/2015.
  */
