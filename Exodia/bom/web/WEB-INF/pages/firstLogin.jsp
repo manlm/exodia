@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/common.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/firstLogin.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
@@ -39,13 +41,19 @@
         <%--Creation Time--%>
         <div style="width: 100%">
             <label style="width: 100px"><spring:message code="creation_time"/>:</label>
-            <span id="span-creation-time"></span>
+            <jsp:useBean id="creationTime" class="java.util.Date"/>
+            <jsp:setProperty name="creationTime" property="time" value="${account.creationTime}"/>
+            <fmt:formatDate var="creationTime" value="${creationTime}" pattern="yyyy/MM/dd HH:mm:ss"/>
+            <span id="span-creation-time">${creationTime}</span>
         </div>
 
-        <%--Creation Time--%>
+        <%--Last Update--%>
         <div style="width: 100%">
             <label style="width: 100px"><spring:message code="last_update"/>:</label>
-            <span id="span-last-update"></span>
+            <jsp:useBean id="lastUpdate" class="java.util.Date"/>
+            <jsp:setProperty name="lastUpdate" property="time" value="${account.lastUpdate}"/>
+            <fmt:formatDate var="lastUpdate" value="${lastUpdate}" pattern="yyyy/MM/dd HH:mm:ss"/>
+            <span id="span-last-update">${lastUpdate}</span>
         </div>
         <br>
 
@@ -167,11 +175,6 @@
     }
 
     $(document).ready(function () {
-        var creationTime = new Date(${account.creationTime});
-        $('#span-creation-time').html(creationTime.customFormat("#YYYY#/#MM#/#DD# #hh#:#mm#:#ss#"));
-        var lastUpdate = new Date(${account.lastUpdate});
-        $('#span-last-update').html(lastUpdate.customFormat("#YYYY#/#MM#/#DD# #hh#:#mm#:#ss#"));
-
         var show = '${updateResult}';
         if (show == 'success') {
             $('#successModal').modal('show');
