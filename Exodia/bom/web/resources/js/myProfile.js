@@ -2,7 +2,7 @@
  * Created by manlm1 on 10/6/2015.
  */
 
-function validOnSubmit(mess1, mess2, regex1, mess3, mess4, mess5, regex2, mess6) {
+function validOnSubmit(mess1, mess2, regex1, mess3, mess4, mess5, regex2, mess6, btn) {
     if (!validEmail(mess1, mess2, regex1)) {
         $("#email").focus();
     } else if (!validOldPassword(mess3, mess4, mess5, regex2)) {
@@ -12,6 +12,8 @@ function validOnSubmit(mess1, mess2, regex1, mess3, mess4, mess5, regex2, mess6)
     } else if (!validConfirmPassword(mess6)) {
         $("#confirm-password").focus();
     } else {
+        $("#btn-update").val(btn);
+        $("#btn-update").prop('disabled', true);
         $("#profile-form").submit();
     }
 }

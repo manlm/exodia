@@ -90,7 +90,8 @@
                    onclick="validOnSubmit('<spring:message code="error_enter_username"/>'
                            ,'<spring:message code="error_enter_email"/>'
                            ,'<spring:message code="error_email_pattern"/>'
-                           ,<spring:message code="regex_email"/>)">
+                           ,<spring:message code="regex_email"/>
+                           ,'<spring:message code="btn_process"/>')">
         </div>
     </form>
 

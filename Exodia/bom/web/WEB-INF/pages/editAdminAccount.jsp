@@ -78,11 +78,12 @@
         <input type="hidden" name="username" value="${account.username}"/>
 
         <div>
-            <input type="button" id="btn-add" class="btn btn-success" style="border-radius: 0px"
+            <input type="button" id="btn-update" class="btn btn-success" style="border-radius: 0px"
                    value="<spring:message code="btn_update"/>"
                    onclick="validOnSubmit('<spring:message code="error_enter_email"/>'
                            ,'<spring:message code="error_email_pattern"/>'
-                           ,<spring:message code="regex_email"/>)">
+                           ,<spring:message code="regex_email"/>
+                           ,'<spring:message code="btn_process"/>')">
         </div>
 
     </form>
