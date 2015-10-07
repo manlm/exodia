@@ -94,7 +94,7 @@
         </div>
         <br>
 
-        <%--Password--%>
+        <%--New Password--%>
         <div>
             <label><spring:message code="new_password"/></label><br>
 

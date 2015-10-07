@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <sec:authorize access="isAuthenticated()">
     <sec:authentication var="principal" property="principal"/>
@@ -34,12 +35,14 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" style="width:auto;">
-                    <li>
-                        <a href="${pageContext.request.contextPath}/viewMyProfile?username=${principal.username}"
-                           class="text-center">
-                            <spring:message code="profile"/>
-                        </a>
-                    </li>
+                    <c:if test="${account.status.id != 2}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/viewMyProfile?username=${principal.username}"
+                               class="text-center">
+                                <spring:message code="profile"/>
+                            </a>
+                        </li>
+                    </c:if>
                     <li>
                         <a href="#" class="text-center" onclick="document.getElementById('logoutForm').submit()">
                             <spring:message code="logout"/>

@@ -8,6 +8,10 @@
         <put-attribute name="body" value="/WEB-INF/pages/hello.jsp"/>
     </definition>
 
+    <definition name="firstLogin" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/firstLogin.jsp"/>
+    </definition>
+
     <definition name="myProfile" extends="DefaultTemplate">
         <put-attribute name="body" value="/WEB-INF/pages/myProfile.jsp"/>
     </definition>

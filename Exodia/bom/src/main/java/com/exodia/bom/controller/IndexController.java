@@ -99,8 +99,44 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/viewFirstLogin", method = RequestMethod.GET)
-    public ModelAndView viewFirstLogin(@RequestParam(name = "username") String usernam) {
+    public ModelAndView viewFirstLogin(@RequestParam(name = "username") String username,
+                                       @ModelAttribute(value = "updateResult") String updateResult) {
+
+        LOG.info("[viewFirstLogin] Start");
+
         ModelAndView model = new ModelAndView("firstLogin");
+        AdminAccount account = indexService.getByUsername(username);
+        model.addObject("account", account);
+        model.addObject(updateResult);
+
+        LOG.info("[viewFirstLogin] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/updateFirstLogin", method = RequestMethod.POST)
+    public ModelAndView updateFirstLogin(@RequestParam(name = "username") String username,
+                                         @RequestParam(name = "oldPassword") String password,
+                                         @RequestParam(name = "newPassword") String newPassword,
+                                         @RequestParam(name = "confirmPassword") String confirmPassword,
+                                         RedirectAttributes redirectAttributes) {
+
+        LOG.info("[updateFirstLogin] Start");
+
+        ModelAndView model = new ModelAndView("redirect:viewFirstLogin?username=" + username);
+
+        int result = indexService.updateFirstLogin(username, password, newPassword, confirmPassword);
+
+        if (result == 2) {
+            redirectAttributes.addFlashAttribute("updateResult", "wrongPassword");
+            return model;
+        }
+
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("updateResult", "success");
+            return model;
+        }
+
+        LOG.info("[updateFirstLogin] End");
         return model;
     }
 
@@ -118,7 +154,6 @@ public class IndexController {
             LOG.info("[main] End: Inactive");
             return "redirect:viewFirstLogin?username=" + username;
         }
-
 
         String role = String.valueOf(user.getAuthorities().iterator().next());
         if (role.equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {

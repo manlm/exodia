@@ -230,6 +230,7 @@ public class AccountService {
         UserStatus status = new UserStatus();
         status.setId(Constant.STATUS_ID.DELETED.getValue());
         account.setStatus(status);
+        account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
         account = adminAccountDAO.update(account);
         if (account != null) {
             LOG.info("[deleteAdminAccount] End");
@@ -257,6 +258,8 @@ public class AccountService {
         }
 
         AdminAccount account = adminAccountDAO.getByUsername(username);
+        account.setEmail(email);
+        account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
         account = adminAccountDAO.update(account);
 
         if (account != null) {

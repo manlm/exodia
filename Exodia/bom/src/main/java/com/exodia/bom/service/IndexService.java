@@ -1,9 +1,12 @@
 package com.exodia.bom.service;
 
 import com.exodia.bom.config.Properties;
+import com.exodia.common.constant.Constant;
+import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MD5Util;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.entity.UserStatus;
 import com.exodia.mail.service.MailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,16 @@ public class IndexService {
 
     @Autowired
     private ValidService validService;
+
+    /**
+     * Get admin account by username
+     *
+     * @param username
+     * @return
+     */
+    public AdminAccount getByUsername(String username) {
+        return adminAccountDAO.getByUsername(username);
+    }
 
     /**
      * Send email reset password of Admin Account
@@ -89,6 +102,7 @@ public class IndexService {
             account.setPassword(MD5Util.stringToMD5(newPassword));
         }
 
+        account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
         account = adminAccountDAO.update(account);
 
         if (account != null) {
@@ -97,6 +111,43 @@ public class IndexService {
         }
 
         LOG.info("[updateProfile] End");
+        return 0;
+    }
+
+    /**
+     * Update account when 1st login
+     *
+     * @param username
+     * @param password
+     * @param newPassword
+     * @param confirmPassword
+     * @return
+     */
+    public int updateFirstLogin(String username, String password, String newPassword, String confirmPassword) {
+
+        LOG.info(new StringBuilder("[updateFirstLogin] Start: username = ").append(username));
+
+        AdminAccount account = adminAccountDAO.getByUsername(username);
+
+        if (!MD5Util.stringToMD5(password).equals(account.getPassword())) {
+            LOG.info("[updateFirstLogin] End");
+            return 2;
+        }
+
+        account.setPassword(MD5Util.stringToMD5(newPassword));
+
+        UserStatus status = new UserStatus();
+        status.setId(Constant.STATUS_ID.ACTIVE.getValue());
+        account.setStatus(status);
+        account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
+        account = adminAccountDAO.update(account);
+
+        if (account != null) {
+            LOG.info("[updateFirstLogin] End");
+            return 1;
+        }
+
+        LOG.info("[updateFirstLogin] End");
         return 0;
     }
 }
