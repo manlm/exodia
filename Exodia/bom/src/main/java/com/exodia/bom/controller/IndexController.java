@@ -98,6 +98,11 @@ public class IndexController {
         return "redirect:showForgotPassword";
     }
 
+    @RequestMapping(value = "/viewFirstLogin", method = RequestMethod.GET)
+    public ModelAndView viewFirstLogin(@RequestParam(name = "username") String usernam) {
+        ModelAndView model = new ModelAndView("firstLogin");
+        return model;
+    }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main() {
@@ -105,6 +110,16 @@ public class IndexController {
         LOG.info("[main] Start");
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username = user.getUsername();
+        int status = adminAccountDAO.getByUsername(username).getStatus().getId();
+
+        if (status == Constant.STATUS_ID.INACTIVE.getValue()) {
+            LOG.info("[main] End: Inactive");
+            return "redirect:viewFirstLogin?username=" + username;
+        }
+
+
         String role = String.valueOf(user.getAuthorities().iterator().next());
         if (role.equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {
             LOG.info(new StringBuilder("[main] End: role = ").append(role));
