@@ -45,7 +45,7 @@ public class AdminAccount implements Serializable {
     @Column(name = "admin_lastUpdate")
     private long lastUpdate;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "adminAccountAccessLog")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "adminAccountAccessLog")
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     @Fetch(value = FetchMode.SUBSELECT)
     private List<AdminAccessLog> adminAccessLogList = new ArrayList<>();

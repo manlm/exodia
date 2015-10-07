@@ -43,6 +43,9 @@ public class CommonService {
      * @param action
      */
     public void saveAccessLog(String action) {
+
+        LOG.info(new StringBuilder("[saveAccessLog] Start: action = ").append(action));
+
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AdminAccount account = getAdminAccountByUsername(user.getUsername());
         AdminAccessLog accessLog = new AdminAccessLog();
@@ -50,5 +53,7 @@ public class CommonService {
         accessLog.setAction(action);
         accessLog.setTime(DateTimeUtil.getCurUTCInMilliseconds());
         adminAccessLogDAO.save(accessLog);
+
+        LOG.info("[saveAccessLog] End");
     }
 }

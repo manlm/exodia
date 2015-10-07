@@ -32,7 +32,7 @@ $(document).ready(function () {
 
             // search status
             var columnStatus = api.column(4);
-            var selectStatus = $('<select id="search-status" class="form-control" name="search-role" style="width: 100%">' +
+            var selectStatus = $('<select id="search-status" class="form-control" name="search-status" style="width: 100%">' +
                 '<option value="" default selected>Status</option></select>')
                 .appendTo("#th-search-status")
                 .on('change', function () {

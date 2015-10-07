@@ -52,8 +52,8 @@
                            placeholder="<spring:message code="search_by_username"/>"/>
                 </th>
                 <th id="th-search-email" style=" width: 32%">
-                    <input id="search_email" class="form-control" type="text" style="width:100%;"
-                           placeholder="<spring:message code="search_by_emai"/>"/>
+                    <input id="search-email" class="form-control" type="text" style="width:100%;"
+                           placeholder="<spring:message code="search_by_email"/>"/>
                 </th>
                 <th id="th-search-role" style="text-align: center; width: 13%"></th>
                 <th id="th-search-status" style="text-align: center; width: 12%"></th>

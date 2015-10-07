@@ -4,6 +4,7 @@ import com.exodia.bom.config.Properties;
 import com.exodia.bom.service.CommonService;
 import com.exodia.bom.service.IndexService;
 import com.exodia.common.constant.Constant;
+import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MemcachedClient;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.PlayerAccountDAO;
@@ -32,20 +33,20 @@ public class IndexController {
 
     private static final Logger LOG = Logger.getLogger(IndexController.class);
 
+    // TODO remove
     @Autowired
     private AdminAccountDAO adminAccountDAO;
 
+    //TODO remove
     @Autowired
     private PlayerAccountDAO playerAccountDAO;
 
+    // TODO remove
     @Autowired
     private MemcachedClient memcachedClient;
 
     @Autowired
     private Properties properties;
-
-    @Autowired
-    private MailService mailService;
 
     @Autowired
     private IndexService indexService;
@@ -300,6 +301,7 @@ public class IndexController {
         return model;
     }
 
+    // TODO remove
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(ModelMap model) {
         model.addAttribute("message", "Hello world!");
@@ -316,8 +318,8 @@ public class IndexController {
             adminAccount.setUsername("test" + i);
             adminAccount.setPassword("c4f4652fb4cfcc7756e3b2b97019955a");
             adminAccount.setRole(roles);
-            adminAccount.setCreationTime(0);
-            adminAccount.setLastUpdate(0);
+            adminAccount.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
+            adminAccount.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
             adminAccount.setStatus(status);
             adminAccountDAO.save(adminAccount);
         }
@@ -325,6 +327,7 @@ public class IndexController {
         return "hello";
     }
 
+    // TODO remove
     @RequestMapping(value = "/addPlayer", method = RequestMethod.GET)
     public String addPlayer(ModelMap model) {
         model.addAttribute("message", "Hello world!");
@@ -332,13 +335,14 @@ public class IndexController {
         UserStatus status = new UserStatus();
         status.setId(1);
 
-        for (int i = 101; i <= 200; i++) {
+        for (int i = 1; i <= 100; i++) {
             System.out.println(i);
             PlayerAccount account = new PlayerAccount();
 
             account.setPassword("c4f4652fb4cfcc7756e3b2b97019955a");
-            account.setCreationTime(0);
-            account.setLastUpdate(0);
+            account.setEmail("account" + i + "@email.com");
+            account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
+            account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
             account.setStatus(status);
             playerAccountDAO.save(account);
         }
@@ -346,34 +350,7 @@ public class IndexController {
         return "hello";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update(ModelMap model) {
-        model.addAttribute("message", "Hello world!");
-        AdminAccount adminAccount = new AdminAccount();
-        adminAccount.setUsername("test");
-        adminAccount.setPassword("test123");
-        adminAccountDAO.update(adminAccount);
-        return "hello";
-    }
-
-    @RequestMapping(value = "/remove", method = RequestMethod.GET)
-    public String remove(ModelMap model) {
-        model.addAttribute("message", "Hello world!");
-        AdminAccount adminAccount = new AdminAccount();
-        adminAccount.setUsername("test");
-        adminAccountDAO.remove(adminAccount);
-        return "hello";
-    }
-
-    @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public ModelAndView find() {
-        ModelAndView model = new ModelAndView("hello");
-        model.addObject("message", "Hello world!");
-        AdminAccount adminAccount = adminAccountDAO.getByUsername("test");
-        model.addObject("username", adminAccount.getUsername());
-        return model;
-    }
-
+    // TODO remove
     @RequestMapping(value = "/setCache", method = RequestMethod.GET)
     public ModelAndView setCache() {
         ModelAndView model = new ModelAndView("hello");
@@ -382,19 +359,12 @@ public class IndexController {
         return model;
     }
 
+    // TODO remove
     @RequestMapping(value = "/getCache", method = RequestMethod.GET)
     public ModelAndView getCache() {
         ModelAndView model = new ModelAndView("hello");
         model.addObject("message", "Hello world!");
         System.out.println(memcachedClient.get("testcache"));
-        return model;
-    }
-
-
-    @RequestMapping(value = "/sendMail", method = RequestMethod.GET)
-    public ModelAndView sendMail() {
-        ModelAndView model = new ModelAndView("hello");
-        mailService.sendMail("manlmse61239@fpt.edu.vn", "admin-activate.vm", "Reset Password", "manlm", "new password");
         return model;
     }
 }

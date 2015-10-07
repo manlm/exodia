@@ -38,12 +38,12 @@ public class PlayerAccount implements Serializable {
     @Column(name = "player_lastUpdate")
     private long lastUpdate;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "playerAccount")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playerAccount")
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     @Fetch(value = FetchMode.SUBSELECT)
     private List<PlayerAccessLog> playerAccessLogList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "playerAccount")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "playerAccount")
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     @Fetch(value = FetchMode.SUBSELECT)
     private List<PlayerScore> playerScoreList = new ArrayList<>();

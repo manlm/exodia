@@ -107,8 +107,6 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
             if (!status.equals("")) {
                 if (status.equalsIgnoreCase(Constant.STATUS.ACTIVE.getValue())) {
                     criteria.add(Restrictions.eq("status", Constant.STATUS_ID.ACTIVE.getValue()));
-                } else if (status.equalsIgnoreCase(Constant.STATUS.INACTIVE.getValue())) {
-                    criteria.add(Restrictions.eq("status", Constant.STATUS_ID.INACTIVE.getValue()));
                 } else if (status.equalsIgnoreCase(Constant.STATUS.DELETED.getValue())) {
                     criteria.add(Restrictions.eq("status", Constant.STATUS_ID.DELETED.getValue()));
                 }
