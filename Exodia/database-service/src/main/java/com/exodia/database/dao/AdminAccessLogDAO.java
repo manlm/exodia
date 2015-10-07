@@ -30,7 +30,7 @@ public class AdminAccessLogDAO extends GenericHibernateDAO<AdminAccessLog> {
      * @param adminId
      * @return
      */
-    public List<AdminAccessLog> getByAdminId(String adminId) {
+    public List<AdminAccessLog> getByAdminId(int adminId) {
         LOG.info(new StringBuilder("[getByAdminId] Start: adminId = ").append(adminId));
 
         Session session = null;

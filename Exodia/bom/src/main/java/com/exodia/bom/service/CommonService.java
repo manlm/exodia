@@ -49,5 +49,6 @@ public class CommonService {
         accessLog.setAdminAccountAccessLog(account);
         accessLog.setAction(action);
         accessLog.setTime(DateTimeUtil.getCurUTCInMilliseconds());
+        adminAccessLogDAO.save(accessLog);
     }
 }

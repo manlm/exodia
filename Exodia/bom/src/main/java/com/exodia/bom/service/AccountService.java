@@ -5,8 +5,10 @@ import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MD5Util;
 import com.exodia.common.util.PasswordUtil;
+import com.exodia.database.dao.AdminAccessLogDAO;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.UserRolesDAO;
+import com.exodia.database.entity.AdminAccessLog;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserRoles;
 import com.exodia.database.entity.UserStatus;
@@ -44,6 +46,9 @@ public class AccountService {
 
     @Autowired
     private ValidService validService;
+
+    @Autowired
+    private AdminAccessLogDAO adminAccessLogDAO;
 
     /**
      * Get all Admin Account
@@ -102,13 +107,13 @@ public class AccountService {
 
         List<AdminAccount> list = adminAccountDAO.getByConditions(username, email, role, status);
 
-        StringBuilder header = new StringBuilder("No").append(",")
-                .append("Username").append(",")
-                .append("Email").append(",")
-                .append("Role").append(",")
-                .append("Status").append(",")
-                .append("Creation Time").append(",")
-                .append("Last Update").append(",")
+        StringBuilder header = new StringBuilder(properties.getProperty("header_no")).append(",")
+                .append(properties.getProperty("header_username")).append(",")
+                .append(properties.getProperty("header_email")).append(",")
+                .append(properties.getProperty("header_role")).append(",")
+                .append(properties.getProperty("header_status")).append(",")
+                .append(properties.getProperty("header_creation_time")).append(",")
+                .append(properties.getProperty("header_last_update")).append(",")
                 .append("\n");
 
         StringBuilder content = new StringBuilder();
@@ -150,7 +155,7 @@ public class AccountService {
             content.append("\n");
         }
 
-        csvService.exportCSV("admin_account", header, content, response);
+        csvService.exportCSV(properties.getProperty("file_admin_account"), header, content, response);
         LOG.info("[exportAdmin] End");
     }
 
@@ -269,5 +274,43 @@ public class AccountService {
 
         LOG.info("[updateAdminAccount] End");
         return 0;
+    }
+
+    /**
+     * Export Access Log of an Admin Account
+     *
+     * @param username
+     */
+    public void exportAccessLog(String username, HttpServletResponse response) {
+
+        LOG.info(new StringBuilder("[exportAccessLog] Start: username = ").append(username));
+
+        AdminAccount account = adminAccountDAO.getByUsername(username);
+        List<AdminAccessLog> list = account.getAdminAccessLogList();
+
+        StringBuilder header = new StringBuilder(properties.getProperty("header_no")).append(",")
+                .append(properties.getProperty("header_time")).append(",")
+                .append(properties.getProperty("header_action")).append(",")
+                .append("\n");
+
+        String filename = String.valueOf(new StringBuilder(username).append("-")
+                .append(properties.getProperty("file_admin_access_log")));
+
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            AdminAccessLog accessLog = list.get(i);
+
+            content.append(i + 1).append(",");
+
+            content.append(DateTimeUtil.getDate(accessLog.getTime(), properties.getProperty("date_time_format")))
+                    .append(",");
+
+            content.append(accessLog.getAction()).append(",");
+
+            content.append("\n");
+        }
+
+        csvService.exportCSV(filename, header, content, response);
+        LOG.info("[exportAccessLog] End");
     }
 }

@@ -93,3 +93,8 @@ function deleteAccount(param) {
 function submitResendEmail() {
     $("#deleteForm").submit();
 }
+
+function downloadLog(param) {
+    $("#log-username").val(param);
+    $("#accessLogForm").submit();
+}

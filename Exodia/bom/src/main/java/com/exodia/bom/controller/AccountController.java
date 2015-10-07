@@ -8,10 +8,7 @@ import com.exodia.database.entity.UserRoles;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -75,13 +72,13 @@ public class AccountController {
      * @return
      */
     @RequestMapping(value = "/exportAdmin", method = RequestMethod.POST)
-    public ModelAndView exportAdmin(@RequestParam(name = "txtSearchUsername") String username,
-                                    @RequestParam(name = "txtSearchEmail") String email,
-                                    @RequestParam(name = "txtSearchRole") String role,
-                                    @RequestParam(name = "txtSearchStatus") String status,
-                                    HttpServletResponse response) {
+    @ResponseBody
+    public void exportAdmin(@RequestParam(name = "txtSearchUsername") String username,
+                            @RequestParam(name = "txtSearchEmail") String email,
+                            @RequestParam(name = "txtSearchRole") String role,
+                            @RequestParam(name = "txtSearchStatus") String status,
+                            HttpServletResponse response) {
         LOG.info("[exportAdmin] Start");
-        ModelAndView model = new ModelAndView("viewAdminAccount");
         accountService.exportAdmin(username, email, role, status, response);
 
         commonService.saveAccessLog(String.valueOf(new StringBuilder(properties.getProperty("log_export_admin_account"))
@@ -91,7 +88,6 @@ public class AccountController {
                 .append(", status = ").append(status)));
 
         LOG.info("[exportAdmin] End");
-        return model;
     }
 
     /**
@@ -283,5 +279,24 @@ public class AccountController {
 
         LOG.info("[deleteAdminAccount] End");
         return model;
+    }
+
+    /**
+     * Download Access Log of an Admin Account
+     *
+     * @param username
+     */
+    @RequestMapping(value = "/downloadAccessLog", method = RequestMethod.POST)
+    @ResponseBody
+    public void downloadAccessLog(@RequestParam(name = "username") String username,
+                                  HttpServletResponse response) {
+
+        LOG.info("[downloadAccessLog] Start");
+
+        accountService.exportAccessLog(username, response);
+
+        commonService.saveAccessLog(String.valueOf(new StringBuilder(properties.getProperty("log_access_log_admin_account"))
+                .append(", username = ").append(username)));
+        LOG.info("[downloadAccessLog] End");
     }
 }

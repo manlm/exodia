@@ -119,7 +119,8 @@
                         </c:if>
                     </td>
                     <td style="text-align: center">
-                        <a href="" style="color: green">
+                        <a href="#" onclick="downloadLog('${account.username}')"
+                           style="color: green">
                             <span class="glyphicon glyphicon-download-alt"></span>
                         </a>
                     </td>
@@ -159,6 +160,11 @@
 
 <form id="deleteForm" action="deleteAdminAccount" method="POST">
     <input id="delete-username" name="username" type="hidden">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+
+<form id="accessLogForm" action="downloadAccessLog" method="POST">
+    <input id="log-username" name="username" type="hidden">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 
