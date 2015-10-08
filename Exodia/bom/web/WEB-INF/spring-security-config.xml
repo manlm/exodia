@@ -35,7 +35,7 @@
         <intercept-url pattern="/viewDetailByMonth" access="hasRole('DATA_MANAGER')"/>
 
         <!-- access denied page -->
-        <access-denied-handler error-page="/403"/>
+        <access-denied-handler error-page="/WEB-INF/pages/error.jsp"/>
         <form-login
                 login-page="/login"
                 login-processing-url="/j_spring_security_check"

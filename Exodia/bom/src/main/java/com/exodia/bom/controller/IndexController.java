@@ -295,6 +295,17 @@ public class IndexController {
         return model;
     }
 
+    /**
+     * @return
+     */
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    public ModelAndView showError() {
+        LOG.info("[showError] Start");
+        ModelAndView model = new ModelAndView("error");
+        LOG.info("[showError] End");
+        return model;
+    }
+
     // TODO remove
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(ModelMap model) {
