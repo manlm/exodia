@@ -41,18 +41,18 @@
         </form>
     </div>
 
-    <div style="width: 100%">
+    <div style="width: 80%; margin: 0 auto">
         <table id="myTable" class="table table-striped fixed table-hover" style="width: 100%">
             <thead style="width: 100%">
             <tr style="width: 100%">
-                <th style="width: 5%"></th>
-                <th id="th-search-email" style=" width: 73%">
+                <th style="width: 7%"></th>
+                <th id="th-search-email" style="width: 64%">
                     <input id="search-email" class="form-control" type="text" style="width:100%;"
                            placeholder="<spring:message code="search_by_email"/>"/>
                 </th>
-                <th id="th-search-status" style="text-align: center; width: 12%"></th>
-                <th style="width: 5%"></th>
-                <th style="width: 5%"></th>
+                <th id="th-search-status" style="text-align: center; width: 15%"></th>
+                <th style="width: 7%"></th>
+                <th style="width: 7%"></th>
             </tr>
             <tr style="width: 100%" class="danger">
                 <th style="vertical-align: middle">

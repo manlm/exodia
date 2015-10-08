@@ -36,4 +36,12 @@
         <put-attribute name="body" value="/WEB-INF/pages/detailPlayerAccount.jsp"/>
     </definition>
 
+    <definition name="viewSummaryData" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/summaryData.jsp"/>
+    </definition>
+
+    <definition name="viewDetailByMonth" extends="DefaultTemplate">
+        <put-attribute name="body" value="/WEB-INF/pages/detailByMonth.jsp"/>
+    </definition>
+
 </tiles-definitions>

@@ -3,11 +3,13 @@ package com.exodia.bom.controller;
 import com.exodia.bom.config.Properties;
 import com.exodia.bom.service.CommonService;
 import com.exodia.bom.service.DataService;
+import com.exodia.common.util.DateTimeUtil;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.database.entity.PlayerScore;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -94,6 +96,12 @@ public class DataController {
         return model;
     }
 
+    /**
+     * View detail of a player account
+     *
+     * @param email
+     * @return
+     */
     @RequestMapping(value = "/viewDetailPlayerAccount", method = RequestMethod.GET)
     public ModelAndView viewDetailPlayerAccount(@RequestParam(name = "email") String email) {
 
@@ -107,6 +115,49 @@ public class DataController {
         model.addObject("scoreList", scoreList);
 
         LOG.info("[viewDetailPlayerAccount] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/viewSummaryData", method = RequestMethod.GET)
+    public ModelAndView viewSummaryData() {
+
+        LOG.info("[viewSummaryData] Start");
+
+        ModelAndView model = new ModelAndView("viewSummaryData");
+
+        int curYear = DateTimeUtil.getCurrentYear();
+        List<Long> list1st = dataService.getAllMonthTotalPlay(curYear);
+        List<Long> list2nd = dataService.getAllMonthTotalPlay(curYear - 1);
+        List<Long> list3rd = dataService.getAllMonthTotalPlay(curYear - 2);
+
+        model.addObject("curYear", curYear);
+        model.addObject("list1st", list1st);
+        model.addObject("list2nd", list2nd);
+        model.addObject("list3rd", list3rd);
+
+        LOG.info("[viewSummaryData] End");
+        return model;
+    }
+
+    @RequestMapping(value = "/viewDetailByMonth", method = RequestMethod.GET)
+    public ModelAndView viewDetailByMonth(@RequestParam(name = "month") String month,
+                                          @RequestParam(name = "year") String year) {
+
+        LOG.info("[viewDetailByMonth] Start");
+
+        ModelAndView model = new ModelAndView("viewDetailByMonth");
+
+        List<PlayerScore> scoreList = dataService.getHighScoreOfMonth(month, year);
+
+        if (Integer.valueOf(month) < 10) {
+            month = "0" + month;
+        }
+
+        model.addObject("month", month);
+        model.addObject("year", year);
+        model.addObject("scoreList", scoreList);
+
+        LOG.info("[viewDetailByMonth] End");
         return model;
     }
 }

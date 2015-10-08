@@ -4,7 +4,7 @@ import com.exodia.bom.config.Properties;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.database.dao.PlayerAccountDAO;
-import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.dao.PlayerScoreDAO;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.database.entity.PlayerScore;
 import com.exodia.database.entity.UserStatus;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,9 @@ public class DataService {
 
     @Autowired
     private PlayerAccountDAO playerAccountDAO;
+
+    @Autowired
+    private PlayerScoreDAO playerScoreDAO;
 
     @Autowired
     private CSVService csvService;
@@ -128,5 +132,39 @@ public class DataService {
         LOG.info(new StringBuilder("[getByEmail] Start: email = ").append(email));
         LOG.info("getByEmail End");
         return playerAccountDAO.getByEmail(email);
+    }
+
+    /**
+     * Get total play time in a month
+     *
+     * @param year
+     * @return
+     */
+    public List<Long> getAllMonthTotalPlay(int year) {
+
+        LOG.info(new StringBuilder("[getAllMonthTotalPlay] Start: year = ").append(year));
+
+        List<Long> list = new ArrayList<>();
+
+        for (int i = 1; i <= 12; i++) {
+            long result = playerScoreDAO.countRecordOfAMonth(i, year);
+            list.add(result);
+        }
+
+        LOG.info("[getAllMonthTotalPlay] End");
+        return list;
+    }
+
+    /**
+     * Get player score of a month
+     *
+     * @param year
+     * @param month
+     * @return
+     */
+    public List<PlayerScore> getHighScoreOfMonth(String month, String year) {
+        LOG.info("[getHighScoreOfMonth] Start");
+        LOG.info("[getHighScoreOfMonth] End");
+        return playerScoreDAO.getHighScoreOfMonth(Integer.valueOf(month), Integer.valueOf(year));
     }
 }

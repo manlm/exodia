@@ -37,9 +37,9 @@
         </c:if>
 
         <c:if test="${principal.authorities == '[DATA_MANAGER]'}">
-            <li class="treeview <c:if test="${curPage== '/viewPlayerAccount'}">active</c:if>">
+            <li class="treeview <c:if test="${curPage== '/viewPlayerAccount' || curPage== '/viewSummaryData'}">active</c:if>">
                 <a href="">
-                    <i class="fa fa-fw fa-user"></i>
+                    <i class="fa fa-database"></i>
                     <span><spring:message code="menu_play_data"/></span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -47,6 +47,11 @@
                     <li <c:if test="${curPage == '/viewPlayerAccount'}">class="active"</c:if>>
                         <a href="${pageContext.request.contextPath}/viewPlayerAccount">
                             <i class="fa fa-list-alt"></i> <spring:message code="menu_view_player"/>
+                        </a>
+                    </li>
+                    <li <c:if test="${curPage == '/viewSummaryData'}">class="active"</c:if>>
+                        <a href="${pageContext.request.contextPath}/viewSummaryData">
+                            <i class="fa fa-calendar-o"></i> <spring:message code="menu_view_summary_data"/>
                         </a>
                     </li>
                 </ul>
