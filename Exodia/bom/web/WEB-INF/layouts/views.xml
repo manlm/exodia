@@ -4,10 +4,6 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
-    <definition name="hello" extends="DefaultTemplate">
-        <put-attribute name="body" value="/WEB-INF/pages/hello.jsp"/>
-    </definition>
-
     <definition name="firstLogin" extends="DefaultTemplate">
         <put-attribute name="body" value="/WEB-INF/pages/firstLogin.jsp"/>
     </definition>

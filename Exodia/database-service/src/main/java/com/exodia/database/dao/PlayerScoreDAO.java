@@ -41,9 +41,6 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
     @Autowired
     SessionFactory sessionFactory;
 
-//    @Autowired
-//    private Properties properties;
-
     public PlayerScoreDAO() {
         month31days.add(1);
         month31days.add(3);

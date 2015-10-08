@@ -218,12 +218,6 @@ public class IndexController {
         return "redirect:login";
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public ModelAndView hello() {
-        ModelAndView model = new ModelAndView("hello");
-        return model;
-    }
-
     /**
      * View my profile page
      *

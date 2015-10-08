@@ -19,8 +19,6 @@ public class MemcachedClient {
 
     private static net.spy.memcached.MemcachedClient cache;
 
-    InputStream inputStream;
-
     private Properties properties = new Properties();
 
     public MemcachedClient() {

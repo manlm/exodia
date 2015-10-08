@@ -14,14 +14,25 @@
         <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/forgotPassword" access="permitAll"/>
         <intercept-url pattern="/main" access="isAuthenticated()"/>
+        <intercept-url pattern="/viewFirstLogin" access="isAuthenticated()"/>
+        <intercept-url pattern="/updateFirstLogin" access="isAuthenticated()"/>
+        <intercept-url pattern="/viewMyProfile" access="isAuthenticated()"/>
+        <intercept-url pattern="/updateProfile" access="isAuthenticated()"/>
         <intercept-url pattern="/viewAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/exportAdmin" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/viewAddAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/addAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
-        <intercept-url pattern="/viewEditAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
-        <intercept-url pattern="/updatetAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/resendEmail" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/viewEditAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/updateAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/deleteAdminAccount" access="hasRole('ACCOUNT_MANAGER')"/>
+        <intercept-url pattern="/downloadAccessLog" access="hasRole('ACCOUNT_MANAGER')"/>
         <intercept-url pattern="/viewPlayerAccount" access="hasRole('DATA_MANAGER')"/>
+        <intercept-url pattern="/exportPlayer" access="hasRole('DATA_MANAGER')"/>
+        <intercept-url pattern="/deletePlayerAccount" access="hasRole('DATA_MANAGER')"/>
+        <intercept-url pattern="/viewDetailPlayerAccount" access="hasRole('DATA_MANAGER')"/>
+        <intercept-url pattern="/viewSummaryData" access="hasRole('DATA_MANAGER')"/>
+        <intercept-url pattern="/viewDetailByMonth" access="hasRole('DATA_MANAGER')"/>
 
         <!-- access denied page -->
         <access-denied-handler error-page="/403"/>
