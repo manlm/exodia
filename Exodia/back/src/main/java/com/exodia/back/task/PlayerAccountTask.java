@@ -3,39 +3,42 @@ package com.exodia.back.task;
 import com.exodia.back.config.Properties;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
-import com.exodia.database.dao.AdminAccountDAO;
-import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.dao.PlayerAccountDAO;
+import com.exodia.database.entity.PlayerAccount;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Created by manlm1 on 10/9/2015.
+ */
 @Service
-public class AdminAccountTask {
+public class PlayerAccountTask {
 
-    private static final Logger LOG = Logger.getLogger(AdminAccountTask.class);
+    private static final Logger LOG = Logger.getLogger(PlayerAccountTask.class);
 
     @Autowired
-    private AdminAccountDAO adminAccountDAO;
+    private PlayerAccountDAO playerAccountDAO;
 
     private Properties properties = new Properties();
 
-    public void doDeleteAdmin() {
+    public void doDeletePlayer() {
 
-        LOG.info("[doDeleteAdmin] Start");
+        LOG.info("[doDeletePlayer] Start");
 
-        List<AdminAccount> list = adminAccountDAO.getByStatus(Constant.STATUS_ID.DELETED.getValue());
+        List<PlayerAccount> list = playerAccountDAO.getByStatus(Constant.STATUS_ID.DELETED.getValue());
 
         long dateRange = Long.valueOf(properties.getProperty("admin_date_range"));
 
         for (int i = 0; i < list.size(); i++) {
-            AdminAccount account = list.get(i);
+            PlayerAccount account = list.get(i);
             if (DateTimeUtil.getCurUTCInMilliseconds() - account.getLastUpdate() >= dateRange) {
-                adminAccountDAO.remove(account);
+                playerAccountDAO.remove(account);
             }
         }
 
-        LOG.info("[doDeleteAdmin] End");
+        LOG.info("[doDeletePlayer] End");
     }
 }
