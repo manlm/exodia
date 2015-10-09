@@ -38,15 +38,13 @@ public class UserRolesDAO extends GenericHibernateDAO<UserRoles> {
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getAll] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getAll] End");
         }
-        LOG.info("[getAll] End");
-        return null;
     }
 
     /**
@@ -68,12 +66,12 @@ public class UserRolesDAO extends GenericHibernateDAO<UserRoles> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[findById] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[findById] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[findById] End");
         }
         LOG.info("[findById] End");
         return null;

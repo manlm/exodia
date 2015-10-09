@@ -44,15 +44,14 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getAll] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
             LOG.info("[getAll] End");
         }
-        LOG.info("[getAll] End");
-        return null;
     }
 
     /**
@@ -76,11 +75,12 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByUsername] HibernateException: ").append(e.getMessage()));
             session.getTransaction().rollback();
+            LOG.info("[getByUsername] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByUsername] End");
         }
         LOG.info("[getByUsername] End");
         return null;
@@ -105,12 +105,12 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByEmail] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByEmail] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByEmail] End");
         }
         LOG.info("[getByEmail] End");
         return null;
@@ -182,15 +182,13 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
 
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByConditions] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByConditions] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByConditions] End");
         }
-        LOG.info("[getByConditions] End");
-        return null;
     }
 
     /**
@@ -207,23 +205,32 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             session = sessionFactory.openSession();
             Criteria criteria = session.createCriteria(AdminAccount.class);
 
-            UserStatus userStatus = new UserStatus();
-            userStatus.setId(Constant.STATUS_ID.DELETED.getValue());
-            userStatus.setStatus(Constant.STATUS.DELETED.getValue());
-
-            criteria.add(Restrictions.eq("status", userStatus));
+            if (status == Constant.STATUS_ID.ACTIVE.getValue()) {
+                UserStatus userStatus = new UserStatus();
+                userStatus.setId(Constant.STATUS_ID.ACTIVE.getValue());
+                userStatus.setStatus(Constant.STATUS.ACTIVE.getValue());
+                criteria.add(Restrictions.eq("status", userStatus));
+            } else if (status == Constant.STATUS_ID.INACTIVE.getValue()) {
+                UserStatus userStatus = new UserStatus();
+                userStatus.setId(Constant.STATUS_ID.INACTIVE.getValue());
+                userStatus.setStatus(Constant.STATUS.INACTIVE.getValue());
+                criteria.add(Restrictions.eq("status", userStatus));
+            } else if (status == Constant.STATUS_ID.DELETED.getValue()) {
+                UserStatus userStatus = new UserStatus();
+                userStatus.setId(Constant.STATUS_ID.DELETED.getValue());
+                userStatus.setStatus(Constant.STATUS.DELETED.getValue());
+                criteria.add(Restrictions.eq("status", userStatus));
+            }
 
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByStatus] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByStatus] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByStatus] End");
         }
-        LOG.info("[getByStatus] End");
-        return null;
     }
 }

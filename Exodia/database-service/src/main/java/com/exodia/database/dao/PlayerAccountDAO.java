@@ -42,15 +42,13 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getAll] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getAll] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getAll] End");
         }
-        LOG.info("[getAll] End");
-        return null;
     }
 
     /**
@@ -72,12 +70,12 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByEmail] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByEmail] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByEmail] End");
         }
         LOG.info("[getByEmail] End");
         return null;
@@ -123,14 +121,50 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
 
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByConditions] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByConditions] End");
+            return null;
         } finally {
             if (session != null) {
                 session.cancelQuery();
             }
-            LOG.info("[getByConditions] End");
         }
-        LOG.info("[getByConditions] End");
-        return null;
+    }
+
+    /**
+     * Get Player Account by status
+     *
+     * @param status
+     * @return
+     */
+    public List<PlayerAccount> getByStatus(int status) {
+        LOG.info(new StringBuilder("[getByStatus] Start: status = ").append(status));
+
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(PlayerAccount.class);
+
+            if (status == Constant.STATUS_ID.ACTIVE.getValue()) {
+                UserStatus userStatus = new UserStatus();
+                userStatus.setId(Constant.STATUS_ID.ACTIVE.getValue());
+                userStatus.setStatus(Constant.STATUS.ACTIVE.getValue());
+                criteria.add(Restrictions.eq("status", userStatus));
+            } else if (status == Constant.STATUS_ID.DELETED.getValue()) {
+                UserStatus userStatus = new UserStatus();
+                userStatus.setId(Constant.STATUS_ID.DELETED.getValue());
+                userStatus.setStatus(Constant.STATUS.DELETED.getValue());
+                criteria.add(Restrictions.eq("status", userStatus));
+            }
+
+            return criteria.list();
+        } catch (HibernateException e) {
+            LOG.error(new StringBuilder("[getByStatus] HibernateException: ").append(e.getMessage()));
+            LOG.info("[getByStatus] End");
+            return null;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

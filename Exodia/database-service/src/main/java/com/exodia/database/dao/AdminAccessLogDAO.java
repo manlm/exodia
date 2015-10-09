@@ -44,12 +44,12 @@ public class AdminAccessLogDAO extends GenericHibernateDAO<AdminAccessLog> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByAdminId] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByAdminId] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByAdminId] End");
         }
         LOG.info("[getByAdminId] End");
         return null;

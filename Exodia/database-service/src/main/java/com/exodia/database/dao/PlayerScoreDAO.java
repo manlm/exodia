@@ -76,12 +76,12 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByPlayerId] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[getByPlayerId] End");
+            return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getByPlayerId] End");
         }
         LOG.info("[getByPlayerId] End");
         return null;
@@ -155,13 +155,12 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
             return (Long) criteria.uniqueResult();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[countRecordOfAMonth] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
+            LOG.info("[countRecordOfAMonth] End");
             return -1;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[countRecordOfAMonth] End");
         }
     }
 
@@ -202,13 +201,11 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
             return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getHighScoreOfMonth] HibernateException: ").append(e.getMessage()));
-            session.getTransaction().rollback();
             return null;
         } finally {
             if (session != null) {
                 session.close();
             }
-            LOG.info("[getHighScoreOfMonth] End");
         }
     }
 }
