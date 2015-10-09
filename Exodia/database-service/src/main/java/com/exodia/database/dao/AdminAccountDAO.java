@@ -1,8 +1,11 @@
 package com.exodia.database.dao;
 
 import com.exodia.common.constant.Constant;
+import com.exodia.common.util.DateTimeUtil;
 import com.exodia.database.dao.common.GenericHibernateDAO;
 import com.exodia.database.entity.AdminAccount;
+import com.exodia.database.entity.UserRoles;
+import com.exodia.database.entity.UserStatus;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -144,19 +147,34 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
 
             if (!role.equals("")) {
                 if (role.equalsIgnoreCase(Constant.ADMIN_ROLE.ACCOUNT_MANAGER.getValue())) {
-                    criteria.add(Restrictions.eq("role", Constant.ADMIN_ROLE_ID.ACCOUNT_MANAGER.getValue()));
+                    UserRoles userRoles = new UserRoles();
+                    userRoles.setId(Constant.ADMIN_ROLE_ID.ACCOUNT_MANAGER.getValue());
+                    userRoles.setRole(Constant.ADMIN_ROLE.ACCOUNT_MANAGER.getValue());
+                    criteria.add(Restrictions.eq("role", userRoles));
                 } else if (role.equalsIgnoreCase(Constant.ADMIN_ROLE.DATA_MANAGER.getValue())) {
-                    criteria.add(Restrictions.eq("role", Constant.ADMIN_ROLE_ID.DATA_MANAGER.getValue()));
+                    UserRoles userRoles = new UserRoles();
+                    userRoles.setId(Constant.ADMIN_ROLE_ID.DATA_MANAGER.getValue());
+                    userRoles.setRole(Constant.ADMIN_ROLE.DATA_MANAGER.getValue());
+                    criteria.add(Restrictions.eq("role", userRoles));
                 }
             }
 
             if (!status.equals("")) {
                 if (status.equalsIgnoreCase(Constant.STATUS.ACTIVE.getValue())) {
-                    criteria.add(Restrictions.eq("status", Constant.STATUS_ID.ACTIVE.getValue()));
+                    UserStatus userStatus = new UserStatus();
+                    userStatus.setId(Constant.STATUS_ID.ACTIVE.getValue());
+                    userStatus.setStatus(Constant.STATUS.ACTIVE.getValue());
+                    criteria.add(Restrictions.eq("status", userStatus));
                 } else if (status.equalsIgnoreCase(Constant.STATUS.INACTIVE.getValue())) {
-                    criteria.add(Restrictions.eq("status", Constant.STATUS_ID.INACTIVE.getValue()));
+                    UserStatus userStatus = new UserStatus();
+                    userStatus.setId(Constant.STATUS_ID.INACTIVE.getValue());
+                    userStatus.setStatus(Constant.STATUS.INACTIVE.getValue());
+                    criteria.add(Restrictions.eq("status", userStatus));
                 } else if (status.equalsIgnoreCase(Constant.STATUS.DELETED.getValue())) {
-                    criteria.add(Restrictions.eq("status", Constant.STATUS_ID.DELETED.getValue()));
+                    UserStatus userStatus = new UserStatus();
+                    userStatus.setId(Constant.STATUS_ID.DELETED.getValue());
+                    userStatus.setStatus(Constant.STATUS.DELETED.getValue());
+                    criteria.add(Restrictions.eq("status", userStatus));
                 }
             }
 
@@ -172,6 +190,41 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             LOG.info("[getByConditions] End");
         }
         LOG.info("[getByConditions] End");
+        return null;
+    }
+
+    /**
+     * Get Admin Account by Status
+     *
+     * @param status
+     * @return
+     */
+    public List<AdminAccount> getByStatus(int status) {
+        LOG.info(new StringBuilder("[getByStatus] Start: status = ").append(status));
+
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(AdminAccount.class);
+
+            UserStatus userStatus = new UserStatus();
+            userStatus.setId(Constant.STATUS_ID.DELETED.getValue());
+            userStatus.setStatus(Constant.STATUS.DELETED.getValue());
+
+            criteria.add(Restrictions.eq("status", userStatus));
+            if (criteria.list().size() > 0) {
+                return criteria.list();
+            }
+        } catch (HibernateException e) {
+            LOG.error(new StringBuilder("[getByStatus] HibernateException: ").append(e.getMessage()));
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+            LOG.info("[getByStatus] End");
+        }
+        LOG.info("[getByStatus] End");
         return null;
     }
 }

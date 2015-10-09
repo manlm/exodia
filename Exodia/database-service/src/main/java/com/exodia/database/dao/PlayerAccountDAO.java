@@ -3,6 +3,7 @@ package com.exodia.database.dao;
 import com.exodia.common.constant.Constant;
 import com.exodia.database.dao.common.GenericHibernateDAO;
 import com.exodia.database.entity.PlayerAccount;
+import com.exodia.database.entity.UserStatus;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -106,9 +107,15 @@ public class PlayerAccountDAO extends GenericHibernateDAO<PlayerAccount> {
 
             if (!status.equals("")) {
                 if (status.equalsIgnoreCase(Constant.STATUS.ACTIVE.getValue())) {
-                    criteria.add(Restrictions.eq("status", Constant.STATUS_ID.ACTIVE.getValue()));
+                    UserStatus userStatus = new UserStatus();
+                    userStatus.setId(Constant.STATUS_ID.ACTIVE.getValue());
+                    userStatus.setStatus(Constant.STATUS.ACTIVE.getValue());
+                    criteria.add(Restrictions.eq("status", userStatus));
                 } else if (status.equalsIgnoreCase(Constant.STATUS.DELETED.getValue())) {
-                    criteria.add(Restrictions.eq("status", Constant.STATUS_ID.DELETED.getValue()));
+                    UserStatus userStatus = new UserStatus();
+                    userStatus.setId(Constant.STATUS_ID.DELETED.getValue());
+                    userStatus.setStatus(Constant.STATUS.DELETED.getValue());
+                    criteria.add(Restrictions.eq("status", userStatus));
                 }
             }
 
