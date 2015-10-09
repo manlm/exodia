@@ -212,9 +212,8 @@ public class AdminAccountDAO extends GenericHibernateDAO<AdminAccount> {
             userStatus.setStatus(Constant.STATUS.DELETED.getValue());
 
             criteria.add(Restrictions.eq("status", userStatus));
-            if (criteria.list().size() > 0) {
-                return criteria.list();
-            }
+
+            return criteria.list();
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByStatus] HibernateException: ").append(e.getMessage()));
             session.getTransaction().rollback();

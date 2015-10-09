@@ -14,6 +14,7 @@
         <module>database-service</module>
         <module>common</module>
         <module>mail-service</module>
+        <module>back</module>
     </modules>
 
     <build>
