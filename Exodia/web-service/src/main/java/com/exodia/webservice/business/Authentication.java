@@ -3,18 +3,14 @@ package com.exodia.webservice.business;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.*;
 import com.exodia.database.dao.PlayerAccountDAO;
+import com.exodia.database.dao.PlayerScoreDAO;
 import com.exodia.database.entity.PlayerAccount;
+import com.exodia.database.entity.PlayerScore;
 import com.exodia.database.entity.UserStatus;
 import com.exodia.mail.service.MailService;
 import com.exodia.webservice.config.Properties;
-import com.exodia.webservice.model.ForgotPasswordModel;
-import com.exodia.webservice.model.LoginModel;
-import com.exodia.webservice.model.ReauthorizeModel;
-import com.exodia.webservice.model.RegisterModel;
-import com.exodia.webservice.response.ForgotPasswordResponse;
-import com.exodia.webservice.response.LoginResponse;
-import com.exodia.webservice.response.ReauthorizeResponse;
-import com.exodia.webservice.response.RegisterResponse;
+import com.exodia.webservice.model.*;
+import com.exodia.webservice.response.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +28,9 @@ public class Authentication {
 
     @Autowired
     private PlayerAccountDAO playerAccountDAO;
+
+    @Autowired
+    private PlayerScoreDAO playerScoreDAO;
 
     @Autowired
     private MemcachedClient memcachedClient;
@@ -170,6 +169,12 @@ public class Authentication {
         return response;
     }
 
+    /**
+     * Reset password for an Player Account
+     *
+     * @param email
+     * @return
+     */
     public ForgotPasswordResponse doForgotPassword(String email) {
 
         LOG.info(new StringBuilder("[doForgotPassword] Start: email = ").append(email));
@@ -184,14 +189,53 @@ public class Authentication {
         PlayerAccount account = playerAccountDAO.getByEmail(email);
         if (account != null) {
             LOG.info("[doForgotPassword] Email exist");
-            String password = MD5Util.stringToMD5(String.valueOf(PasswordUtil.generatePswd()));
-            account.setPassword(password);
+            String password = String.valueOf(PasswordUtil.generatePswd());
+            account.setPassword(MD5Util.stringToMD5(password));
             playerAccountDAO.update(account);
             mailService.sendMail(email, properties.getProperty("mail_reset_password")
                     , properties.getProperty("mail_subject_reset_password"), account.getEmail(), password);
         }
 
         LOG.info("[doForgotPassword] End");
+        return response;
+    }
+
+    /**
+     * Sync Player Score
+     *
+     * @param email
+     * @param score
+     * @return
+     */
+    public SyncDataResponse doSyncData(String email, int score) {
+
+        LOG.info(new StringBuilder("[doSyncData] Start: email = ").append(email)
+                .append(", score = ").append(score));
+
+        SyncDataResponse response = new SyncDataResponse();
+        SyncDataModel model = new SyncDataModel();
+
+        PlayerAccount account = playerAccountDAO.getByEmail(email);
+
+        PlayerScore playerScore = new PlayerScore();
+        playerScore.setPlayerAccount(account);
+        playerScore.setPlayTime(DateTimeUtil.getCurUTCInMilliseconds());
+        playerScore.setScore(score);
+
+        playerScore = playerScoreDAO.save(playerScore);
+
+        if (playerScore != null) {
+            model.setScore(score);
+            response.setMessage("");
+            response.setData(model);
+            response.setStatusCode(properties.getProperty("status_code_success"));
+
+            LOG.info("[doSyncData] End");
+            return response;
+        }
+
+        response.setStatusCode(properties.getProperty("status_code_failed"));
+        LOG.info("[doSyncData] End");
         return response;
     }
 }

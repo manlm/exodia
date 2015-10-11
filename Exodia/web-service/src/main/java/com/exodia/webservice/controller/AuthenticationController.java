@@ -2,10 +2,7 @@ package com.exodia.webservice.controller;
 
 import com.exodia.mail.service.MailService;
 import com.exodia.webservice.business.Authentication;
-import com.exodia.webservice.response.ForgotPasswordResponse;
-import com.exodia.webservice.response.LoginResponse;
-import com.exodia.webservice.response.ReauthorizeResponse;
-import com.exodia.webservice.response.RegisterResponse;
+import com.exodia.webservice.response.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +27,14 @@ public class AuthenticationController {
     @Autowired
     private Authentication auth;
 
+    /**
+     * Register new account
+     *
+     * @param email
+     * @param password
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public RegisterResponse register(@RequestParam(value = "email") String email,
@@ -41,6 +46,14 @@ public class AuthenticationController {
         return auth.doRegister(email, password);
     }
 
+    /**
+     * Login
+     *
+     * @param email
+     * @param password
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public LoginResponse login(@RequestParam(value = "email") String email,
@@ -52,6 +65,14 @@ public class AuthenticationController {
         return auth.doLogin(email, password);
     }
 
+    /**
+     * Reauthorize
+     *
+     * @param email
+     * @param sessionId
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/reauthorize", method = RequestMethod.POST)
     @ResponseBody
     public ReauthorizeResponse reauthorize(@RequestParam(value = "email") String email,
@@ -63,6 +84,13 @@ public class AuthenticationController {
         return auth.doReauthorize(email, sessionId);
     }
 
+    /**
+     * Reset password
+     *
+     * @param email
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
     @ResponseBody
     public ForgotPasswordResponse forgotPassword(@RequestParam(value = "email") String email,
@@ -73,6 +101,23 @@ public class AuthenticationController {
         return auth.doForgotPassword(email);
     }
 
+    /**
+     * Sync Player Score
+     *
+     * @return
+     */
+    @RequestMapping(value = "syncData", method = RequestMethod.POST)
+    @ResponseBody
+    public SyncDataResponse synData(@RequestParam(value = "email") String email,
+                                    @RequestParam(value = "score") String score,
+                                    HttpServletResponse response) {
+        LOG.info("[synData] Start");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[synData] End");
+        return auth.doSyncData(email, Integer.valueOf(score));
+    }
+
+    // TODO remove
     @RequestMapping(value = "/sendMail", method = RequestMethod.GET)
     @ResponseBody
     public String sendMail() {
