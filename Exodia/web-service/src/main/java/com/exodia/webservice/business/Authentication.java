@@ -191,6 +191,7 @@ public class Authentication {
             LOG.info("[doForgotPassword] Email exist");
             String password = String.valueOf(PasswordUtil.generatePswd());
             account.setPassword(MD5Util.stringToMD5(password));
+            account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
             playerAccountDAO.update(account);
             mailService.sendMail(email, properties.getProperty("mail_reset_password")
                     , properties.getProperty("mail_subject_reset_password"), account.getEmail(), password);
@@ -236,6 +237,43 @@ public class Authentication {
 
         response.setStatusCode(properties.getProperty("status_code_failed"));
         LOG.info("[doSyncData] End");
+        return response;
+    }
+
+    /**
+     * Change password
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    public UpdateProfileResponse doUpdateProfile(String email, String oldPassword, String newPassword) {
+
+        LOG.info(new StringBuilder("[doUpdateProfile] Start: email = ").append(email));
+
+        UpdateProfileResponse response = new UpdateProfileResponse();
+        UpdateProfileModel model = new UpdateProfileModel();
+        PlayerAccount account = playerAccountDAO.getByEmail(email);
+
+        model.setEmail(email);
+        response.setData(model);
+
+        if (!MD5Util.stringToMD5(oldPassword).equals(account.getPassword())) {
+            response.setStatusCode(properties.getProperty("status_code_failed"));
+            return response;
+        }
+
+        account.setPassword(MD5Util.stringToMD5(newPassword));
+        account = playerAccountDAO.update(account);
+
+        if (account != null) {
+            response.setStatusCode(properties.getProperty("status_code_success"));
+            LOG.info("[doUpdateProfile] End");
+            return response;
+        }
+
+        response.setStatusCode(properties.getProperty("status_code_failed"));
+        LOG.info("[doUpdateProfile] End");
         return response;
     }
 }

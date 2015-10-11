@@ -1,5 +1,6 @@
 package com.exodia.webservice.controller;
 
+import com.exodia.common.util.ValidateUtil;
 import com.exodia.mail.service.MailService;
 import com.exodia.webservice.business.Authentication;
 import com.exodia.webservice.response.*;
@@ -106,7 +107,7 @@ public class AuthenticationController {
      *
      * @return
      */
-    @RequestMapping(value = "syncData", method = RequestMethod.POST)
+    @RequestMapping(value = "/syncData", method = RequestMethod.POST)
     @ResponseBody
     public SyncDataResponse synData(@RequestParam(value = "email") String email,
                                     @RequestParam(value = "score") String score,
@@ -115,6 +116,26 @@ public class AuthenticationController {
         response.setHeader("Access-Control-Allow-Origin", "*");
         LOG.info("[synData] End");
         return auth.doSyncData(email, Integer.valueOf(score));
+    }
+
+    /**
+     * Change password
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+    @ResponseBody
+    public UpdateProfileResponse updateProfile(@RequestParam(value = "email") String email,
+                                               @RequestParam(value = "oldPassword") String oldPassword,
+                                               @RequestParam(value = "newPassword") String newPassword,
+                                               HttpServletResponse response) {
+        LOG.info("[updateProfile] Start");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[updateProfile] End");
+        return auth.doUpdateProfile(email,oldPassword, newPassword);
     }
 
     // TODO remove
