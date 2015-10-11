@@ -105,7 +105,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="failedModal" role="dialog" data-keyboard="false" data-backdrop="static">
+<div class="modal fade" id="failedModal" role="dialog" data-keyboard="true" data-backdrop="static">
     <div class="modal-dialog" style="width: 300px; margin: 0 auto">
 
         <!-- Modal content-->

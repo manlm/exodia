@@ -339,7 +339,7 @@ public class IndexController {
 
         UserStatus status = new UserStatus();
         status.setId(1);
-
+        status.setStatus("ACTIVE");
         for (int i = 1; i <= 100; i++) {
             System.out.println(i);
             PlayerAccount account = new PlayerAccount();

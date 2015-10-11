@@ -48,10 +48,21 @@ public class Authentication {
      */
     public RegisterResponse doRegister(String email, String password) {
 
-        LOG.info(new StringBuilder("[doRegister] Start: email = ").append(email).append(", password").append(password));
+        LOG.info(new StringBuilder("[doRegister] Start: email = ").append(email));
 
         RegisterResponse response = new RegisterResponse();
         RegisterModel model = new RegisterModel();
+
+        PlayerAccount playerAccount = playerAccountDAO.getByEmail(email);
+
+        if (playerAccount != null) {
+            model.setEmail(email);
+            response.setData(model);
+            response.setMessage("");
+            response.setStatusCode(properties.getProperty("status_code_failed"));
+            return response;
+        }
+
         PlayerAccount account = new PlayerAccount();
 
         account.setEmail(email);
@@ -67,6 +78,7 @@ public class Authentication {
 
         model.setEmail(email);
         response.setData(model);
+        response.setMessage("");
         response.setStatusCode(properties.getProperty("status_code_success"));
 
         LOG.info("[doRegister] End");
@@ -82,13 +94,16 @@ public class Authentication {
      */
     public LoginResponse doLogin(String email, String password) {
 
-        LOG.info(new StringBuilder("[doLogin] Start: email = ").append(email).append(", password = ").append(password));
+        LOG.info(new StringBuilder("[doLogin] Start: email = ").append(email));
 
         LoginResponse response = new LoginResponse();
         LoginModel model = new LoginModel();
         PlayerAccount account = playerAccountDAO.getByEmail(email);
         if (account == null) {
             LOG.info("[doLogin] account == null");
+            model.setSessionId("");
+            response.setData(model);
+            response.setMessage("");
             response.setStatusCode(properties.getProperty("status_code_failed"));
             LOG.info("[doLogin] End");
             return response;
@@ -96,7 +111,9 @@ public class Authentication {
 
         if (!MD5Util.stringToMD5(password).equals(account.getPassword())) {
             LOG.info("[doLogin] password does not match");
-            response.setMessage("Invalid email or password");
+            model.setSessionId("");
+            response.setData(model);
+            response.setMessage("");
             response.setStatusCode(properties.getProperty("status_code_failed"));
             LOG.info("[doLogin] End");
             return response;
@@ -106,6 +123,7 @@ public class Authentication {
         memcachedClient.set(email, sessionId, Integer.valueOf(properties.getProperty("cache_alive_time")));
         model.setSessionId(sessionId);
         response.setData(model);
+        response.setMessage("");
         response.setStatusCode(properties.getProperty("status_code_success"));
         LOG.info("[doLogin] End");
         return response;
@@ -125,17 +143,28 @@ public class Authentication {
 
         ReauthorizeResponse response = new ReauthorizeResponse();
         ReauthorizeModel model = new ReauthorizeModel();
-
-        if (memcachedClient.get(email).equals(sessionId)) {
-            LOG.info("[doReauthorize] Session exist");
-            model.setEmail(email);
-            response.setData(model);
-            response.setStatusCode(properties.getProperty("status_code_success"));
-            LOG.info("[doReauthorize] End");
-            return response;
+        if (!email.equals("")) {
+            String cached = memcachedClient.get(email);
+            if (cached != null) {
+                if (cached.equals(sessionId)) {
+                    LOG.info("[doReauthorize] Session exist");
+                    String newSessionId = IdUtil.generateId();
+                    memcachedClient.set(email, newSessionId, Integer.valueOf(properties.getProperty("cache_alive_time")));
+                    model.setEmail(email);
+                    model.setSessionId(newSessionId);
+                    response.setData(model);
+                    response.setMessage("");
+                    response.setStatusCode(properties.getProperty("status_code_success"));
+                    LOG.info("[doReauthorize] End");
+                    return response;
+                }
+            }
         }
 
         LOG.info("[doReauthorize] Session does not exist");
+        model.setEmail("");
+        response.setData(model);
+        response.setMessage("");
         response.setStatusCode(properties.getProperty("status_code_failed"));
         LOG.info("[doReauthorize] End");
         return response;
@@ -149,6 +178,7 @@ public class Authentication {
         ForgotPasswordModel model = new ForgotPasswordModel();
         model.setEmail(email);
         response.setData(model);
+        response.setMessage("");
         response.setStatusCode(properties.getProperty("status_code_success"));
 
         PlayerAccount account = playerAccountDAO.getByEmail(email);
