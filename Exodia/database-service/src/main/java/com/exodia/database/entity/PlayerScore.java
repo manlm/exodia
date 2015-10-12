@@ -4,6 +4,8 @@ package com.exodia.database.entity;
  * Created by manlm1 on 9/23/2015.
  */
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -18,6 +20,7 @@ public class PlayerScore implements Serializable, Comparable<PlayerScore> {
 
     @ManyToOne()
     @JoinColumn(name = "player_id")
+    @JsonBackReference
     private PlayerAccount playerAccount;
 
     @Column(name = "score")

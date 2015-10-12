@@ -1,8 +1,8 @@
 package com.exodia.webservice.model;
 
+import com.exodia.database.entity.Highscore;
 import com.exodia.database.entity.PlayerScore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ public class HighscoreModel {
 
     private int score;
 
-    private List<PlayerScore> list;
+    private List<PlayerHighScore> list;
 
     public int getRank() {
         return rank;
@@ -32,11 +32,11 @@ public class HighscoreModel {
         this.score = score;
     }
 
-    public List<PlayerScore> getList() {
+    public List<PlayerHighScore> getList() {
         return list;
     }
 
-    public void setList(List<PlayerScore> list) {
+    public void setList(List<PlayerHighScore> list) {
         this.list = list;
     }
 }

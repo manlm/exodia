@@ -1,5 +1,6 @@
 package com.exodia.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
@@ -41,6 +42,7 @@ public class PlayerAccount implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "playerAccount")
     @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.DELETE})
     @Fetch(value = FetchMode.SUBSELECT)
+    @JsonManagedReference
     private List<PlayerScore> playerScoreList = new ArrayList<>();
 
     public int getId() {

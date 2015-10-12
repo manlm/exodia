@@ -331,14 +331,38 @@ public class Authentication {
 
         List<Highscore> highscoreList = highscoreDAO.getHighScoreOfMonth(DateTimeUtil.getCurrentMonth(),
                 DateTimeUtil.getCurrentYear(), 0);
-//        model.setList(playerScoreList);
+        List<PlayerHighScore> playerHighScoreList = new ArrayList<>();
+
+        int size = highscoreList.size();
+
 
         response.setStatusCode(properties.getProperty("status_code_success"));
         Collections.sort(highscoreList);
-        int rank = Collections.binarySearch(highscoreList, highscore) + 1;
-        int score = highscoreList.get(rank).getScore();
-        model.setRank(rank);
-        model.setScore(score);
+
+        if (size <= 5) {
+            for (int i = 0; i < size; i++) {
+                PlayerHighScore playerHighScore = new PlayerHighScore();
+                playerHighScore.setEmail(highscoreList.get(i).getPlayerAccount().getEmail());
+                playerHighScore.setScore(highscoreList.get(i).getScore());
+                playerHighScoreList.add(playerHighScore);
+            }
+        } else {
+            for (int i = 0; i < 5; i++) {
+                PlayerHighScore playerHighScore = new PlayerHighScore();
+                playerHighScore.setEmail(highscoreList.get(i).getPlayerAccount().getEmail());
+                playerHighScore.setScore(highscoreList.get(i).getScore());
+                playerHighScoreList.add(playerHighScore);
+            }
+        }
+
+        model.setList(playerHighScoreList);
+        int rank = Collections.binarySearch(highscoreList, highscore);
+        if (rank >= 0) {
+            int score = highscoreList.get(rank).getScore();
+            model.setRank(rank + 1);
+            model.setScore(score);
+        }
+
         response.setData(model);
 
         LOG.info("[doGetHighscore] End");

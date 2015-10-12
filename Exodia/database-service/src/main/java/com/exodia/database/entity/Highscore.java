@@ -1,5 +1,7 @@
 package com.exodia.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -18,6 +20,7 @@ public class Highscore implements Serializable, Comparable<Highscore> {
 
     @OneToOne()
     @JoinColumn(name = "player_id")
+    @JsonBackReference
     private PlayerAccount playerAccount;
 
     @Column(name = "score")
@@ -62,8 +65,16 @@ public class Highscore implements Serializable, Comparable<Highscore> {
     public int compareTo(Highscore o) {
         if (this.getScore() > o.getScore()) {
             return -1;
+        } else if (this.getScore() < o.getScore()) {
+            return 1;
+        } else {
+            if (this.getPlayTime() > o.getPlayTime()) {
+                return 1;
+            } else if (this.getPlayTime() < o.getPlayTime()) {
+                return -1;
+            }
         }
 
-        return 1;
+        return 0;
     }
 }
