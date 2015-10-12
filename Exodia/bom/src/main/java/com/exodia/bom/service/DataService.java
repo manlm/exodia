@@ -3,8 +3,10 @@ package com.exodia.bom.service;
 import com.exodia.bom.config.Properties;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
+import com.exodia.database.dao.HighscoreDAO;
 import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.dao.PlayerScoreDAO;
+import com.exodia.database.entity.Highscore;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.database.entity.PlayerScore;
 import com.exodia.database.entity.UserStatus;
@@ -32,6 +34,9 @@ public class DataService {
 
     @Autowired
     private PlayerScoreDAO playerScoreDAO;
+
+    @Autowired
+    private HighscoreDAO highscoreDAO;
 
     @Autowired
     private CSVService csvService;
@@ -162,9 +167,9 @@ public class DataService {
      * @param month
      * @return
      */
-    public List<PlayerScore> getHighScoreOfMonth(String month, String year) {
+    public List<Highscore> getHighScoreOfMonth(String month, String year) {
         LOG.info("[getHighScoreOfMonth] Start");
         LOG.info("[getHighScoreOfMonth] End");
-        return playerScoreDAO.getHighScoreOfMonth(Integer.valueOf(month), Integer.valueOf(year));
+        return highscoreDAO.getHighScoreOfMonth(Integer.valueOf(month), Integer.valueOf(year), 20);
     }
 }

@@ -1,22 +1,22 @@
 package com.exodia.database.entity;
 
-/**
- * Created by manlm1 on 9/23/2015.
- */
-
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Created by manlm1 on 10/12/2015.
+ */
+
 @Entity
-@Table(name = "playerscore")
-public class PlayerScore implements Serializable, Comparable<PlayerScore> {
+@Table(name = "highscore")
+public class Highscore implements Serializable, Comparable<Highscore> {
 
     @Id
     @GeneratedValue
     @Column(name = "score_id")
     private int id;
 
-    @ManyToOne()
+    @OneToOne()
     @JoinColumn(name = "player_id")
     private PlayerAccount playerAccount;
 
@@ -59,9 +59,8 @@ public class PlayerScore implements Serializable, Comparable<PlayerScore> {
     }
 
     @Override
-    public int compareTo(PlayerScore o) {
-
-        if (this.getPlayTime() > o.getPlayTime()) {
+    public int compareTo(Highscore o) {
+        if (this.getScore() > o.getScore()) {
             return -1;
         }
 

@@ -4,6 +4,7 @@ import com.exodia.bom.config.Properties;
 import com.exodia.bom.service.CommonService;
 import com.exodia.bom.service.DataService;
 import com.exodia.common.util.DateTimeUtil;
+import com.exodia.database.entity.Highscore;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.database.entity.PlayerScore;
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -110,7 +112,7 @@ public class DataController {
         ModelAndView model = new ModelAndView("viewDetailPlayerAccount");
         PlayerAccount account = dataService.getByEmail(email);
         List<PlayerScore> scoreList = account.getPlayerScoreList();
-
+        Collections.sort(scoreList);
         model.addObject("account", account);
         model.addObject("scoreList", scoreList);
 
@@ -147,7 +149,7 @@ public class DataController {
 
         ModelAndView model = new ModelAndView("viewDetailByMonth");
 
-        List<PlayerScore> scoreList = dataService.getHighScoreOfMonth(month, year);
+        List<Highscore> scoreList = dataService.getHighScoreOfMonth(month, year);
 
         if (Integer.valueOf(month) < 10) {
             month = "0" + month;

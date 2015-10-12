@@ -19,6 +19,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/forgotPassword.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/valid.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+<body style="background: white url('${pageContext.request.contextPath}/resources/img/1.jpg') no-repeat center; background-size:cover">
 
 <div class="container">
     <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -72,7 +73,7 @@
         </div>
     </div>
 </div>
-
+</body>
 <!-- Modal -->
 <div class="modal fade" id="successModal" role="dialog" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" style="width: 300px; margin: 0 auto">

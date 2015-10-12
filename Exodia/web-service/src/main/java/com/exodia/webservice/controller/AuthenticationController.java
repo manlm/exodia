@@ -135,7 +135,24 @@ public class AuthenticationController {
         LOG.info("[updateProfile] Start");
         response.setHeader("Access-Control-Allow-Origin", "*");
         LOG.info("[updateProfile] End");
-        return auth.doUpdateProfile(email,oldPassword, newPassword);
+        return auth.doUpdateProfile(email, oldPassword, newPassword);
+    }
+
+    /**
+     * Get highscore
+     *
+     * @param email
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/getHighscore", method = RequestMethod.POST)
+    @ResponseBody
+    public HighscoreResponse getHighscore(@RequestParam(value = "email") String email,
+                                          HttpServletResponse response) {
+        LOG.info("[getHighscore] Start");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        LOG.info("[getHighscore] End");
+        return auth.doGetHighscore(email);
     }
 
     // TODO remove

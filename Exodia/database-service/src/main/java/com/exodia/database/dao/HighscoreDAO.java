@@ -2,30 +2,28 @@ package com.exodia.database.dao;
 
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.database.dao.common.GenericHibernateDAO;
+import com.exodia.database.entity.Highscore;
 import com.exodia.database.entity.PlayerAccount;
-import com.exodia.database.entity.PlayerScore;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by manlm1 on 10/2/2015.
+ * Created by manlm1 on 10/12/2015.
  */
 @Service
-public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
+public class HighscoreDAO extends GenericHibernateDAO<Highscore> {
 
-    private static final Logger LOG = Logger.getLogger(PlayerScoreDAO.class);
+    private static final Logger LOG = Logger.getLogger(HighscoreDAO.class);
 
     private static final String DATE_FORMAT = "yyyyMMdd";
     private static final String FIRST_DAY_OF_MONTH = "01";
@@ -39,7 +37,7 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public PlayerScoreDAO() {
+    public HighscoreDAO() {
         month31days.add(1);
         month31days.add(3);
         month31days.add(5);
@@ -55,23 +53,23 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
     }
 
     /**
-     * Get by player account
+     * Get highscore by player account
      *
      * @param playerAccount
      * @return
      */
-    public PlayerScore getHighestByPlayerAccount(PlayerAccount playerAccount) {
+    public Highscore getByPlayerAccount(PlayerAccount playerAccount) {
         LOG.info(new StringBuilder("[getByPlayerId] Start: playerAccount = ").append(playerAccount));
 
         Session session = null;
 
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(PlayerScore.class);
+            Criteria criteria = session.createCriteria(Highscore.class);
             criteria.add(Restrictions.eq("playerAccount", playerAccount));
             criteria.addOrder(Order.desc("score"));
             if (criteria.list().size() > 0) {
-                return (PlayerScore) criteria.list().get(0);
+                return (Highscore) criteria.list().get(0);
             }
         } catch (HibernateException e) {
             LOG.error(new StringBuilder("[getByPlayerId] HibernateException: ").append(e.getMessage()));
@@ -119,15 +117,15 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
     }
 
     /**
-     * Get total playtime in a month
+     * Get player score of a month
      *
      * @param month
      * @param year
      * @return
      */
-    public long countRecordOfAMonth(int month, int year) {
+    public List<Highscore> getHighScoreOfMonth(int month, int year, int numberOfRecord) {
 
-        LOG.info(new StringBuilder("[countRecordOfAMonth] Start: month = ").append(month)
+        LOG.info(new StringBuilder("[getHighScoreOfMonth] Start: month = ").append(month)
                 .append(", year = ").append(year));
 
         String monthString = String.valueOf(month);
@@ -146,16 +144,18 @@ public class PlayerScoreDAO extends GenericHibernateDAO<PlayerScore> {
 
         try {
             session = sessionFactory.openSession();
-            Criteria criteria = session.createCriteria(PlayerScore.class);
+            Criteria criteria = session.createCriteria(Highscore.class);
             criteria.add(Restrictions.ge("playTime", beginMillis));
             criteria.add(Restrictions.le("playTime", endMillis));
-            criteria.setProjection(Projections.rowCount());
-            LOG.info("[countRecordOfAMonth] End");
-            return (Long) criteria.uniqueResult();
+            criteria.addOrder(Order.desc("score"));
+            if (numberOfRecord != 0) {
+                criteria.setMaxResults(numberOfRecord);
+            }
+            LOG.info("[getHighScoreOfMonth] End");
+            return criteria.list();
         } catch (HibernateException e) {
-            LOG.error(new StringBuilder("[countRecordOfAMonth] HibernateException: ").append(e.getMessage()));
-            LOG.info("[countRecordOfAMonth] End");
-            return -1;
+            LOG.error(new StringBuilder("[getHighScoreOfMonth] HibernateException: ").append(e.getMessage()));
+            return null;
         } finally {
             if (session != null) {
                 session.close();

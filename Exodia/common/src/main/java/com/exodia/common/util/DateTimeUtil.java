@@ -78,4 +78,14 @@ public class DateTimeUtil {
             return -1;
         }
     }
+
+    /**
+     * Get current month
+     *
+     * @return
+     */
+    public static int getCurrentMonth() {
+        Calendar now = Calendar.getInstance();
+        return (now.get(Calendar.MONTH) + 1);
+    }
 }

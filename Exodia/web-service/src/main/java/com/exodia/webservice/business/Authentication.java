@@ -2,8 +2,10 @@ package com.exodia.webservice.business;
 
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.*;
+import com.exodia.database.dao.HighscoreDAO;
 import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.dao.PlayerScoreDAO;
+import com.exodia.database.entity.Highscore;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.database.entity.PlayerScore;
 import com.exodia.database.entity.UserStatus;
@@ -12,8 +14,13 @@ import com.exodia.webservice.config.Properties;
 import com.exodia.webservice.model.*;
 import com.exodia.webservice.response.*;
 import org.apache.log4j.Logger;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by manlm1 on 9/8/2015.
@@ -31,6 +38,9 @@ public class Authentication {
 
     @Autowired
     private PlayerScoreDAO playerScoreDAO;
+
+    @Autowired
+    private HighscoreDAO highscoreDAO;
 
     @Autowired
     private MemcachedClient memcachedClient;
@@ -226,13 +236,39 @@ public class Authentication {
         playerScore = playerScoreDAO.save(playerScore);
 
         if (playerScore != null) {
-            model.setScore(score);
-            response.setMessage("");
-            response.setData(model);
-            response.setStatusCode(properties.getProperty("status_code_success"));
 
-            LOG.info("[doSyncData] End");
-            return response;
+            Highscore highscore = highscoreDAO.getByPlayerAccount(account);
+            if (highscore != null) {
+                if (highscore.getScore() <= score) {
+                    highscore.setScore(score);
+                    highscore.setPlayTime(DateTimeUtil.getCurUTCInMilliseconds());
+                    highscore = highscoreDAO.update(highscore);
+                    if (highscore != null) {
+                        model.setScore(score);
+                        response.setMessage("");
+                        response.setData(model);
+                        response.setStatusCode(properties.getProperty("status_code_success"));
+
+                        LOG.info("[doSyncData] End");
+                        return response;
+                    }
+                }
+            } else {
+                highscore = new Highscore();
+                highscore.setPlayerAccount(account);
+                highscore.setScore(score);
+                highscore.setPlayTime(DateTimeUtil.getCurUTCInMilliseconds());
+                highscore = highscoreDAO.save(highscore);
+                if (highscore != null) {
+                    model.setScore(score);
+                    response.setMessage("");
+                    response.setData(model);
+                    response.setStatusCode(properties.getProperty("status_code_success"));
+
+                    LOG.info("[doSyncData] End");
+                    return response;
+                }
+            }
         }
 
         response.setStatusCode(properties.getProperty("status_code_failed"));
@@ -274,6 +310,38 @@ public class Authentication {
 
         response.setStatusCode(properties.getProperty("status_code_failed"));
         LOG.info("[doUpdateProfile] End");
+        return response;
+    }
+
+    /**
+     * Get highscore
+     *
+     * @param email
+     * @return
+     */
+    public HighscoreResponse doGetHighscore(String email) {
+
+        LOG.info(new StringBuilder("[doGetHighscore] Start: email = ").append(email));
+
+        HighscoreResponse response = new HighscoreResponse();
+        HighscoreModel model = new HighscoreModel();
+
+        PlayerAccount account = playerAccountDAO.getByEmail(email);
+        Highscore highscore = highscoreDAO.getByPlayerAccount(account);
+
+        List<Highscore> highscoreList = highscoreDAO.getHighScoreOfMonth(DateTimeUtil.getCurrentMonth(),
+                DateTimeUtil.getCurrentYear(), 0);
+//        model.setList(playerScoreList);
+
+        response.setStatusCode(properties.getProperty("status_code_success"));
+        Collections.sort(highscoreList);
+        int rank = Collections.binarySearch(highscoreList, highscore) + 1;
+        int score = highscoreList.get(rank).getScore();
+        model.setRank(rank);
+        model.setScore(score);
+        response.setData(model);
+
+        LOG.info("[doGetHighscore] End");
         return response;
     }
 }
