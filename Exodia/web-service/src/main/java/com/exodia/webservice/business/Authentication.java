@@ -117,6 +117,16 @@ public class Authentication {
             return response;
         }
 
+        if (account.getStatus().getId() == Constant.STATUS_ID.DELETED.getValue()) {
+            LOG.info("[doLogin] account == null");
+            model.setSessionId("");
+            response.setData(model);
+            response.setMessage("");
+            response.setStatusCode(properties.getProperty("status_code_failed"));
+            LOG.info("[doLogin] End");
+            return response;
+        }
+
         if (!MD5Util.stringToMD5(password).equals(account.getPassword())) {
             LOG.info("[doLogin] password does not match");
             model.setSessionId("");
