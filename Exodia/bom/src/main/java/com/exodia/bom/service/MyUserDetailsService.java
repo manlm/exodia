@@ -1,5 +1,6 @@
 package com.exodia.bom.service;
 
+import com.exodia.common.constant.Constant;
 import com.exodia.database.dao.AdminAccountDAO;
 import com.exodia.database.dao.UserRolesDAO;
 import com.exodia.database.entity.AdminAccount;
@@ -37,6 +38,11 @@ public class MyUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         LOG.info(new StringBuilder("[loadUserByUsername] Start: username = ").append(username));
         AdminAccount adminAccount = adminAccountDAO.getByUsername(username);
+
+        if (adminAccount.getStatus().getId() == Constant.STATUS_ID.DELETED.getValue()) {
+            adminAccount = null;
+        }
+
         List<GrantedAuthority> authorities = buildUserAuthority(adminAccount.getRole().getId());
 
         LOG.info("[loadUserByUsername] End");

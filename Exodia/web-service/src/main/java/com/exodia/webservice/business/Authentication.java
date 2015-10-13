@@ -14,7 +14,6 @@ import com.exodia.webservice.config.Properties;
 import com.exodia.webservice.model.*;
 import com.exodia.webservice.response.*;
 import org.apache.log4j.Logger;
-import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

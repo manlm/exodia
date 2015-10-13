@@ -8,7 +8,6 @@ import com.exodia.database.dao.PlayerAccountDAO;
 import com.exodia.database.dao.PlayerScoreDAO;
 import com.exodia.database.entity.Highscore;
 import com.exodia.database.entity.PlayerAccount;
-import com.exodia.database.entity.PlayerScore;
 import com.exodia.database.entity.UserStatus;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

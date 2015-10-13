@@ -1,6 +1,5 @@
 package com.exodia.webservice.controller;
 
-import com.exodia.common.util.ValidateUtil;
 import com.exodia.mail.service.MailService;
 import com.exodia.webservice.business.Authentication;
 import com.exodia.webservice.response.*;

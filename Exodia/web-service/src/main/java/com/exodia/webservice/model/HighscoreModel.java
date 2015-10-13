@@ -1,8 +1,5 @@
 package com.exodia.webservice.model;
 
-import com.exodia.database.entity.Highscore;
-import com.exodia.database.entity.PlayerScore;
-
 import java.util.List;
 
 /**

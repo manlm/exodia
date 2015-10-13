@@ -12,7 +12,6 @@ import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.PlayerAccount;
 import com.exodia.database.entity.UserRoles;
 import com.exodia.database.entity.UserStatus;
-import com.exodia.mail.service.MailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

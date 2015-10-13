@@ -1,7 +1,6 @@
 package com.exodia.database.dao;
 
 import com.exodia.common.constant.Constant;
-import com.exodia.common.util.DateTimeUtil;
 import com.exodia.database.dao.common.GenericHibernateDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserRoles;

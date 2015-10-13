@@ -4,7 +4,6 @@ import com.exodia.back.task.AdminAccountTask;
 import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class AdminAccountJob extends QuartzJobBean {
