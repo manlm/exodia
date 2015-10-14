@@ -202,10 +202,10 @@ public class IndexController {
         }
 
         String role = String.valueOf(user.getAuthorities().iterator().next());
-        if (role.equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER))) {
+        if (role.equals(String.valueOf(Constant.ADMIN_ROLE.ACCOUNT_MANAGER.getValue()))) {
             LOG.info(new StringBuilder("[main] End: role = ").append(role));
             return "redirect:viewAdminAccount";
-        } else if (role.equals(String.valueOf(Constant.ADMIN_ROLE.DATA_MANAGER))) {
+        } else if (role.equals(String.valueOf(Constant.ADMIN_ROLE.DATA_MANAGER.getValue()))) {
             LOG.info(new StringBuilder("[main] End: role = ").append(role));
             return "redirect:viewPlayerAccount";
         }

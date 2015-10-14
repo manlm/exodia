@@ -22,13 +22,13 @@ public class AdminAccount implements Serializable {
     @Column(name = "admin_id")
     private int id;
 
-    @Column(name = "admin_username")
+    @Column(name = "admin_username", unique = true)
     private String username;
 
     @Column(name = "admin_password")
     private String password;
 
-    @Column(name = "admin_email")
+    @Column(name = "admin_email", unique = true)
     private String email;
 
     @ManyToOne()

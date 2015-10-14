@@ -7,10 +7,6 @@
     </listener>
 
     <error-page>
-        <error-code>403</error-code>
-        <location>/error</location>
-    </error-page>
-    <error-page>
         <!-- Missing resource -->
         <error-code>404</error-code>
         <location>/error</location>

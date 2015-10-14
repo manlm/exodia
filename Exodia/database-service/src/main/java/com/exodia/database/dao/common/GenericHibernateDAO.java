@@ -68,6 +68,25 @@ public abstract class GenericHibernateDAO<E> implements GenericDAO<E>, Serializa
         return entity;
     }
 
+    @Override
+    public E saveOrUpdate(E entity) {
+        LOG.info(new StringBuilder("[save] Start: entity = ").append(entity));
+
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            session.saveOrUpdate(entity);
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException e) {
+            LOG.error(new StringBuilder("[save] Error: ").append(e.getMessage()));
+            session.getTransaction().rollback();
+            return null;
+        }
+        LOG.info("[save] End");
+        return entity;
+    }
+
     /**
      * Remove a record in table
      *

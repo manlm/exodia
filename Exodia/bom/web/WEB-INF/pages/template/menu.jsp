@@ -14,7 +14,7 @@
 <ul class="sidebar-menu">
     <li class="header"><spring:message code="menu_main_menu"/></li>
     <c:if test="${account.status.id != 2}">
-        <c:if test="${principal.authorities == '[ACCOUNT_MANAGER]'}">
+        <c:if test="${principal.authorities == '[ACCOUNT MANAGER]'}">
             <li class="treeview <c:if test="${curPage== '/viewAddAdminAccount' || curPage== '/viewAdminAccount'
             || curPage== '/viewEditAdminAccount'}">active</c:if>">
                 <a href="">
@@ -37,7 +37,7 @@
             </li>
         </c:if>
 
-        <c:if test="${principal.authorities == '[DATA_MANAGER]'}">
+        <c:if test="${principal.authorities == '[DATA MANAGER]'}">
             <li class="treeview <c:if test="${curPage== '/viewPlayerAccount' || curPage== '/viewSummaryData'
             || curPage== '/viewDetailPlayerAccount' || curPage== '/viewDetailByMonth'}">active</c:if>">
                 <a href="">

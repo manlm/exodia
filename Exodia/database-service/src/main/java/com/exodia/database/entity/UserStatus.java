@@ -17,10 +17,10 @@ import java.util.List;
 public class UserStatus implements Serializable {
 
     @Id
-    @Column(name = "status_id")
+    @Column(name = "status_id", unique = true)
     private int id;
 
-    @Column(name = "status")
+    @Column(name = "status", unique = true)
     private String status;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "status")

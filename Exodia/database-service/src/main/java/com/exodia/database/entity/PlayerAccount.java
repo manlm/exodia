@@ -23,7 +23,7 @@ public class PlayerAccount implements Serializable {
     @Column(name = "player_id")
     private int id;
 
-    @Column(name = "player_email")
+    @Column(name = "player_email", unique = true)
     private String email;
 
     @Column(name = "player_password")

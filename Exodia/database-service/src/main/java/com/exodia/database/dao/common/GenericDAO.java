@@ -9,6 +9,8 @@ public interface GenericDAO<E> {
 
     E update(E instance);
 
+    E saveOrUpdate(E instance);
+
     boolean remove(E entity);
 
 }

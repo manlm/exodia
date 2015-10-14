@@ -17,10 +17,10 @@ import java.util.List;
 public class UserRoles implements Serializable {
 
     @Id
-    @Column(name = "role_id")
+    @Column(name = "role_id", unique = true)
     private int id;
 
-    @Column(name = "role")
+    @Column(name = "role", unique = true)
     private String role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
