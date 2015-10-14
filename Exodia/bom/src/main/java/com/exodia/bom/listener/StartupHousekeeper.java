@@ -2,6 +2,7 @@ package com.exodia.bom.listener;
 
 import com.exodia.bom.config.Properties;
 import com.exodia.bom.service.AccountService;
+import com.exodia.bom.service.CommonService;
 import com.exodia.common.constant.Constant;
 import com.exodia.common.util.DateTimeUtil;
 import com.exodia.common.util.MD5Util;
@@ -11,6 +12,7 @@ import com.exodia.database.dao.UserStatusDAO;
 import com.exodia.database.entity.AdminAccount;
 import com.exodia.database.entity.UserRoles;
 import com.exodia.database.entity.UserStatus;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -22,73 +24,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class StartupHousekeeper implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    private Properties properties;
+    private static final Logger LOG = Logger.getLogger(StartupHousekeeper.class);
 
     @Autowired
-    private UserStatusDAO userStatusDAO;
-
-    @Autowired
-    private UserRolesDAO userRolesDAO;
-
-    @Autowired
-    private AdminAccountDAO adminAccountDAO;
-
-    @Autowired
-    private AccountService accountService;
+    private CommonService commonService;
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-        UserStatus statusActive = new UserStatus();
-        statusActive.setId(Constant.STATUS_ID.ACTIVE.getValue());
-        statusActive.setStatus(Constant.STATUS.ACTIVE.getValue());
-        userStatusDAO.saveOrUpdate(statusActive);
 
-        UserStatus statusInactive = new UserStatus();
-        statusInactive.setId(Constant.STATUS_ID.INACTIVE.getValue());
-        statusInactive.setStatus(Constant.STATUS.INACTIVE.getValue());
-        userStatusDAO.saveOrUpdate(statusInactive);
+        LOG.info("[onApplicationEvent] Start");
 
-        UserStatus statusDeleted = new UserStatus();
-        statusDeleted.setId(Constant.STATUS_ID.DELETED.getValue());
-        statusDeleted.setStatus(Constant.STATUS.DELETED.getValue());
-        userStatusDAO.saveOrUpdate(statusDeleted);
+        commonService.initialUserStatus();
+        commonService.initialUserRoles();
+        commonService.initial1stAccount();
 
-        UserRoles rolesAccount = new UserRoles();
-        rolesAccount.setId(Constant.ADMIN_ROLE_ID.ACCOUNT_MANAGER.getValue());
-        rolesAccount.setRole(Constant.ADMIN_ROLE.ACCOUNT_MANAGER.getValue());
-        userRolesDAO.saveOrUpdate(rolesAccount);
-
-        UserRoles rolesData = new UserRoles();
-        rolesData.setId(Constant.ADMIN_ROLE_ID.DATA_MANAGER.getValue());
-        rolesData.setRole(Constant.ADMIN_ROLE.DATA_MANAGER.getValue());
-        userRolesDAO.saveOrUpdate(rolesData);
-
-
-        accountService.addAdminAccount(properties.getProperty("initial_username"),
-                properties.getProperty("initial_email"), String.valueOf(Constant.ADMIN_ROLE_ID.ACCOUNT_MANAGER.getValue()));
-
-//        AdminAccount account = adminAccountDAO.getByUsername(properties.getProperty("initial_username"));
-//        if (account == null) {
-//            account = new AdminAccount();
-//            account.setUsername(properties.getProperty("initial_username"));
-//            account.setEmail(properties.getProperty("initial_email"));
-//            account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
-//            account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
-//            account.setRole(rolesAccount);
-//            account.setStatus(statusActive);
-//            account.setPassword(MD5Util.stringToMD5("Superbuu1803#"));
-//            adminAccountDAO.save(account);
-//        } else {
-//            account.setUsername(properties.getProperty("initial_username"));
-//            account.setEmail(properties.getProperty("initial_email"));
-//            account.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
-//            account.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
-//            account.setRole(rolesAccount);
-//            account.setStatus(statusActive);
-//            account.setPassword(MD5Util.stringToMD5("Superbuu1803#"));
-//            adminAccountDAO.update(account);
-//        }
-
+        LOG.info("[onApplicationEvent] End");
     }
 }
