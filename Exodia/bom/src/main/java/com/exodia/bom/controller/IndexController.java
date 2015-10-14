@@ -40,10 +40,6 @@ public class IndexController {
     @Autowired
     private PlayerAccountDAO playerAccountDAO;
 
-    // TODO remove
-    @Autowired
-    private MemcachedClient memcachedClient;
-
     @Autowired
     private Properties properties;
 
@@ -321,6 +317,7 @@ public class IndexController {
             AdminAccount adminAccount = new AdminAccount();
             adminAccount.setUsername("test" + i);
             adminAccount.setPassword("c4f4652fb4cfcc7756e3b2b97019955a");
+            adminAccount.setEmail("test" + i + "@email.com");
             adminAccount.setRole(roles);
             adminAccount.setCreationTime(DateTimeUtil.getCurUTCInMilliseconds());
             adminAccount.setLastUpdate(DateTimeUtil.getCurUTCInMilliseconds());
@@ -352,23 +349,5 @@ public class IndexController {
         }
 
         return "hello";
-    }
-
-    // TODO remove
-    @RequestMapping(value = "/setCache", method = RequestMethod.GET)
-    public ModelAndView setCache() {
-        ModelAndView model = new ModelAndView("hello");
-        model.addObject("message", "Hello world!");
-        memcachedClient.set("testcache", "test cache", 1800);
-        return model;
-    }
-
-    // TODO remove
-    @RequestMapping(value = "/getCache", method = RequestMethod.GET)
-    public ModelAndView getCache() {
-        ModelAndView model = new ModelAndView("hello");
-        model.addObject("message", "Hello world!");
-        System.out.println(memcachedClient.get("testcache"));
-        return model;
     }
 }
