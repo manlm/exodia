@@ -42,7 +42,6 @@ $(document).ready(function () {
 });
 
 function getSearchValue() {
-    alert($("#search-email").val());
     $("#txtSearchEmail").val($("#search-email").val());
     $("#txtSearchStatus").val($("#search-status").val());
     $("#export-form").submit();

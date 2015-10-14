@@ -278,6 +278,14 @@ public class Authentication {
                     return response;
                 }
             }
+
+            model.setScore(score);
+            response.setMessage("");
+            response.setData(model);
+            response.setStatusCode(properties.getProperty("status_code_success"));
+
+            LOG.info("[doSyncData] End");
+            return response;
         }
 
         response.setStatusCode(properties.getProperty("status_code_failed"));
