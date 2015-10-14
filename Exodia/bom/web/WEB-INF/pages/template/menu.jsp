@@ -15,7 +15,8 @@
     <li class="header"><spring:message code="menu_main_menu"/></li>
     <c:if test="${account.status.id != 2}">
         <c:if test="${principal.authorities == '[ACCOUNT_MANAGER]'}">
-            <li class="treeview <c:if test="${curPage== '/viewAddAdminAccount' || curPage== '/viewAdminAccount'}">active</c:if>">
+            <li class="treeview <c:if test="${curPage== '/viewAddAdminAccount' || curPage== '/viewAdminAccount'
+            || curPage== '/viewEditAdminAccount'}">active</c:if>">
                 <a href="">
                     <i class="fa fa-fw fa-user"></i>
                     <span><spring:message code="menu_admin_account"/></span>
@@ -37,7 +38,8 @@
         </c:if>
 
         <c:if test="${principal.authorities == '[DATA_MANAGER]'}">
-            <li class="treeview <c:if test="${curPage== '/viewPlayerAccount' || curPage== '/viewSummaryData'}">active</c:if>">
+            <li class="treeview <c:if test="${curPage== '/viewPlayerAccount' || curPage== '/viewSummaryData'
+            || curPage== '/viewDetailPlayerAccount' || curPage== '/viewDetailByMonth'}">active</c:if>">
                 <a href="">
                     <i class="fa fa-database"></i>
                     <span><spring:message code="menu_play_data"/></span>

@@ -59,5 +59,6 @@ public class MD5Util {
             hexString.append(hex);
         }
         System.out.println("Digest(in hex format):: " + hexString.toString());
+        System.out.println(MD5Util.stringToMD5("$SlpC6CE"));
     }
 }
